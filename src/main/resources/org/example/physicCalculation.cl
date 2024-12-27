@@ -25,7 +25,7 @@ __kernel void physicCalculation(
     __local Object slaveObjects[SIZE_OF_THREAD];
 
     int GID1D = get_global_id(0);
-    int GID2D = get_global_i(1);
+    int GID2D = get_global_id(1);
     int LID = get_local_id(0);
 
     masterObjects[LID] = Objects[GID1D];
