@@ -3,14 +3,14 @@ package org.example.BufferControl;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import static org.example.GLOBAL_STATE.VECTOR_SIZE;
 import static org.example.GLOBAL_STATE.openClContext;
 
-public class ReadIntBuffer extends BufferContext<int[], IntBuffer>{
+public class ReadFloatBuffer extends BufferContext<float[], FloatBuffer>{
 
-    ReadIntBuffer(int sizeOfBuffer, MemoryAccessControl memoryAccessControl) {
+    ReadFloatBuffer(int sizeOfBuffer, MemoryAccessControl memoryAccessControl) {
         this.memoryAccessControl = memoryAccessControl;
         length = sizeOfBuffer;
 
@@ -18,8 +18,8 @@ public class ReadIntBuffer extends BufferContext<int[], IntBuffer>{
     }
 
     protected void newBuffers () {
-        hostBuffer = new int[length];
-        nativeBuffer = MemoryUtil.memAllocInt(length);
+        hostBuffer = new float[length];
+        nativeBuffer = MemoryUtil.memAllocFloat(length);
         clBuffer = CL10.clCreateBuffer(openClContext.context, memoryAccessControl.getFlags(),
                 length, null);
 
@@ -27,14 +27,14 @@ public class ReadIntBuffer extends BufferContext<int[], IntBuffer>{
     }
 
     @Override
-    public void update(int[] newSize) {
+    public void update(float[] newSize) {
         if (hostBuffer.length != 1) {
             throw new IllegalArgumentException("The array must contain a single number equal to the capacity of the local array.");
         }
         if (length == newSize[0]) {
             return;
         }
-        length = newSize[0];
+        length = (int) newSize[0];
 
         newBuffers();
     }

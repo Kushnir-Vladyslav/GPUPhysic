@@ -1,17 +1,23 @@
 package org.example.BufferControl;
 
+import org.example.GLOBAL_STATE;
 import org.example.Kernel.Kernel;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.Buffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.Vector;
+import static org.example.GLOBAL_STATE.openClContext;
 
 public abstract class BufferContext<T, K extends Buffer> {
-    T hostBuffer;
-    K nativeBuffer;
-    long clBuffer;
+    protected T hostBuffer;
+    protected K nativeBuffer;
+    protected long clBuffer;
+    protected int length;
+
     MemoryAccessControl memoryAccessControl;
     PointerBuffer pointerBuffer = MemoryUtil.memAllocPointer(1);
     Vector<KernelDependency> kernels = new Vector<>();
@@ -21,7 +27,7 @@ public abstract class BufferContext<T, K extends Buffer> {
         setNewArg(kernels.lastElement());
     }
 
-    public void destroy () {
+    protected void destroy () {
         if (clBuffer != 0) {
             CL10.clReleaseMemObject(clBuffer);
             clBuffer = 0;
@@ -36,16 +42,41 @@ public abstract class BufferContext<T, K extends Buffer> {
         }
     }
 
-    public void setNewArgs() {
+    protected void setNewArgs() {
         for (KernelDependency KD : kernels) {
             setNewArg(KD);
         }
     }
 
-    public void setNewArg(KernelDependency KD) {
+    protected void setNewArg(KernelDependency KD) {
         CL10.clSetKernelArg(KD.targetKernel.getKernel(), KD.numberArg, pointerBuffer.put(0, clBuffer).rewind());
     }
 
-    public abstract void update (T newHostBuffer);
+    public T getData() {
+        return hostBuffer;
+    }
+    public int getLength() {
+        return length;
+    }
+
+    public void readBuffer() {
+        if (nativeBuffer instanceof FloatBuffer nB) {
+            float[] hB = (float[]) hostBuffer;
+            CL10.clEnqueueReadBuffer(openClContext.commandQueue, clBuffer, true, 0L,
+                    nB, null, null);
+            nB.get(hB);
+        } else if (nativeBuffer instanceof IntBuffer nB) {
+            int[] hB = (int[]) hostBuffer;
+            CL10.clEnqueueReadBuffer(openClContext.commandQueue, clBuffer, true, 0L,
+                    nB, null, null);
+            nB.get(hB);
+        }
+    }
+
+    public abstract void update (T newDats);
+    public abstract void update ();
     public abstract void resize (int newSize);
+
+
+
 }

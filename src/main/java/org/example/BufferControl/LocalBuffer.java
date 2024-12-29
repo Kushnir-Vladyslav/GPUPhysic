@@ -5,39 +5,44 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 
-import static org.example.GLOBAL_STATE.openClContext;
-
 public class LocalBuffer extends BufferContext<int[], IntBuffer>{
 
-    LocalBuffer(int[] hostBuffer, MemoryAccessControl memoryAccessControl) {
-        if (hostBuffer.length != 1 || memoryAccessControl != null) {
-            throw new IllegalArgumentException("The array must contain a single number equal to the capacity of the local array. No flags are required.");
-        }
+    LocalBuffer(int sizeOfBuffer) {
+        length = sizeOfBuffer;
 
         nativeBuffer = MemoryUtil.memAllocInt(1);
-        this.hostBuffer = hostBuffer;
 
-        nativeBuffer.put(0, hostBuffer[0]);
+        nativeBuffer.put(0, length);
 
         setNewArgs();
     }
 
     @Override
-    public void update(int[] newHostBuffer) {
+    public void update(int[] newSize) {
         if (hostBuffer.length != 1) {
             throw new IllegalArgumentException("The array must contain a single number equal to the capacity of the local array.");
         }
 
-        hostBuffer = newHostBuffer;
-        nativeBuffer.put(0, hostBuffer[0]);
+        if (length == newSize[0]) {
+            return;
+        }
+
+        length = newSize[0];
+
+        nativeBuffer.put(0, length);
 
         setNewArgs();
     }
 
     @Override
+    public void update() {
+    }
+
+    @Override
     public void resize (int newSize) {
-        hostBuffer[0] = newSize;
-        nativeBuffer.put(0, hostBuffer[0]);
+        length = newSize;
+
+        nativeBuffer.put(0, length);
 
         setNewArgs();
     }
@@ -45,7 +50,16 @@ public class LocalBuffer extends BufferContext<int[], IntBuffer>{
     @Override
     public void setNewArg(KernelDependency KD) {
         CL10.clSetKernelArg(KD.targetKernel.getKernel(), KD.numberArg, nativeBuffer.rewind());
+    }
 
+    @Override
+    public int[] getData() {
+        throw new IllegalStateException("Data from local memory cannot be read.");
+    }
+
+    @Override
+    public void readBuffer() {
+        throw new IllegalStateException("Data from local memory cannot be read.");
     }
 }
 
