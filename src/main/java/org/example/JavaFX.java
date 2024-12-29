@@ -10,7 +10,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class JavaFXThread extends Application {
+import static org.example.GLOBAL_STATE.*;
+
+public class JavaFX extends Application {
 
     private WritableImage writableImage;
     private ImageView imageView;
@@ -18,16 +20,18 @@ public class JavaFXThread extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        writableImage = new WritableImage(GLOBAL_STATE.getScreenWidth(), GLOBAL_STATE.getScreenHeight());
+        createOpenClThread();
 
-        GLOBAL_STATE.Pixels = new int [GLOBAL_STATE.getScreenWidth() * GLOBAL_STATE.getScreenHeight()];
-        GLOBAL_STATE.DepthBuffer = new float [GLOBAL_STATE.getScreenWidth() * GLOBAL_STATE.getScreenHeight()];
+        writableImage = new WritableImage(getScreenWidth(), getScreenHeight());
+
+        Pixels = new int [getScreenWidth() * getScreenHeight()];
+        DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
 
         imageView = new ImageView(writableImage);
 
         StackPane root = new StackPane();
         root.getChildren().add(imageView);
-        Scene scene = new Scene(root, GLOBAL_STATE.getScreenWidth(), GLOBAL_STATE.getScreenHeight());
+        Scene scene = new Scene(root, getScreenWidth(), getScreenHeight());
 
         primaryStage.setTitle("Simple render");
         primaryStage.setScene(scene);
@@ -35,31 +39,31 @@ public class JavaFXThread extends Application {
 
         //обробники подій зміни розміру вікна
         scene.widthProperty().addListener((observable, oldValue, newValue) -> {
-            GLOBAL_STATE.setScreenWidth(newValue.intValue());
+            setScreenWidth(newValue.intValue());
             updateImageSize();
         });
 
         scene.heightProperty().addListener((observable, oldValue, newValue) -> {
-            GLOBAL_STATE.setScreenHeight(newValue.intValue());
+            setScreenHeight(newValue.intValue());
             updateImageSize();
         });
 
         //Обробка натискання клавіш
         scene.setOnKeyPressed((event) -> {
             switch (event.getCode()) {
-                case UP, W -> GLOBAL_STATE.IsUp = true;
-                case DOWN, S -> GLOBAL_STATE.IsDown = true;
-                case LEFT, A -> GLOBAL_STATE.IsLeft = true;
-                case RIGHT, D -> GLOBAL_STATE.IsRight = true;
+                case UP, W -> IsUp = true;
+                case DOWN, S -> IsDown = true;
+                case LEFT, A -> IsLeft = true;
+                case RIGHT, D -> IsRight = true;
             }
         });
 
         scene.setOnKeyReleased((event) -> {
             switch (event.getCode()) {
-                case UP, W -> GLOBAL_STATE.IsUp = false;
-                case DOWN, S -> GLOBAL_STATE.IsDown = false;
-                case LEFT, A -> GLOBAL_STATE.IsLeft = false;
-                case RIGHT, D -> GLOBAL_STATE.IsRight = false;
+                case UP, W -> IsUp = false;
+                case DOWN, S -> IsDown = false;
+                case LEFT, A -> IsLeft = false;
+                case RIGHT, D -> IsRight = false;
             }
         });
 
@@ -76,6 +80,9 @@ public class JavaFXThread extends Application {
             }
         });
 
+        primaryStage.setOnCloseRequest(event -> {
+            closeOpenSlThread();
+        });
 
         //запуск таймеру для анімації
         AnimationTimer animationTimer = new AnimationTimer() {
@@ -87,13 +94,13 @@ public class JavaFXThread extends Application {
                     return;
                 }
 
-                GLOBAL_STATE.Time += (float) (now - last) / 1000000000;
+                Time += (float) (now - last) / 1000000000;
 
                 updatePixels((float) (now - last) / 1000000000);
 
                 writableImage.getPixelWriter().setPixels(0, 0,
-                        GLOBAL_STATE.getScreenWidth(), GLOBAL_STATE.getScreenHeight(),
-                        PixelFormat.getIntArgbInstance(), GLOBAL_STATE.Pixels, 0, GLOBAL_STATE.getScreenWidth());
+                        getScreenWidth(), getScreenHeight(),
+                        PixelFormat.getIntArgbInstance(), Pixels, 0, getScreenWidth());
 
                 last = now;
             }
@@ -101,11 +108,31 @@ public class JavaFXThread extends Application {
         animationTimer.start();
     }
 
+    @Override
+    public void stop() {
+        closeOpenSlThread();
+    }
+
+    public void createOpenClThread () {
+        OpenClTask = new OpenCL();
+        OpenClThread = new Thread(OpenClTask);
+        OpenClThread.setDaemon(true);
+        OpenClThread.start();
+    }
+
+    public void closeOpenSlThread () {
+        if (OpenClTask != null) {
+            OpenClTask.cancel();
+            OpenClThread.interrupt();
+            OpenClTask = null;
+        }
+    }
+
     //оновлення вікна після зміни розміру
     private void updateImageSize() {
-        writableImage = new WritableImage( GLOBAL_STATE.getScreenWidth(), GLOBAL_STATE.getScreenHeight());
-        GLOBAL_STATE.Pixels = new int[ GLOBAL_STATE.getScreenWidth() * GLOBAL_STATE.getScreenHeight()];
-        GLOBAL_STATE.DepthBuffer = new float [GLOBAL_STATE.getScreenWidth() * GLOBAL_STATE.getScreenHeight()];
+        writableImage = new WritableImage( getScreenWidth(), getScreenHeight());
+        Pixels = new int[ getScreenWidth() * getScreenHeight()];
+        DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
         imageView.setImage(writableImage);
     }
 

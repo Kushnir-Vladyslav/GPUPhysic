@@ -1,11 +1,27 @@
 package org.example;
 
-import java.util.Vector;
+import org.example.Structs.CursorPosition;
+import org.example.Structs.OpenClContext;
+import org.example.Structs.Particle;
 
 public class GLOBAL_STATE {
     //початковий розмір вікна, може змінюватись користувачем
     private static int ScreenWidth = 400;
     private static int ScreenHeight = 400;
+
+    //розмір робочої областіж
+    public static int WorkZoneWidth = 400;
+    public static int WorkZoneHeight = 400;
+
+    public static Particle[] particles;
+    public static CursorPosition cursorPosition = new CursorPosition();
+
+    public static boolean IsUpdateWait = false;
+
+    public static OpenCL OpenClTask;
+    public static Thread OpenClThread;
+
+    public static OpenClContext openClContext = new OpenClContext();
 
     //масив пікселів що відображаються на екрані
     public static int[] Pixels;
