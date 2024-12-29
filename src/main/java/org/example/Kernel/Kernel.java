@@ -18,6 +18,11 @@ import static org.example.GLOBAL_STATE.*;
 import static org.example.OpenCL.*;
 
 public abstract class Kernel {
+    public long kernel;
+
+    public long getKernel() {
+        return kernel;
+    }
 
     public void createRWHostBuffer(FloatBuffer hostBuffer, Long kernelBuffer) {
         if (kernelBuffer != null) {

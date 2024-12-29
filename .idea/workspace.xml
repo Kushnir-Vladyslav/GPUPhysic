@@ -4,23 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="Start openCl calculation">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/BoundaryCollisionKernel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Kernel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/CursorPosition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/BoundaryCollision.cl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/DrawWorkZone.cl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/Math.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/Structs.h" afterDir="false" />
+    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="refact">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicFloatBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicIntBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalStaticFloatBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalStaticIntBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/KernelDependency.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/LocalBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/MemoryAccessControl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/ReadIntBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/OpenClContext.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/GLOBAL_STATE.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/GLOBAL_STATE.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/JavaFXThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/JavaFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OpenCLThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/OpenCL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/physicCalculation.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/physicCalculation.cl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/prefixSum.cl" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Kernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Kernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OpenCL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/OpenCL.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +30,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Interface" />
+        <option value="Enum" />
         <option value="Class" />
       </list>
     </option>
@@ -85,6 +85,15 @@
       <option name="presentableId" value="Default" />
       <updated>1734817714757</updated>
     </task>
+    <task id="LOCAL-00001" summary="refact">
+      <option name="closed" value="true" />
+      <created>1735316922961</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1735316922961</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -100,5 +109,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refact" />
+    <option name="LAST_COMMIT_MESSAGE" value="refact" />
   </component>
 </project>
