@@ -1,5 +1,8 @@
 package org.example.Kernel;
 
+import org.example.BufferControl.BufferContext;
+import org.example.BufferControl.GlobalFloatBuffer;
+import org.example.BufferControl.MemoryAccessControl;
 import org.example.Kernel.Kernel;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
@@ -22,9 +25,21 @@ public class BoundaryCollisionKernel extends Kernel {
     PointerBuffer global;
     PointerBuffer local;
 
+    float[] boundary;
+    BufferContext<?,?> boundaryBuffer;
+
     BoundaryCollisionKernel () {
-        //створення буферів що містять інформацію про зраниці робочиї зони
-        float radiusBoundaryCircle = (float) Math.sqrt(WorkZoneWidth * WorkZoneWidth + WorkZoneHeight * WorkZoneHeight) / 2;
+        createKernel("BoundaryCollision");
+
+        //створення буферів що містять інформацію про границі робочиї зони
+        boundary = new float[5];
+        boundary[0] = WorkZoneWidth;
+        boundary[1] = WorkZoneHeight;
+        boundary[2] = (float) Math.sqrt(WorkZoneWidth * WorkZoneWidth + WorkZoneHeight * WorkZoneHeight) / 2;
+        boundary[3] = (float) WorkZoneWidth / 2;
+        boundary[4] = (float) WorkZoneHeight - boundary[2];
+        bufferManager.set("Boundary",
+                new GlobalFloatBuffer(boundary, MemoryAccessControl.HOST_W_DEVICE_R, false));
         FloatBuffer boundaryBuffer = MemoryUtil.memAllocFloat(5)
                 .put(WorkZoneWidth).put(WorkZoneHeight)
                 .put(radiusBoundaryCircle)
@@ -37,7 +52,7 @@ public class BoundaryCollisionKernel extends Kernel {
         setCursorBuffer();
         createRHostBuffer(cursorBuffer, clCursorPosition);
 
-        createKernel("BoundaryCollision.cl", kernelBoundaryCollision);
+        createKernel("BoundaryCollision");
 
         global = MemoryUtil.memAllocPointer(1);
         local = MemoryUtil.memAllocPointer(1);

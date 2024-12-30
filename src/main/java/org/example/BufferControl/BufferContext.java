@@ -76,7 +76,4 @@ public abstract class BufferContext<T, K extends Buffer> {
     public abstract void update (T newDats);
     public abstract void update ();
     public abstract void resize (int newSize);
-
-
-
 }
