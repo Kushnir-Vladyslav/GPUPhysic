@@ -1,10 +1,9 @@
 package org.example;
 
-import org.example.BufferControl.BufferContext;
 import org.example.BufferControl.BufferManager;
 import org.example.Structs.CursorPosition;
 import org.example.Structs.OpenClContext;
-import org.example.Structs.Particle;
+import org.example.Structs.Particles;
 
 public class GLOBAL_STATE {
     //початковий розмір вікна, може змінюватись користувачем
@@ -15,7 +14,7 @@ public class GLOBAL_STATE {
     public static int WorkZoneWidth = 400;
     public static int WorkZoneHeight = 400;
 
-    public static Particle[] particles;
+    public static Particles[] particles;
     public static CursorPosition cursorPosition = new CursorPosition();
 
     public static boolean IsUpdateWait = false;
@@ -25,7 +24,7 @@ public class GLOBAL_STATE {
 
     public static OpenClContext openClContext = new OpenClContext();
 
-    public static BufferManager  bufferManager = new BufferManager();
+    public static BufferManager bufferManager = new BufferManager();
 
     //масив пікселів що відображаються на екрані
     public static int[] Pixels;

@@ -31,6 +31,11 @@ public class BoundaryCollisionKernel extends Kernel {
     BoundaryCollisionKernel () {
         createKernel("BoundaryCollision");
 
+
+        if (!bufferManager.isExist("Particles")) {
+            bufferManager.set("Particles",
+                    new GlobalFloatBuffer());
+        }
         //створення буферів що містять інформацію про границі робочиї зони
         boundary = new float[5];
         boundary[0] = WorkZoneWidth;
@@ -38,14 +43,12 @@ public class BoundaryCollisionKernel extends Kernel {
         boundary[2] = (float) Math.sqrt(WorkZoneWidth * WorkZoneWidth + WorkZoneHeight * WorkZoneHeight) / 2;
         boundary[3] = (float) WorkZoneWidth / 2;
         boundary[4] = (float) WorkZoneHeight - boundary[2];
-        bufferManager.set("Boundary",
-                new GlobalFloatBuffer(boundary, MemoryAccessControl.HOST_W_DEVICE_R, false));
-        FloatBuffer boundaryBuffer = MemoryUtil.memAllocFloat(5)
-                .put(WorkZoneWidth).put(WorkZoneHeight)
-                .put(radiusBoundaryCircle)
-                .put((float) WorkZoneWidth / 2).put((float) WorkZoneHeight - radiusBoundaryCircle).rewind();
-        createRHostBuffer(boundaryBuffer, clWorkZoneBoundaryBuffer);
-        MemoryUtil.memFree(boundaryBuffer);
+        if (!bufferManager.isExist("Boundary")) {
+            bufferManager.set("Boundary",
+                    new GlobalFloatBuffer(boundary, MemoryAccessControl.HOST_W_DEVICE_R, false));
+        }
+        boundaryBuffer = bufferManager.get("Boundary");
+        boundaryBuffer.addKernel(this, 1);
 
         //створення буферу що буде місти положення курсору
         cursorBuffer = MemoryUtil.memAllocFloat(3);

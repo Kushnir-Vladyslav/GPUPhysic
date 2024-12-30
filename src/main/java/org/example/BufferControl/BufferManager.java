@@ -34,4 +34,8 @@ public class BufferManager {
         }
         bufferContextMap.clear();
     }
+
+    public boolean isExist (String name) {
+        return bufferContextMap.containsKey(name);
+    }
 }
