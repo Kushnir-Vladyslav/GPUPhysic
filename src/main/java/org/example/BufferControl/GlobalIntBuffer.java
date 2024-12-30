@@ -10,7 +10,7 @@ public class GlobalIntBuffer extends BufferContext<int[], IntBuffer>{
     protected int capacity;
     protected final boolean isDynamic;
 
-    GlobalIntBuffer(int[] hostBuffer, MemoryAccessControl memoryAccessControl, boolean isDynamic) {
+    public GlobalIntBuffer(int[] hostBuffer, MemoryAccessControl memoryAccessControl, boolean isDynamic) {
         this.memoryAccessControl = memoryAccessControl;
         this.isDynamic = isDynamic;
         length = hostBuffer.length;
@@ -47,9 +47,7 @@ public class GlobalIntBuffer extends BufferContext<int[], IntBuffer>{
             CL10.clEnqueueWriteBuffer(openClContext.commandQueue, clBuffer, true, 0, nativeBuffer, null, null);
         }
 
-        if (clBuffer == 0) {
-            throw new IllegalStateException("Failed to create OpenCL memory buffers.");
-        }
+        checkClBuffer();
 
         setNewArgs();
     }

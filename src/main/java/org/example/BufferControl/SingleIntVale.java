@@ -5,7 +5,7 @@ import org.lwjgl.system.MemoryUtil;
 import java.nio.IntBuffer;
 
 public class SingleIntVale extends BufferContext <int[], IntBuffer> {
-    SingleIntVale (int value) {
+    public SingleIntVale (int value) {
         nativeBuffer = MemoryUtil.memAllocInt(1).put(0, value);
     }
 

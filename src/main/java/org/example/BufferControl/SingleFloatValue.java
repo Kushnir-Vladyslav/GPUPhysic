@@ -6,7 +6,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 public class SingleFloatValue extends BufferContext <float[], FloatBuffer> {
-    SingleFloatValue (float value) {
+    public SingleFloatValue (float value) {
         nativeBuffer = MemoryUtil.memAllocFloat(1).put(0, value);
     }
 

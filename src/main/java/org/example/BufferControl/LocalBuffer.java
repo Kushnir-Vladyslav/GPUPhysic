@@ -7,7 +7,7 @@ import java.nio.IntBuffer;
 
 public class LocalBuffer extends BufferContext<int[], IntBuffer>{
 
-    LocalBuffer(int sizeOfBuffer) {
+    public LocalBuffer(int sizeOfBuffer) {
         length = sizeOfBuffer;
 
         nativeBuffer = MemoryUtil.memAllocInt(1);

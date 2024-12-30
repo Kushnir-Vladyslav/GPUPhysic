@@ -10,7 +10,7 @@ public class GlobalFloatBuffer extends BufferContext<float[], FloatBuffer> {
     protected int capacity;
     protected final boolean isDynamic;
 
-    GlobalFloatBuffer(float[] hostBuffer, MemoryAccessControl memoryAccessControl, boolean isDynamic) {
+    public GlobalFloatBuffer(float[] hostBuffer, MemoryAccessControl memoryAccessControl, boolean isDynamic) {
         this.memoryAccessControl = memoryAccessControl;
         this.isDynamic = isDynamic;
        length = hostBuffer.length;
@@ -47,9 +47,7 @@ public class GlobalFloatBuffer extends BufferContext<float[], FloatBuffer> {
             CL10.clEnqueueWriteBuffer(openClContext.commandQueue, clBuffer, true, 0, nativeBuffer, null, null);
         }
 
-        if (clBuffer == 0) {
-            throw new IllegalStateException("Failed to create OpenCL memory buffers.");
-        }
+        checkClBuffer();
 
         setNewArgs();
     }
