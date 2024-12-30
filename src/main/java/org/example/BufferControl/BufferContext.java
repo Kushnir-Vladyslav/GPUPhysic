@@ -73,6 +73,12 @@ public abstract class BufferContext<T, K extends Buffer> {
         }
     }
 
+    protected void checkClBuffer() {
+        if (clBuffer == 0) {
+            throw new IllegalStateException("Failed to create OpenCL memory buffers.");
+        }
+    }
+
     public abstract void update (T newDats);
     public abstract void update ();
     public abstract void resize (int newSize);

@@ -10,7 +10,7 @@ import static org.example.GLOBAL_STATE.openClContext;
 
 public class ReadFloatBuffer extends BufferContext<float[], FloatBuffer>{
 
-    ReadFloatBuffer(int sizeOfBuffer, MemoryAccessControl memoryAccessControl) {
+    public ReadFloatBuffer(int sizeOfBuffer, MemoryAccessControl memoryAccessControl) {
         this.memoryAccessControl = memoryAccessControl;
         length = sizeOfBuffer;
 
@@ -22,6 +22,8 @@ public class ReadFloatBuffer extends BufferContext<float[], FloatBuffer>{
         nativeBuffer = MemoryUtil.memAllocFloat(length);
         clBuffer = CL10.clCreateBuffer(openClContext.context, memoryAccessControl.getFlags(),
                 length, null);
+
+        checkClBuffer();
 
         setNewArgs();
     }

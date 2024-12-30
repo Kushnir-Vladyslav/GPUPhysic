@@ -6,7 +6,7 @@ public class KernelDependency {
     Kernel targetKernel;
     int numberArg;
 
-    KernelDependency (Kernel targetKernel, int numberArg) {
+    public KernelDependency (Kernel targetKernel, int numberArg) {
         this.targetKernel = targetKernel;
         this.numberArg = numberArg;
     }
