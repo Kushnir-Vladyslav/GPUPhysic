@@ -6,10 +6,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 
-public class GlobalIntBuffer extends BufferContext<int[], IntBuffer>{
-    protected int capacity;
-    protected final boolean isDynamic;
-
+public class GlobalIntBuffer extends GlobalBuffer<int[], IntBuffer>{
     public GlobalIntBuffer(int[] hostBuffer, MemoryAccessControl memoryAccessControl, boolean isDynamic) {
         this.memoryAccessControl = memoryAccessControl;
         this.isDynamic = isDynamic;
@@ -26,6 +23,7 @@ public class GlobalIntBuffer extends BufferContext<int[], IntBuffer>{
         reWrightBuffers(true);
     }
 
+    @Override
     protected void reWrightBuffers (boolean isNewBuffers) {
         if (isNewBuffers) {
             if (nativeBuffer != null) {
@@ -53,6 +51,31 @@ public class GlobalIntBuffer extends BufferContext<int[], IntBuffer>{
     }
 
     @Override
+    protected void addToEnd(int[] data) {
+        if (length + data.length < capacity) {
+            CL10.clEnqueueWriteBuffer(openClContext.commandQueue, clBuffer, true, (int) length * Float.BYTES, data, null, null);
+            length += data.length;
+
+            checkClBuffer();
+
+            setNewArgs();
+        } else {
+            readBuffer();
+            int newLength = data.length + hostBuffer.length;
+            capacity = (int) ((newLength > capacity * 1.5) ?
+                    newLength * 2 : capacity * 1.5);
+
+            int[] tempBuffer = new int[capacity];
+
+            System.arraycopy(hostBuffer, 0, tempBuffer, 0, length);
+            System.arraycopy(data, 0, tempBuffer, length, data.length);
+
+            hostBuffer = tempBuffer;
+            reWrightBuffers(true);
+        }
+    }
+
+    @Override
     public void update(int[] newDats) {
         boolean isNewBuffer = false;
 
@@ -72,11 +95,6 @@ public class GlobalIntBuffer extends BufferContext<int[], IntBuffer>{
         System.arraycopy(newDats, 0, hostBuffer, 0, length);
 
         reWrightBuffers(isNewBuffer);
-    }
-
-    @Override
-    public void update() {
-        reWrightBuffers(false);
     }
 
     @Override

@@ -6,10 +6,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 
-public class GlobalFloatBuffer extends BufferContext<float[], FloatBuffer> {
-    protected int capacity;
-    protected final boolean isDynamic;
-
+public class GlobalFloatBuffer extends GlobalBuffer<float[], FloatBuffer> {
     public GlobalFloatBuffer(float[] hostBuffer, MemoryAccessControl memoryAccessControl, boolean isDynamic) {
         this.memoryAccessControl = memoryAccessControl;
         this.isDynamic = isDynamic;
@@ -26,6 +23,7 @@ public class GlobalFloatBuffer extends BufferContext<float[], FloatBuffer> {
         reWrightBuffers(true);
     }
 
+    @Override
     protected void reWrightBuffers (boolean isNewBuffers) {
         if (isNewBuffers) {
             if (nativeBuffer != null) {
@@ -53,30 +51,50 @@ public class GlobalFloatBuffer extends BufferContext<float[], FloatBuffer> {
     }
 
     @Override
-    public void update(float[] newDats) {
+    protected void addToEnd(float[] data) {
+        if (length + data.length < capacity) {
+            CL10.clEnqueueWriteBuffer(openClContext.commandQueue, clBuffer, true, (int) length * Float.BYTES, data, null, null);
+            length += data.length;
+
+            checkClBuffer();
+
+            setNewArgs();
+        } else {
+            readBuffer();
+            int newLength = data.length + hostBuffer.length;
+            capacity = (int) ((newLength > capacity * 1.5) ?
+                    newLength * 2 : capacity * 1.5);
+
+            float[] tempBuffer = new float[capacity];
+
+            System.arraycopy(hostBuffer, 0, tempBuffer, 0, length);
+            System.arraycopy(data, 0, tempBuffer, length, data.length);
+
+            hostBuffer = tempBuffer;
+            reWrightBuffers(true);
+        }
+    }
+
+    @Override
+    public void update(float[] newData) {
         boolean isNewBuffer = false;
 
-        if (!isDynamic && length != newDats.length) {
+        if (!isDynamic && length != newData.length) {
             throw new IllegalStateException("A static buffer cannot be modified.");
         }
 
-        if (newDats.length > capacity) {
-            capacity = (int) ((newDats.length > capacity * 1.5) ?
-                    newDats.length * 2 : capacity * 1.5);
+        if (newData.length > capacity) {
+            capacity = (int) ((newData.length > capacity * 1.5) ?
+                    newData.length * 2 : capacity * 1.5);
             hostBuffer = new float[capacity];
             isNewBuffer = true;
         }
 
-        length = newDats.length;
+        length = newData.length;
 
-        System.arraycopy(newDats, 0, hostBuffer, 0, length);
+        System.arraycopy(newData, 0, hostBuffer, 0, length);
 
         reWrightBuffers(isNewBuffer);
-    }
-
-    @Override
-    public void update() {
-        reWrightBuffers(false);
     }
 
     @Override
