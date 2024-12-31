@@ -4,7 +4,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.IntBuffer;
 
-public class SingleIntVale extends BufferContext <int[], IntBuffer> {
+public class SingleIntVale extends SingleValue <int[], IntBuffer> {
     public SingleIntVale (int value) {
         nativeBuffer = MemoryUtil.memAllocInt(1).put(0, value);
     }
@@ -18,27 +18,4 @@ public class SingleIntVale extends BufferContext <int[], IntBuffer> {
         setNewArgs();
     }
 
-    @Override
-    public void update() {
-    }
-
-    @Override
-    public void resize(int newSize) {
-        throw new IllegalStateException("Data from arg cannot be read.");
-    }
-
-    @Override
-    public int[] getData() {
-        throw new IllegalStateException("Data from arg cannot be read.");
-    }
-
-    @Override
-    public void readBuffer() {
-        throw new IllegalStateException("Data from arg cannot be read.");
-    }
-
-    @Override
-    public int getLength() {
-        throw new IllegalStateException("Data from arg haven`t length.");
-    }
 }

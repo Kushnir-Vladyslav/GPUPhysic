@@ -1,6 +1,5 @@
 package org.example.BufferControl;
 
-import org.example.GLOBAL_STATE;
 import org.example.Kernel.Kernel;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
@@ -71,6 +70,13 @@ public abstract class BufferContext<T, K extends Buffer> {
                     nB, null, null);
             nB.get(hB);
         }
+    }
+
+    public void appendData(T data) {
+        if (!(this.getClass().equals(GlobalBuffer.class) && ((GlobalBuffer) this).isDynamic)) {
+            throw new IllegalStateException("Cannot append to static buffer");
+        }
+        ((GlobalBuffer) this).addToEnd(data);
     }
 
     protected void checkClBuffer() {
