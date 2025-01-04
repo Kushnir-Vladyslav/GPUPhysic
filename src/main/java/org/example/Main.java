@@ -12,6 +12,9 @@ public class Main {
             particles[i] = new Particle();
         }
 
-        JavaFX.main(args);
+//        JavaFX.main(args);
+
+        OpenCL oCL = new OpenCL();
+        oCL.call();
     }
 }

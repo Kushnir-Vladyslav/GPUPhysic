@@ -54,6 +54,4 @@ public class GLOBAL_STATE {
         ScreenHeight = Height;
     }
 
-//    public static int VECTOR_SIZE;
-
 }
