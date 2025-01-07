@@ -1,12 +1,18 @@
 package org.example.Kernel;
 
+import org.example.BufferControl.*;
 import org.example.Structs.OpenClContext;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
+import java.lang.management.MemoryManagerMXBean;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 
+import static org.example.GLOBAL_STATE.bufferManager;
 import static org.example.GLOBAL_STATE.openClContext;
 
 public class TestKernel extends Kernel{
@@ -14,13 +20,17 @@ public class TestKernel extends Kernel{
     final int VECTOR_SIZE = 16_000_000; // Збільшено розмір
     final int LOCAL_WORK_SIZE = 256; // Оптимальний розмір локальної групи
 
-    FloatBuffer aBuffer = MemoryUtil.memAllocFloat(VECTOR_SIZE);
-    FloatBuffer bBuffer = MemoryUtil.memAllocFloat(VECTOR_SIZE);
-    FloatBuffer resultBuffer = MemoryUtil.memAllocFloat(VECTOR_SIZE);
+    float[] fb = new float[VECTOR_SIZE];
+    float[] sb = new float[VECTOR_SIZE];
 
-    long clABuffer;
-    long clBBuffer;
-    long clResultBuffer;
+    GlobalStaticBuffer<FloatBufferType> fBuffer;
+    GlobalStaticBuffer<FloatBufferType> sBuffer;
+    GlobalStaticBuffer<FloatBufferType> rBuffer;
+
+    LocalBuffer<FloatBufferType> fLocal;
+    LocalBuffer<FloatBufferType> sLocal;
+
+    SingleValueBuffer<IntBufferType> singleV;
 
     PointerBuffer global;
     PointerBuffer local;
@@ -29,37 +39,46 @@ public class TestKernel extends Kernel{
         createKernel("TestKernel");
 
         for (int i = 0; i < VECTOR_SIZE; i++) {
-            aBuffer.put(i, (float) Math.random());
-            bBuffer.put(i, (float) Math.random());
+            fb[i] = (float) Math.random();
+            sb[i] = (float) Math.random();
         }
-        aBuffer.rewind();
-        bBuffer.rewind();
 
-        clABuffer = CL10.clCreateBuffer(openClContext.context, CL10.CL_MEM_READ_ONLY | CL10.CL_MEM_COPY_HOST_PTR,
-                aBuffer, null);
-        clBBuffer = CL10.clCreateBuffer(openClContext.context, CL10.CL_MEM_READ_ONLY | CL10.CL_MEM_COPY_HOST_PTR,
-                bBuffer, null);
-        clResultBuffer = CL10.clCreateBuffer(openClContext.context, CL10.CL_MEM_WRITE_ONLY,
-                VECTOR_SIZE * Float.BYTES, null);
+        // Глобальна память
+        fBuffer = bufferManager.createBuffer("fBuffer", GlobalStaticBuffer.class, FloatBufferType.class);
+        sBuffer = bufferManager.createBuffer("sBuffer", GlobalStaticBuffer.class, FloatBufferType.class);
+        rBuffer = bufferManager.createBuffer("rBuffer", GlobalStaticBuffer.class, FloatBufferType.class);
+
+        fBuffer.init(VECTOR_SIZE, CL10.CL_MEM_READ_ONLY);
+        sBuffer.init(VECTOR_SIZE, CL10.CL_MEM_READ_ONLY);
+        rBuffer.init(VECTOR_SIZE, CL10.CL_MEM_WRITE_ONLY);
+
+        fBuffer.setData(fb);
+        sBuffer.setData(sb);
+
+        fBuffer.addKernel(kernel, 0);
+        sBuffer.addKernel(kernel, 1);
+        rBuffer.addKernel(kernel, 2);
 
         // Локальна пам'ять
-        long localMemSize = LOCAL_WORK_SIZE * Float.BYTES * 2;
-
-        // Встановлення аргументів
-        PointerBuffer clMemBuffer = MemoryUtil.memAllocPointer(1);
-
-        clMemBuffer.put(0, clABuffer);
-        CL10.clSetKernelArg(kernel, 0, clMemBuffer);
-
-        clMemBuffer.put(0, clBBuffer);
-        CL10.clSetKernelArg(kernel, 1, clMemBuffer);
-
-        clMemBuffer.put(0, clResultBuffer);
-        CL10.clSetKernelArg(kernel, 2, clMemBuffer);
+        long localMemSize = LOCAL_WORK_SIZE * Float.BYTES;
 
         // Локальна пам'ять як аргументи
-        CL10.clSetKernelArg(kernel, 3, localMemSize);
-        CL10.clSetKernelArg(kernel, 4, localMemSize);
+
+        fLocal = bufferManager.createBuffer("fLocal", LocalBuffer.class, FloatBufferType.class);
+        sLocal = bufferManager.createBuffer("sLocal", LocalBuffer.class, FloatBufferType.class);
+
+        fLocal.init(localMemSize);
+        sLocal.init(localMemSize);
+
+        fLocal.addKernel(kernel, 3);
+        sLocal.addKernel(kernel, 4);
+
+        // Одинарний параметр
+        singleV = bufferManager.createBuffer("singleV", SingleValueBuffer.class, IntBufferType.class);
+
+        singleV.init(new int[] {5});
+
+        singleV.addKernel(kernel, 5);
 
         long globalWorkSize = (long) Math.ceil(VECTOR_SIZE / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE;
 
@@ -76,26 +95,19 @@ public class TestKernel extends Kernel{
         );
 
         // Читання результату
-        CL10.clEnqueueReadBuffer(openClContext.commandQueue, clResultBuffer, true, 0,
-                resultBuffer, null, null);
+        float[] rb = (float[]) rBuffer.readData();
 
         // Перевірка результату
-        for (int i = 0; i < 10; i++) {
+        for (int i = 1; i < 10; i++) {
             System.out.printf("%.2f + %.2f = %.2f%n",
-                    aBuffer.get(i), bBuffer.get(i), resultBuffer.get(i));
+                    fb[VECTOR_SIZE - i], sb[VECTOR_SIZE - i], rb[VECTOR_SIZE - i]);
         }
     }
 
     @Override
     public void destroy() {
         super.destroy();
-
-        CL10.clReleaseMemObject(clABuffer);
-        CL10.clReleaseMemObject(clBBuffer);
-        CL10.clReleaseMemObject(clResultBuffer);
-
-        MemoryUtil.memFree(aBuffer);
-        MemoryUtil.memFree(bBuffer);
-        MemoryUtil.memFree(resultBuffer);
+        MemoryUtil.memFree(local);
+        MemoryUtil.memFree(global);
     }
 }

@@ -3,7 +3,8 @@ __kernel void TestKernel(__global const float *a,
                          __global const float *b,
                          __global float *result,
                          __local float *local_a,
-                         __local float *local_b)
+                         __local float *local_b,
+                         const int number)
 {
     int gid = get_global_id(0);
     int lid = get_local_id(0);
@@ -16,6 +17,6 @@ __kernel void TestKernel(__global const float *a,
     // "Синхронізація локальної групи"
     barrier(CLK_LOCAL_MEM_FENCE);
     // "Додавання з використанням локальної пам'яті"
-    result[gid] = local_a[lid] + local_b[lid];
+    result[gid] = local_a[lid] + local_b[lid] + number;
 }
 

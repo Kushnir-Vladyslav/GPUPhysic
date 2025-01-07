@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.BufferControl.BufferManager;
 import org.example.Structs.CursorPosition;
 import org.example.Structs.OpenClContext;
 import org.example.Structs.Particle;
@@ -22,6 +23,7 @@ public class GLOBAL_STATE {
     public static Thread OpenClThread;
 
     public static OpenClContext openClContext = new OpenClContext();
+    public static BufferManager bufferManager = new BufferManager();
 
     //масив пікселів що відображаються на екрані
     public static int[] Pixels;

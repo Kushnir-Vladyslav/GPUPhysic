@@ -63,7 +63,13 @@ public abstract class Kernel {
 
     public abstract void run ();
     public void destroy (){
-        CL10.clReleaseKernel(kernel);
-        CL10.clReleaseProgram(program);
+        if (kernel != 0) {
+            CL10.clReleaseKernel(kernel);
+            kernel = 0;
+        }
+        if (program != 0) {
+            CL10.clReleaseProgram(program);
+            program = 0;
+        }
     }
 }
