@@ -37,6 +37,8 @@ public abstract class Kernel {
             throw new RuntimeException(e);
         }
 
+        modifyKernelSours(kernelSource);
+
         // Компіляція та створення kernel
         program = CL10.clCreateProgramWithSource(openClContext.context, kernelSource, null);
         CL10.clBuildProgram(program, openClContext.device, "", null, 0);
@@ -60,6 +62,8 @@ public abstract class Kernel {
             }
         }
     }
+
+    protected void modifyKernelSours (String kernelSours) {}
 
     public abstract void run ();
     public void destroy (){

@@ -9,16 +9,8 @@ import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.logging.Logger;
 
 import static org.example.GLOBAL_STATE.*;
 
@@ -71,6 +63,8 @@ public class OpenCL extends Task<Void> {
 
             kernel = new TestKernel();
 
+            kernelManager.addKernel("TestKernel", kernel);
+
             kernel.run();
 
 
@@ -78,15 +72,17 @@ public class OpenCL extends Task<Void> {
             e.printStackTrace();
         } finally {
 
-            kernel.destroy();
+            kernelManager.destroy();
+            bufferManager.destroy();
             openClContext.destroy();
+
             CL.destroy();
         }
 
         return null;
     }
 
-    public void platformInfo(IntBuffer platformCount,  PointerBuffer platforms) {
+    protected void platformInfo(IntBuffer platformCount,  PointerBuffer platforms) {
         // Отримання інформації про платформи
         for (int i = 0; i < platformCount.get(0); i++) {
             long platformId = platforms.get(i);
@@ -108,7 +104,7 @@ public class OpenCL extends Task<Void> {
         }
     }
 
-    public void deviceDiagnostic() {
+    protected void deviceDiagnostic() {
         // Додаткова діагностика пристрою
         try (MemoryStack infoStack = MemoryStack.stackPush()) {
             PointerBuffer paramSize = infoStack.mallocPointer(1);

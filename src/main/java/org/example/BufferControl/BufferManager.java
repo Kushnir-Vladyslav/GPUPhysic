@@ -48,6 +48,10 @@ public class BufferManager {
         return casted;
     }
 
+    public boolean isExist (String name) {
+        return buffers.containsKey(name);
+    }
+
     public void destroy () {
         for (BufferContext<?> buffer : buffers.values()) {
             buffer.destroy();
