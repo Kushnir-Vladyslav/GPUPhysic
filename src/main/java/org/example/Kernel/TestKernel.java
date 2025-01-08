@@ -106,8 +106,9 @@ public class TestKernel extends Kernel{
 
     @Override
     public void destroy() {
-        super.destroy();
         MemoryUtil.memFree(local);
         MemoryUtil.memFree(global);
+
+        super.destroy();
     }
 }

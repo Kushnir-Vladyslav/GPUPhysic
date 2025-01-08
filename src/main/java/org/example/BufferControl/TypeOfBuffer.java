@@ -38,7 +38,7 @@ public abstract class TypeOfBuffer <BU extends Buffer> {
         }
     }
 
-    public ByteBuffer getByteBuffer() {
-        return null;
+    public void getByteBuffer(ByteBuffer byteBuffer) {
+        throw new IllegalStateException("The getByteBuffer method is not implemented.");
     }
 }

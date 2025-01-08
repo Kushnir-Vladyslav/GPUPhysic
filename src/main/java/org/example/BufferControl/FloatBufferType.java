@@ -3,6 +3,7 @@ package org.example.BufferControl;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
+import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 
 import static org.example.GLOBAL_STATE.openClContext;
@@ -91,5 +92,10 @@ public class FloatBufferType extends TypeOfBuffer<FloatBuffer> {
                 null,
                 null
         );
+    }
+
+    @Override
+    public void getByteBuffer(ByteBuffer byteBuffer) {
+        byteBuffer.clear().putFloat(buffer.get(0)).rewind();
     }
 }

@@ -24,21 +24,6 @@ public abstract class BufferContext <K extends TypeOfBuffer> {
         setNewArg(kernels.lastElement());
     }
 
-    protected void destroy () {
-        if (clBuffer != 0) {
-            CL10.clReleaseMemObject(clBuffer);
-            clBuffer = 0;
-        }
-        if (nativeBuffer != null) {
-            nativeBuffer.destroy();
-            nativeBuffer = null;
-        }
-        if (pointerBuffer != null)  {
-            MemoryUtil.memFree(pointerBuffer);
-            pointerBuffer = null;
-        }
-    }
-
     protected void setNewArgs() {
         for (KernelDependency KD : kernels) {
             setNewArg(KD);
@@ -63,7 +48,6 @@ public abstract class BufferContext <K extends TypeOfBuffer> {
         }
     }
 
-
     protected class KernelDependency {
         long targetKernel;
         int numberArg;
@@ -71,6 +55,24 @@ public abstract class BufferContext <K extends TypeOfBuffer> {
         public KernelDependency (long targetKernel, int numberArg) {
             this.targetKernel = targetKernel;
             this.numberArg = numberArg;
+        }
+    }
+
+    protected void destroy () {
+        if (clBuffer != 0) {
+            CL10.clReleaseMemObject(clBuffer);
+            clBuffer = 0;
+        }
+        if (nativeBuffer != null) {
+            nativeBuffer.destroy();
+            nativeBuffer = null;
+        }
+        if (pointerBuffer != null)  {
+            MemoryUtil.memFree(pointerBuffer);
+            pointerBuffer = null;
+        }
+        if (kernels != null) {
+            kernels.clear();
         }
     }
 }

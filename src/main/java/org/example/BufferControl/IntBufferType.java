@@ -4,7 +4,6 @@ import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 
 import static org.example.GLOBAL_STATE.openClContext;
@@ -96,11 +95,7 @@ public class IntBufferType extends TypeOfBuffer<IntBuffer> {
     }
 
     @Override
-    public ByteBuffer getByteBuffer() {
-        return ByteBuffer.
-                allocateDirect(Integer.BYTES).
-                order(ByteOrder.nativeOrder()).
-                putInt(buffer.get(0)).
-                rewind();
+    public void getByteBuffer(ByteBuffer byteBuffer) {
+        byteBuffer.clear().putInt(buffer.get(0)).rewind();
     }
 }

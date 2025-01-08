@@ -1,7 +1,5 @@
 package org.example.BufferControl;
 
-import org.lwjgl.opencl.CL10;
-
 public class GlobalStaticBuffer<K extends TypeOfBuffer> extends BufferContext <K>{
     protected int size;
     protected long flags;

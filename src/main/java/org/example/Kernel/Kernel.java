@@ -1,6 +1,5 @@
 package org.example.Kernel;
 
-import org.example.GLOBAL_STATE;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryStack;
@@ -10,13 +9,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.example.GLOBAL_STATE.*;
-import static org.example.OpenCL.*;
 
 public abstract class Kernel {
     public long kernel;
@@ -29,8 +26,11 @@ public abstract class Kernel {
     protected void createKernel (String kernelName) {
         URL URLKernelSource = getClass().getResource(kernelName + ".cl");
 
-        assert URLKernelSource != null;
-        String kernelSource = null;
+        if(URLKernelSource == null) {
+            throw new IllegalStateException("The kernel code file was not found.");
+        }
+
+        String kernelSource;
         try {
             kernelSource = Files.readString(Paths.get(URLKernelSource.toURI()));
         } catch (IOException | URISyntaxException e) {
@@ -66,6 +66,7 @@ public abstract class Kernel {
     protected void modifyKernelSours (String kernelSours) {}
 
     public abstract void run ();
+
     public void destroy (){
         if (kernel != 0) {
             CL10.clReleaseKernel(kernel);
