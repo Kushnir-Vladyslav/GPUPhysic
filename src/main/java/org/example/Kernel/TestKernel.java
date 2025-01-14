@@ -36,7 +36,7 @@ public class TestKernel extends Kernel{
     PointerBuffer local;
 
     public TestKernel () {
-        createKernel("TestKernel");
+        createKernel("TestKernel", "Structs");
 
         for (int i = 0; i < VECTOR_SIZE; i++) {
             fb[i] = (float) Math.random();

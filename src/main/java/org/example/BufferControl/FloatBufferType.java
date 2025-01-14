@@ -20,15 +20,6 @@ public class FloatBufferType extends TypeOfBuffer<FloatBuffer> {
     }
 
     @Override
-    public void set(Object arr) {
-        if (!float[].class.isInstance(arr) || buffer == null) {
-            throw new IllegalArgumentException("Invalid array type, or not initialized.");
-        }
-        float[] castedArr = (float[]) arr;
-        buffer.rewind().put(castedArr).rewind();
-    }
-
-    @Override
     public void set(Object arr, int startPosition) {
         if (!float[].class.isInstance(arr) || buffer == null) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");

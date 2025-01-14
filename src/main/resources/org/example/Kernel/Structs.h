@@ -10,11 +10,12 @@ typedef struct  {
 } Object;
 
 typedef struct {
-    float maxX;
-    float maxY;
-    float sphereRadius;
+    float width;
+    float height;
+    float borderThickness;
     float sphereX;
     float sphereY;
+    float sphereRadius;
 } Boundary;
 
 typedef struct {
@@ -22,3 +23,8 @@ typedef struct {
     float cursorX;
     float cursorY;
 } Cursor;
+
+typedef struct {
+    int y;
+} __attribute__((packed)) MyStruct;
+

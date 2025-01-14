@@ -10,15 +10,21 @@ public abstract class TypeOfBuffer <BU extends Buffer> {
 
     protected abstract void create (int length);
 
-    public abstract void set (Object arr);
+    public void set (Object arr) {
+        set(arr, 0);
+    }
 
     public abstract void set (Object arr, int startPosition);
 
-    public abstract int getSize(Object arr);
+    public int getSize(Object arr) {
+        throw new IllegalStateException("The getSize method is not implemented.");
+    }
 
     public abstract int getByteSize();
 
-    public abstract Object getArr(int length);
+    public Object getArr(int length) {
+        throw new IllegalStateException("The getArr method is not implemented.");
+    }
 
     public abstract long createClBuffer(long flags);
 

@@ -23,16 +23,31 @@ public abstract class Kernel {
         return kernel;
     }
 
-    protected void createKernel (String kernelName) {
+    protected void createKernel (String kernelName, String... libraries) {
+        String kernelSource = "";
+
+        for (String library : libraries) {
+            URL URLLibrary = getClass().getResource(library + ".h");
+
+            if(URLLibrary == null) {
+                throw new IllegalStateException("The kernel code file was not found.");
+            }
+
+            try {
+                kernelSource += Files.readString(Paths.get(URLLibrary.toURI()));
+            } catch (IOException | URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
         URL URLKernelSource = getClass().getResource(kernelName + ".cl");
 
         if(URLKernelSource == null) {
             throw new IllegalStateException("The kernel code file was not found.");
         }
 
-        String kernelSource;
         try {
-            kernelSource = Files.readString(Paths.get(URLKernelSource.toURI()));
+            kernelSource += Files.readString(Paths.get(URLKernelSource.toURI()));
         } catch (IOException | URISyntaxException e) {
             throw new RuntimeException(e);
         }

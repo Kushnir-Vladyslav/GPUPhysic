@@ -21,15 +21,15 @@ public class SingleValueBuffer<K extends TypeOfBuffer> extends BufferContext<K> 
             throw new IllegalStateException(e);
         }
 
-        byteBuffer = ByteBuffer.
-                allocateDirect(nativeBuffer.getByteSize()).
-                order(ByteOrder.nativeOrder());
+        byteBuffer = MemoryUtil.memAlloc(nativeBuffer.getByteSize());
 
         setData(object);
     }
 
     public void setData(Object object) {
         nativeBuffer.set(object);
+
+        setNewArgs();
     }
 
     @Override

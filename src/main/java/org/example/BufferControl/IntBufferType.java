@@ -20,15 +20,6 @@ public class IntBufferType extends TypeOfBuffer<IntBuffer> {
     }
 
     @Override
-    public void set(Object arr) {
-        if (!int[].class.isInstance(arr) || buffer == null) {
-            throw new IllegalArgumentException("Invalid array type, or not initialized.");
-        }
-        int[] castedArr = (int[]) arr;
-        buffer.rewind().put(castedArr).rewind();
-    }
-
-    @Override
     public void set(Object arr, int startPosition) {
         if (!int[].class.isInstance(arr) || buffer == null) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
