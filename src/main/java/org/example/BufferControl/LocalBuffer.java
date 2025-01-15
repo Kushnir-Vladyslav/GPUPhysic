@@ -1,6 +1,7 @@
 package org.example.BufferControl;
 
 
+import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
 import org.lwjgl.opencl.CL10;
 
 public class LocalBuffer<K extends TypeOfBuffer> extends BufferContext<K> {

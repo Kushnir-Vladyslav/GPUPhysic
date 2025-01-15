@@ -3,12 +3,12 @@ package org.example.Structs;
 import org.example.GLOBAL_STATE;
 
 public class Boundary {
-    float width;
-    float height;
-    float borderThickness;
-    float sphereX;
-    float sphereY;
-    float sphereRadius;
+    public float width;
+    public float height;
+    public float borderThickness;
+    public float sphereX;
+    public float sphereY;
+    public float sphereRadius;
 
     public Boundary () {
         width = GLOBAL_STATE.WorkZoneWidth;

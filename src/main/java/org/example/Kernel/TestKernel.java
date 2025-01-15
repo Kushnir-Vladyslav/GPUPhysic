@@ -1,16 +1,14 @@
 package org.example.Kernel;
 
 import org.example.BufferControl.*;
-import org.example.Structs.OpenClContext;
+import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
+import org.example.BufferControl.TypeOfBuffer.FloatBufferType;
+import org.example.BufferControl.TypeOfBuffer.IntBufferType;
+import org.example.BufferControl.SingleValueBuffer;
+import org.example.Structs.CursorPosition;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
-
-import java.lang.management.MemoryManagerMXBean;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 
 import static org.example.GLOBAL_STATE.bufferManager;
 import static org.example.GLOBAL_STATE.openClContext;

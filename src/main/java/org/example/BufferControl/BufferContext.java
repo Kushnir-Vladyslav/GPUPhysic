@@ -1,5 +1,6 @@
 package org.example.BufferControl;
 
+import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
@@ -49,13 +50,17 @@ public abstract class BufferContext <K extends TypeOfBuffer> {
     }
 
     protected class KernelDependency {
-        long targetKernel;
-        int numberArg;
+        public long targetKernel;
+        public int numberArg;
 
         public KernelDependency (long targetKernel, int numberArg) {
             this.targetKernel = targetKernel;
             this.numberArg = numberArg;
         }
+    }
+
+    protected void removeKernel(long kernel) {
+        kernels.removeIf(value -> value.targetKernel == kernel);
     }
 
     protected void destroy () {

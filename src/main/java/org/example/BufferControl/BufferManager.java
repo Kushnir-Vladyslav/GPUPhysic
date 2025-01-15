@@ -1,17 +1,19 @@
 package org.example.BufferControl;
 
+import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class BufferManager {
-    Map<String, BufferContext<?>> buffers;
+    protected Map<String, BufferContext<?>> buffers;
 
     public BufferManager () {
         buffers = new HashMap<>();
     }
 
     public <K extends TypeOfBuffer, T extends BufferContext<K>> T createBuffer (String name, Class<T> contextType, Class<K> bufferType) {
-        if (buffers.containsKey(name)) {
+        if (isExist(name)) {
             return getBuffer(name, contextType, bufferType);
         }
 
@@ -27,10 +29,10 @@ public class BufferManager {
     }
 
     public <K extends TypeOfBuffer, T extends BufferContext<K>> T getBuffer(String name, Class<T> contextType, Class<K> bufferType) {
-        BufferContext<?> bufferContext = buffers.get(name);
-        if (bufferContext == null) {
-            throw new IllegalArgumentException("Buffer not found: " + name);
+        if(!isExist(name)) {
+            throw new IllegalArgumentException("A buffer with that name does not exist.");
         }
+        BufferContext<?> bufferContext = buffers.get(name);
 
         // Перевірка типу контексту
         if (!contextType.isInstance(bufferContext)) {
@@ -46,6 +48,12 @@ public class BufferManager {
         }
 
         return casted;
+    }
+
+    public void removeBuffer(String name) {
+        if(!isExist(name)) {
+            throw new IllegalArgumentException("A buffer with that name does not exist.");
+        }
     }
 
     public boolean isExist (String name) {

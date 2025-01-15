@@ -1,19 +1,11 @@
-package org.example.BufferControl;
+package org.example.BufferControl.TypeOfBuffer;
 
 import org.example.Structs.CursorPosition;
-import org.lwjgl.system.MemoryUtil;
 
-import java.nio.ByteBuffer;
-
-public class CursorPositionBuffer extends TypeOfBuffer<ByteBuffer>{
+public class CursorPositionBuffer extends TypeOfBuffer{
 
     public CursorPositionBuffer(int length) {
         create(length);
-    }
-
-    @Override
-    protected void create(int length) {
-        buffer = MemoryUtil.memAlloc(getByteSize());
     }
 
     @Override
@@ -30,27 +22,17 @@ public class CursorPositionBuffer extends TypeOfBuffer<ByteBuffer>{
     }
 
     @Override
+    public int getSize(Object arr) {
+        return 0;
+    }
+
+    @Override
     public int getByteSize() {
         return Float.BYTES * 3;
     }
 
     @Override
-    public long createClBuffer(long flags) {
-        return 0;
-    }
-
-    @Override
-    public void rewriteClBuffer(long clBuffer, long offset) {
-
-    }
-
-    @Override
-    public void readClBuffer(long clBuffer, long offset) {
-
-    }
-
-    @Override
-    public void getByteBuffer(ByteBuffer byteBuffer) {
-        byteBuffer.rewind().put(buffer);
+    public Object getArr(int length) {
+        return null;
     }
 }
