@@ -5,14 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="refact">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalBuffer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/ReadBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/BoundaryBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalFloatBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalFloatBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalIntBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalIntBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/ReadFloatBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/ReadFloatBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/SingleFloatValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/SingleFloatValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/CursorPositionBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/CursorPositionBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/FloatBufferType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/FloatBufferType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalStaticBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalStaticBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/IntBufferType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/IntBufferType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/LocalBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/LocalBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/SingleValueBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/SingleValueBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/TypeOfBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/TestKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/TestKernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/Boundary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/Boundary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/DrawWorkZone.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/DrawWorkZone.cl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,9 +69,11 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Main.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "BufferManager",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "BufferManagerSecondTry",
     "kotlin-language-version-configured": "true",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
@@ -69,6 +81,26 @@
     "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.Main" />
+      <module name="PhysicalOfParticle" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

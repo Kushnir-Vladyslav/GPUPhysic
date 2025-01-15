@@ -1,15 +1,9 @@
 package org.example.BufferControl;
 
+import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
 import org.lwjgl.opencl.CL10;
-import org.lwjgl.system.MemoryUtil;
-
-import java.nio.Buffer;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 
 public class SingleValueBuffer<K extends TypeOfBuffer> extends BufferContext<K> {
-    ByteBuffer byteBuffer;
-
     public SingleValueBuffer(Class<K> type) {
         super(type);
     }
@@ -20,8 +14,6 @@ public class SingleValueBuffer<K extends TypeOfBuffer> extends BufferContext<K> 
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
-
-        byteBuffer = MemoryUtil.memAlloc(nativeBuffer.getByteSize());
 
         setData(object);
     }
@@ -34,22 +26,10 @@ public class SingleValueBuffer<K extends TypeOfBuffer> extends BufferContext<K> 
 
     @Override
     protected void setNewArg(KernelDependency KD) {
-        nativeBuffer.getByteBuffer(byteBuffer);
-
         CL10.clSetKernelArg(
                 KD.targetKernel,
                 KD.numberArg,
-                byteBuffer
+                nativeBuffer.getByteBuffer()
         );
-    }
-
-    @Override
-    public void destroy() {
-        if (byteBuffer != null) {
-            MemoryUtil.memFree(byteBuffer);
-            byteBuffer = null;
-        }
-
-        super.destroy();
     }
 }

@@ -1,5 +1,7 @@
 package org.example.BufferControl;
 
+import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
+
 public class GlobalStaticBuffer<K extends TypeOfBuffer> extends BufferContext <K>{
     protected int size;
     protected long flags;

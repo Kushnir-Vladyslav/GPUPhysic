@@ -1,6 +1,4 @@
 
-#include "Structs.cl"
-
 __kernel void DrawWorkZone (
     __global    Object*     objects,
     const       Boundary    boundaries,
