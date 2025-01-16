@@ -1,6 +1,10 @@
 package org.example.Structs;
 
+import org.example.BufferControl.SingleValueBuffer;
+import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.GLOBAL_STATE;
+
+import static org.example.GLOBAL_STATE.bufferManager;
 
 public class Boundary {
     public float width;
@@ -9,6 +13,8 @@ public class Boundary {
     public float sphereX;
     public float sphereY;
     public float sphereRadius;
+
+    SingleValueBuffer<BoundaryBuffer> boundaryBuffer;
 
     public Boundary () {
         width = GLOBAL_STATE.WorkZoneWidth;
@@ -20,6 +26,20 @@ public class Boundary {
         sphereY = height * 0.3f;
 
         sphereRadius = height * 0.71f;
+
+        updateBuffer();
     }
 
+    public void updateBuffer() {
+        if (boundaryBuffer == null) {
+            if (bufferManager.isExist("BoundaryBuffer")) {
+                boundaryBuffer = bufferManager.getBuffer("BoundaryBuffer", SingleValueBuffer.class, BoundaryBuffer.class);
+            } else {
+                boundaryBuffer = bufferManager.createBuffer("BoundaryBuffer", SingleValueBuffer.class, BoundaryBuffer.class);
+                boundaryBuffer.init();
+            }
+        }
+
+        boundaryBuffer.setData(this);
+    }
 }

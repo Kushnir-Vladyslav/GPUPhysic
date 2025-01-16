@@ -12,9 +12,12 @@ public class FloatBufferType extends TypeOfBuffer {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
         float[] castedArr = (float[]) arr;
-        for (int i = 0; i < castedArr.length; i++){
-            buffer.putFloat(i + startPosition, castedArr[i]);
+
+        buffer.position(startPosition * getByteSize());
+        for (float v : castedArr) {
+            buffer.putFloat(v);
         }
+        buffer.rewind();
     }
 
     @Override

@@ -53,6 +53,12 @@ public class TestKernel extends Kernel{
         fBuffer.setData(fb);
         sBuffer.setData(sb);
 
+        float[] checkFb = (float[]) fBuffer.readData();
+        float[] checkSb = (float[]) sBuffer.readData();
+        for (int i = 0; i < 10; i++) {
+            System.out.printf("Input data: %.2f, %.2f%n", checkFb[i], checkSb[i]);
+        }
+
         fBuffer.addKernel(kernel, 0);
         sBuffer.addKernel(kernel, 1);
         rBuffer.addKernel(kernel, 2);

@@ -12,9 +12,12 @@ public class IntBufferType extends TypeOfBuffer {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
         int[] castedArr = int[].class.cast(arr);
-        for (int i = 0; i < castedArr.length; i++){
-            buffer.putInt(i + startPosition, castedArr[i]);
+
+        buffer.position(startPosition * getByteSize());
+        for (int j : castedArr) {
+            buffer.putInt(j);
         }
+        buffer.rewind();
     }
 
     @Override

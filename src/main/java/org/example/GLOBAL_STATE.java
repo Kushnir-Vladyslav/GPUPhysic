@@ -2,6 +2,7 @@ package org.example;
 
 import org.example.BufferControl.BufferManager;
 import org.example.Kernel.KernelManager;
+import org.example.Structs.Boundary;
 import org.example.Structs.CursorPosition;
 import org.example.Structs.OpenClContext;
 import org.example.Structs.Particle;
@@ -16,6 +17,7 @@ public class GLOBAL_STATE {
     public static int WorkZoneHeight = 400;
 
     public static Particle[] particles;
+    public static Boundary boundary = new Boundary();
     public static CursorPosition cursorPosition = new CursorPosition();
 
     public static boolean IsUpdateWait = false;
@@ -26,6 +28,7 @@ public class GLOBAL_STATE {
     public static OpenClContext openClContext = new OpenClContext();
     public static BufferManager bufferManager = new BufferManager();
     public static KernelManager kernelManager = new KernelManager();
+
 
     //масив пікселів що відображаються на екрані
     public static int[] Pixels;

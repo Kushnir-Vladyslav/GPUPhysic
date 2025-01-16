@@ -8,6 +8,14 @@ public class SingleValueBuffer<K extends TypeOfBuffer> extends BufferContext<K> 
         super(type);
     }
 
+    public void init() {
+        try {
+            nativeBuffer = type.getConstructor(int.class).newInstance(1);
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
+    }
+
     public void init(Object object) {
         try {
             nativeBuffer = type.getConstructor(int.class).newInstance(1);
