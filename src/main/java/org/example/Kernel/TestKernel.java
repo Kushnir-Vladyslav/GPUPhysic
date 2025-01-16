@@ -30,9 +30,6 @@ public class TestKernel extends Kernel{
 
     SingleValueBuffer<IntBufferType> singleV;
 
-    PointerBuffer global;
-    PointerBuffer local;
-
     public TestKernel () {
         createKernel("TestKernel", "Structs");
 
@@ -94,7 +91,7 @@ public class TestKernel extends Kernel{
     public void run() {
         CL10.clEnqueueNDRangeKernel(
                 openClContext.commandQueue, kernel, 1, null,
-                global, local,
+                global.rewind(), local.rewind(),
                 null, null
         );
 
@@ -106,13 +103,5 @@ public class TestKernel extends Kernel{
             System.out.printf("%.2f + %.2f = %.2f%n",
                     fb[VECTOR_SIZE - i], sb[VECTOR_SIZE - i], rb[VECTOR_SIZE - i]);
         }
-    }
-
-    @Override
-    public void destroy() {
-        MemoryUtil.memFree(local);
-        MemoryUtil.memFree(global);
-
-        super.destroy();
     }
 }

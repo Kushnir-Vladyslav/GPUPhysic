@@ -9,6 +9,7 @@ import static org.example.GLOBAL_STATE.openClContext;
 
 public abstract class TypeOfBuffer {
     protected ByteBuffer buffer;
+    protected Object array;
 
     protected void create (int length){
         if (buffer != null){
@@ -27,7 +28,7 @@ public abstract class TypeOfBuffer {
 
     public abstract int getByteSize();
 
-    public abstract Object getArr(int length);
+    public abstract Object getArr();
 
     public long createClBuffer(long flags) {
         return CL10.clCreateBuffer(

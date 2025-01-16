@@ -27,10 +27,10 @@ public class Boundary {
 
         sphereRadius = height * 0.71f;
 
-        updateBuffer();
+        update();
     }
 
-    public void updateBuffer() {
+    public void update() {
         if (boundaryBuffer == null) {
             if (bufferManager.isExist("BoundaryBuffer")) {
                 boundaryBuffer = bufferManager.getBuffer("BoundaryBuffer", SingleValueBuffer.class, BoundaryBuffer.class);

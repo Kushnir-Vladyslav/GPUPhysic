@@ -19,6 +19,9 @@ public abstract class Kernel {
     public long kernel;
     private long program;
 
+    PointerBuffer global;
+    PointerBuffer local;
+
     public long getKernel() {
         return kernel;
     }
@@ -90,6 +93,14 @@ public abstract class Kernel {
         if (program != 0) {
             CL10.clReleaseProgram(program);
             program = 0;
+        }
+        if (local != null){
+            MemoryUtil.memFree(local);
+            local = null;
+        }
+        if (global != null) {
+            MemoryUtil.memFree(global);
+            local = null;
         }
     }
 }

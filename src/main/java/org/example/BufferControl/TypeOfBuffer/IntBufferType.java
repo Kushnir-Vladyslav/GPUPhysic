@@ -4,6 +4,7 @@ public class IntBufferType extends TypeOfBuffer {
 
     public IntBufferType(int length) {
         create(length);
+        array = new int[length];
     }
 
     @Override
@@ -35,13 +36,14 @@ public class IntBufferType extends TypeOfBuffer {
     }
 
     @Override
-    public Object getArr(int length) {
-        if (length > buffer.capacity() / Integer.BYTES) {
-            throw new IllegalArgumentException("The buffer size is smaller than requested.");
+    public Object getArr() {
+        if (array == null) {
+            array = new int[buffer.capacity() / getByteSize()];
         }
-        int[] arr = new int[length];
+        int[] arr = (int[]) array;
+
         buffer.rewind();
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < arr.length; i++){
             arr[i] = buffer.getInt();
         }
         buffer.rewind();

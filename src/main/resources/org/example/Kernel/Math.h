@@ -3,10 +3,6 @@ inline float length (float x1, float y1, float x2, float y2) {
     return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
 }
 
-inline float length (float2 point) {
-    return sqrt(point.x * point.x + point.y * point.y);
-}
-
 inline float2 vecToCenter (float x1, float y1, float x2, float y2) {
     return (float2)(x2 - x1, y2 - y1);
 }

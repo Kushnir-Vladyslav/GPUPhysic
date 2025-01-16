@@ -37,6 +37,6 @@ public class GlobalStaticBuffer<K extends TypeOfBuffer> extends BufferContext <K
 
     public Object readData() {
         nativeBuffer.readClBuffer(clBuffer, 0);
-        return nativeBuffer.getArr(size);
+        return nativeBuffer.getArr();
     }
 }

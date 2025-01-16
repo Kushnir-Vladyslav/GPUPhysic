@@ -18,6 +18,8 @@ public class CursorPosition {
         x = 0;
         y = 0;
         radius = 0;
+
+        update();
     }
 
     public void setCursorPosition (float x, float y) {

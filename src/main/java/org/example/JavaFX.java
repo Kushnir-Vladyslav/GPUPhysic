@@ -17,14 +17,18 @@ public class JavaFX extends Application {
     private WritableImage writableImage;
     private ImageView imageView;
 
+    private OpenCL oCL = new OpenCL();
+
     @Override
     public void start(Stage primaryStage) {
 
-        createOpenClThread();
+
+
+//        createOpenClThread();
 
         writableImage = new WritableImage(getScreenWidth(), getScreenHeight());
 
-        Pixels = new int [getScreenWidth() * getScreenHeight()];
+//        Pixels = new int [getScreenWidth() * getScreenHeight()];
         DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
 
         imageView = new ImageView(writableImage);
@@ -81,8 +85,16 @@ public class JavaFX extends Application {
         });
 
         primaryStage.setOnCloseRequest(event -> {
-            closeOpenSlThread();
+//            closeOpenSlThread();
         });
+
+        oCL.call();
+
+        for (int p : Pixels) {
+            if (p !=0) {
+                System.out.println(p);
+            }
+        }
 
         //запуск таймеру для анімації
         AnimationTimer animationTimer = new AnimationTimer() {
@@ -110,7 +122,7 @@ public class JavaFX extends Application {
 
     @Override
     public void stop() {
-        closeOpenSlThread();
+//        closeOpenSlThread();
     }
 
     public void createOpenClThread () {

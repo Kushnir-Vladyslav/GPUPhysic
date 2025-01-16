@@ -32,7 +32,7 @@ public class CursorPositionBuffer extends TypeOfBuffer{
     }
 
     @Override
-    public Object getArr(int length) {
+    public Object getArr() {
         return null;
     }
 }

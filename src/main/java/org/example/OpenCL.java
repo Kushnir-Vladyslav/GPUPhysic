@@ -1,6 +1,7 @@
 package org.example;
 
 import javafx.concurrent.Task;
+import org.example.Kernel.DrawBackgroundKernel;
 import org.example.Kernel.Kernel;
 import org.example.Kernel.TestKernel;
 import org.lwjgl.PointerBuffer;
@@ -61,12 +62,17 @@ public class OpenCL extends Task<Void> {
                 throw new IllegalStateException("Failed to create OpenCL context or command queue.");
             }
 
-            kernel = new TestKernel();
+//            kernel = new TestKernel();
+//
+//            kernelManager.addKernel("TestKernel", kernel);
+//
+//            kernel.run();
 
-            kernelManager.addKernel("TestKernel", kernel);
+            kernel = new DrawBackgroundKernel();
 
-            kernel.run();
-
+            kernelManager.addKernel("DrawBackgroundKernel", kernel);
+            run();
+            Pixels = canvas.getCanvas();
 
         } catch (Exception e) {
             e.printStackTrace();

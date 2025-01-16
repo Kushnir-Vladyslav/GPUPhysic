@@ -4,6 +4,7 @@ public class FloatBufferType extends TypeOfBuffer {
 
     public FloatBufferType(int length) {
         create(length);
+        array = new float[length];
     }
 
     @Override
@@ -35,13 +36,14 @@ public class FloatBufferType extends TypeOfBuffer {
     }
 
     @Override
-    public Object getArr(int length) {
-        if (length > buffer.capacity() / Integer.BYTES) {
-            throw new IllegalArgumentException("The buffer size is smaller than requested.");
+    public Object getArr() {
+        if (array == null) {
+            array = new float[buffer.capacity() / getByteSize()];
         }
-        float[] arr = new float[length];
+        float[] arr = (float[]) array;
+
         buffer.rewind();
-        for (int i = 0; i < length; i++){
+        for (int i = 0; i < arr.length; i++){
             arr[i] = buffer.getFloat();
         }
         buffer.rewind();

@@ -56,7 +56,7 @@ public class GlobalDynamicBuffer<K extends TypeOfBuffer> extends BufferContext <
                     sizeOfArr * 1.5 : capacity * 1.5);
 
             nativeBuffer.readClBuffer(clBuffer, 0);
-            Object oldArr = nativeBuffer.getArr(size);
+            Object oldArr = nativeBuffer.getArr();
             nativeBuffer.reSize(capacity);
             nativeBuffer.set(oldArr);
             nativeBuffer.set(arr, size);
@@ -85,6 +85,6 @@ public class GlobalDynamicBuffer<K extends TypeOfBuffer> extends BufferContext <
 
     public Object readData() {
         nativeBuffer.readClBuffer(clBuffer, 0);
-        return nativeBuffer.getArr(size);
+        return nativeBuffer.getArr();
     }
 }
