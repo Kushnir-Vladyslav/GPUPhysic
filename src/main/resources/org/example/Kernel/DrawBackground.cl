@@ -3,7 +3,7 @@
 #define borderColor (uchar4)(218, 165, 32, 255)
 
 __kernel void DrawBackground (
-    __global    uchar4*     outPut,
+    __global    int4*     outPut,
     const       Boundary    boundaries,
     const       Cursor      cursor)
 {
@@ -13,6 +13,9 @@ __kernel void DrawBackground (
     if (gid_x >= boundaries.width || gid_y >= boundaries.height) {
         return;
     }
+
+    outPut[gid_y * (int) boundaries.width + gid_x] = 5;
+    return;
 
     bool isBoundary =
         gid_x <= boundaries.borderThickness ||
@@ -25,8 +28,8 @@ __kernel void DrawBackground (
     int pixel = gid_y * boundaries.width + gid_x;
 
     if (isBoundary) {
-        outPut[pixel] = borderColor;
+        outPut[pixel] = 4;
     } else {
-        outPut[pixel] = backgroundColor;
+        outPut[pixel] = 6;
     }
 }

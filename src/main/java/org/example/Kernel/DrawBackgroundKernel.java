@@ -66,7 +66,7 @@ public class DrawBackgroundKernel extends Kernel {
     @Override
     public void run() {
         CL10.clEnqueueNDRangeKernel(
-                openClContext.commandQueue, kernel, 1, null,
+                openClContext.commandQueue, kernel, 2, null,
                 global.rewind(), local.rewind(),
                 null, null
         );

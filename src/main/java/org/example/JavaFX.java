@@ -90,10 +90,11 @@ public class JavaFX extends Application {
 
         oCL.call();
 
-        for (int p : Pixels) {
-            if (p !=0) {
-                System.out.println(p);
-            }
+        System.out.println("ok");
+        System.out.println(Pixels[1]);
+
+        for (int i = 0; i < Pixels.length; i++) {
+            System.out.println(i + " " + Pixels[i]);
         }
 
         //запуск таймеру для анімації
@@ -109,6 +110,7 @@ public class JavaFX extends Application {
                 Time += (float) (now - last) / 1000000000;
 
                 updatePixels((float) (now - last) / 1000000000);
+
 
                 writableImage.getPixelWriter().setPixels(0, 0,
                         getScreenWidth(), getScreenHeight(),
@@ -150,7 +152,6 @@ public class JavaFX extends Application {
 
     //основна функція відрисовки
     private void updatePixels(float time)  {
-
 
     }
 

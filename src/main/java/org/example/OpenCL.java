@@ -71,7 +71,7 @@ public class OpenCL extends Task<Void> {
             kernel = new DrawBackgroundKernel();
 
             kernelManager.addKernel("DrawBackgroundKernel", kernel);
-            run();
+            kernel.run();
             Pixels = canvas.getCanvas();
 
         } catch (Exception e) {
