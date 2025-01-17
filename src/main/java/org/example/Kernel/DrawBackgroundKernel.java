@@ -16,7 +16,7 @@ import static org.example.GLOBAL_STATE.*;
 
 public class DrawBackgroundKernel extends Kernel {
 
-    final int LOCAL_WORK_SIZE = 256;
+    final int LOCAL_WORK_SIZE = 16;
 
     GlobalStaticBuffer<IntBufferType> canvasBuffer;
     SingleValueBuffer<BoundaryBuffer> boundaryBuffer;
@@ -60,7 +60,7 @@ public class DrawBackgroundKernel extends Kernel {
         global = MemoryUtil.memAllocPointer(2).
                 put((long) Math.ceil(WorkZoneWidth / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).
                 put((long) Math.ceil(WorkZoneHeight / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
-        local = MemoryUtil.memAllocPointer(2).put(LOCAL_WORK_SIZE).put(0);
+        local = MemoryUtil.memAllocPointer(2).put(LOCAL_WORK_SIZE).put(LOCAL_WORK_SIZE);
     }
 
     @Override

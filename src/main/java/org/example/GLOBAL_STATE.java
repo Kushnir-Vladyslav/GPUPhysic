@@ -10,8 +10,8 @@ public class GLOBAL_STATE {
     private static int ScreenHeight = 256 * 2;
 
     //розмір робочої областіж
-    public static int WorkZoneWidth = 10;
-    public static int WorkZoneHeight = 10;
+    public static int WorkZoneWidth = 400;
+    public static int WorkZoneHeight = 400;
 
     public static OpenClContext openClContext = new OpenClContext();
     public static BufferManager bufferManager = new BufferManager();

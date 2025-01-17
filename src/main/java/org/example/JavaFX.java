@@ -26,12 +26,14 @@ public class JavaFX extends Application {
 
 //        createOpenClThread();
 
-        writableImage = new WritableImage(getScreenWidth(), getScreenHeight());
+        writableImage = new WritableImage(WorkZoneWidth, WorkZoneHeight);
 
 //        Pixels = new int [getScreenWidth() * getScreenHeight()];
         DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
 
         imageView = new ImageView(writableImage);
+        imageView.setFitWidth(getScreenWidth());
+        imageView.setFitHeight(getScreenHeight());
 
         StackPane root = new StackPane();
         root.getChildren().add(imageView);
@@ -90,12 +92,12 @@ public class JavaFX extends Application {
 
         oCL.call();
 
-        System.out.println("ok");
-        System.out.println(Pixels[1]);
-
-        for (int i = 0; i < Pixels.length; i++) {
-            System.out.println(i + " " + Pixels[i]);
-        }
+//        System.out.println("ok");
+//        System.out.println(Pixels[1]);
+//
+//        for (int i = 0; i < Pixels.length; i++) {
+//            System.out.println(i + " " + Pixels[i]);
+//        }
 
         //запуск таймеру для анімації
         AnimationTimer animationTimer = new AnimationTimer() {
@@ -113,8 +115,8 @@ public class JavaFX extends Application {
 
 
                 writableImage.getPixelWriter().setPixels(0, 0,
-                        getScreenWidth(), getScreenHeight(),
-                        PixelFormat.getIntArgbInstance(), Pixels, 0, getScreenWidth());
+                        WorkZoneWidth, WorkZoneHeight,
+                        PixelFormat.getIntArgbInstance(), Pixels, 0, WorkZoneWidth);
 
                 last = now;
             }
@@ -144,10 +146,12 @@ public class JavaFX extends Application {
 
     //оновлення вікна після зміни розміру
     private void updateImageSize() {
-        writableImage = new WritableImage( getScreenWidth(), getScreenHeight());
-        Pixels = new int[ getScreenWidth() * getScreenHeight()];
-        DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
-        imageView.setImage(writableImage);
+//        writableImage = new WritableImage( getScreenWidth(), getScreenHeight());
+//        Pixels = new int[ getScreenWidth() * getScreenHeight()];
+//        DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
+//        imageView.setImage(writableImage);
+        imageView.setFitWidth(getScreenWidth());
+        imageView.setFitHeight(getScreenHeight());
     }
 
     //основна функція відрисовки
