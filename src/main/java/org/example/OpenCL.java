@@ -20,8 +20,7 @@ public class OpenCL extends Task<Void> {
 
     Kernel kernel;
 
-    @Override
-    public Void call () {
+    public OpenCL() {
         org.lwjgl.system.Configuration.OPENCL_EXPLICIT_INIT.set(true);
         CL.create();
 
@@ -71,21 +70,25 @@ public class OpenCL extends Task<Void> {
             kernel = new DrawBackgroundKernel();
 
             kernelManager.addKernel("DrawBackgroundKernel", kernel);
-            kernel.run();
-            Pixels = canvas.getCanvas();
-
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-
-            kernelManager.destroy();
-            bufferManager.destroy();
-            openClContext.destroy();
-
-            CL.destroy();
         }
+    }
+
+    @Override
+    public Void call () {
+        kernel.run();
+        Pixels = canvas.getCanvas();
 
         return null;
+    }
+
+    public void destroy () {
+        kernelManager.destroy();
+        bufferManager.destroy();
+        openClContext.destroy();
+
+        CL.destroy();
     }
 
     protected void platformInfo(IntBuffer platformCount,  PointerBuffer platforms) {

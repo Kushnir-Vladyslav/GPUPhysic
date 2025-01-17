@@ -17,6 +17,10 @@ public class JavaFX extends Application {
     private WritableImage writableImage;
     private ImageView imageView;
 
+    private AnimationTimer animationTimer;
+
+    private boolean isRun = true;
+
     private OpenCL oCL = new OpenCL();
 
     @Override
@@ -73,24 +77,38 @@ public class JavaFX extends Application {
             }
         });
 
-        //Обробка натискання лівої кнопки миші і руху
+        //Обробка натискання лівої кнопки миші
         scene.setOnMousePressed((event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-
+                cursorPosition.setCursorPosition(
+                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
+                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
             }
         });
 
+        //Обробка перреміщення мишки
         scene.setOnMouseDragged((event) -> {
             if (event.isPrimaryButtonDown()) {
-
+                cursorPosition.setCursorPosition(
+                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
+                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
             }
         });
 
-        primaryStage.setOnCloseRequest(event -> {
-//            closeOpenSlThread();
+        //обробка відпускання мишки
+        scene.setOnMouseReleased(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                cursorPosition.inactivateCursor();
+            }
         });
 
-        oCL.call();
+        //закриття вікна
+        primaryStage.setOnCloseRequest(event -> {
+            isRun = false;
+            animationTimer.stop();
+//            closeOpenSlThread();
+            oCL.destroy();
+        });
 
 //        System.out.println("ok");
 //        System.out.println(Pixels[1]);
@@ -100,10 +118,13 @@ public class JavaFX extends Application {
 //        }
 
         //запуск таймеру для анімації
-        AnimationTimer animationTimer = new AnimationTimer() {
+         animationTimer = new AnimationTimer() {
             private long last = 0;
             @Override
             public void handle(long now) {
+                if(!isRun) {
+                    return;
+                }
                 if (last == 0) {
                     last = now;
                     return;
@@ -124,9 +145,13 @@ public class JavaFX extends Application {
         animationTimer.start();
     }
 
+    //при закритті вікна
     @Override
     public void stop() {
+        isRun = false;
+        animationTimer.stop();
 //        closeOpenSlThread();
+        oCL.destroy();
     }
 
     public void createOpenClThread () {
@@ -156,7 +181,7 @@ public class JavaFX extends Application {
 
     //основна функція відрисовки
     private void updatePixels(float time)  {
-
+        oCL.call();
     }
 
     public static void main(String[] args) {
