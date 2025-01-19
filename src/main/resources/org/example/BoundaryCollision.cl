@@ -1,11 +1,9 @@
 
-#include "Structs.h"
-#include "Math.h"
-
 __kernel void boundary (
-    __global    Object* objects,
-    __global    Boundary*   boundaries,
-    const       Cursor  cursor)
+    __global    Object*     objects,
+    const       Boundary    boundary,
+    const       Cursor      cursor,
+    const       int         num_of_particles)
 {
     Object object = objects[get_global_id(0)];
     Boundary boundary = boundaries[0];
