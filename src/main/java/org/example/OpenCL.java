@@ -1,10 +1,7 @@
 package org.example;
 
 import javafx.concurrent.Task;
-import org.example.Kernel.BoundaryCollisionKernel;
-import org.example.Kernel.DrawBackgroundKernel;
-import org.example.Kernel.DrawParticlesKernel;
-import org.example.Kernel.Kernel;
+import org.example.Kernel.*;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL;
 import org.lwjgl.opencl.CL10;
@@ -24,6 +21,7 @@ public class OpenCL extends Task<Void> {
     Kernel drawBackground;
     Kernel drawParticles;
     Kernel boundaryCollision;
+    Kernel updatePositionParticlesKernel;
 
     public OpenCL() {
         org.lwjgl.system.Configuration.OPENCL_EXPLICIT_INIT.set(true);
@@ -79,7 +77,10 @@ public class OpenCL extends Task<Void> {
             kernelManager.addKernel("DrawParticlesKernel", drawParticles);
 
             boundaryCollision = new BoundaryCollisionKernel();
-            kernelManager.addKernel("boundaryCollision", boundaryCollision);
+            kernelManager.addKernel("BoundaryCollision", boundaryCollision);
+
+            updatePositionParticlesKernel = new UpdatePositionParticlesKernel();
+            kernelManager.addKernel("UpdatePositionParticlesKernel", updatePositionParticlesKernel);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,6 +94,8 @@ public class OpenCL extends Task<Void> {
         drawBackground.run();
 
         drawParticles.run();
+
+        updatePositionParticlesKernel.run();
 
         boundaryCollision.run();
 
