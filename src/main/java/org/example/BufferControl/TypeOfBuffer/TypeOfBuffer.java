@@ -16,6 +16,7 @@ public abstract class TypeOfBuffer {
             MemoryUtil.memFree(buffer);
         }
         buffer = MemoryUtil.memAlloc(length * getByteSize());
+        updateArray(length);
     }
 
     public void set (Object arr) {
@@ -75,6 +76,8 @@ public abstract class TypeOfBuffer {
         destroy();
         create(newLength);
     }
+
+    protected abstract void updateArray(int length);
 
     public void destroy (){
         if (buffer != null) {

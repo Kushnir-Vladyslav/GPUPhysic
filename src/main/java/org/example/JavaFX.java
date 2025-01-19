@@ -21,7 +21,7 @@ public class JavaFX extends Application {
 
     private boolean isRun = true;
 
-    private OpenCL oCL = new OpenCL();
+    private final OpenCL oCL = new OpenCL();
 
     @Override
     public void start(Stage primaryStage) {
@@ -32,7 +32,7 @@ public class JavaFX extends Application {
 
         writableImage = new WritableImage(WorkZoneWidth, WorkZoneHeight);
 
-//        Pixels = new int [getScreenWidth() * getScreenHeight()];
+        Pixels = new int [getScreenWidth() * getScreenHeight()];
         DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
 
         imageView = new ImageView(writableImage);
@@ -77,13 +77,17 @@ public class JavaFX extends Application {
             }
         });
 
+
         //Обробка натискання лівої кнопки миші
         scene.setOnMousePressed((event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 cursorPosition.setCursorPosition(
                         (float) event.getX() / getScreenWidth() * WorkZoneWidth,
                         (float) event.getY() / getScreenHeight() * WorkZoneWidth);
+            } else if (event.getButton() == MouseButton.SECONDARY) {
+                particles.createNewParticle((float) event.getX(), (float) event.getY());
             }
+
         });
 
         //Обробка перреміщення мишки

@@ -7,7 +7,7 @@ typedef struct  {
     float   ySpeed;
     float   xAcceleration;
     float   yAcceleration;
-} Object;
+} Particle;
 
 typedef struct {
     float width;

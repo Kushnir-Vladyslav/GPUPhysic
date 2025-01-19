@@ -2,8 +2,8 @@ package org.example;
 
 import javafx.concurrent.Task;
 import org.example.Kernel.DrawBackgroundKernel;
+import org.example.Kernel.DrawParticlesKernel;
 import org.example.Kernel.Kernel;
-import org.example.Kernel.TestKernel;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL;
 import org.lwjgl.opencl.CL10;
@@ -18,7 +18,10 @@ import static org.example.GLOBAL_STATE.*;
 
 public class OpenCL extends Task<Void> {
 
-    Kernel kernel;
+//    Kernel kernel;
+
+    Kernel drawBackground;
+    Kernel drawParticles;
 
     public OpenCL() {
         org.lwjgl.system.Configuration.OPENCL_EXPLICIT_INIT.set(true);
@@ -64,12 +67,18 @@ public class OpenCL extends Task<Void> {
 //            kernel = new TestKernel();
 //
 //            kernelManager.addKernel("TestKernel", kernel);
-//
+
 //            kernel.run();
 
-            kernel = new DrawBackgroundKernel();
+            drawBackground = new DrawBackgroundKernel();
 
-            kernelManager.addKernel("DrawBackgroundKernel", kernel);
+            kernelManager.addKernel("DrawBackgroundKernel", drawBackground);
+
+            drawParticles = new DrawParticlesKernel();
+
+            kernelManager.addKernel("DrawParticlesKernel", drawParticles);
+
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -77,9 +86,13 @@ public class OpenCL extends Task<Void> {
 
     @Override
     public Void call () {
-        kernel.run();
-        Pixels = canvas.getCanvas();
+//        kernel.run();
 
+        drawBackground.run();
+
+        drawParticles.run();
+
+        Pixels = canvas.getCanvas();
         return null;
     }
 

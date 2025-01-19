@@ -59,25 +59,34 @@ public abstract class Kernel {
 
         // Компіляція та створення kernel
         program = CL10.clCreateProgramWithSource(openClContext.context, kernelSource, null);
-        CL10.clBuildProgram(program, openClContext.device, "", null, 0);
+        if (program == 0) {
+            throw new RuntimeException("Failed to create OpenCL program");
+        }
 
-        kernel = CL10.clCreateKernel(program, kernelName, (IntBuffer) null);
+        int buildStatus = CL10.clBuildProgram(program, openClContext.device, "", null, 0);
+        if (buildStatus != CL10.CL_SUCCESS) {
+            // Отримання журналу компіляції
+            PointerBuffer sizeBuffer = MemoryStack.stackMallocPointer(1);
+            CL10.clGetProgramBuildInfo(program, openClContext.device, CL10.CL_PROGRAM_BUILD_LOG, (ByteBuffer) null, sizeBuffer);
+
+            ByteBuffer buildLogBuffer = MemoryStack.stackMalloc((int) sizeBuffer.get(0));
+            CL10.clGetProgramBuildInfo(program, openClContext.device, CL10.CL_PROGRAM_BUILD_LOG, buildLogBuffer, null);
+
+            String buildLog = MemoryUtil.memUTF8(buildLogBuffer);
+            System.err.println("Build log:\n" + buildLog);
+            throw new RuntimeException("Failed to build OpenCL program.");
+        }
+
+        IntBuffer errorBuffer = MemoryUtil.memAllocInt(1);
+
+        kernel = CL10.clCreateKernel(program, kernelName, errorBuffer);
+
+        int error = errorBuffer.get(0);
+        MemoryUtil.memFree(errorBuffer);
 
         // Перевірка чи правельно пройшла уомпіляція
         if (kernel == 0) {
-            int buildStatus = CL10.clBuildProgram(program, openClContext.device, "", null, 0);
-            if (buildStatus != CL10.CL_SUCCESS) {
-                // Отримання журналу компіляції
-                PointerBuffer sizeBuffer = MemoryStack.stackMallocPointer(1);
-                CL10.clGetProgramBuildInfo(program, openClContext.device, CL10.CL_PROGRAM_BUILD_LOG, (ByteBuffer) null, sizeBuffer);
-
-                ByteBuffer buildLogBuffer = MemoryStack.stackMalloc((int) sizeBuffer.get(0));
-                CL10.clGetProgramBuildInfo(program, openClContext.device, CL10.CL_PROGRAM_BUILD_LOG, buildLogBuffer, null);
-
-                String buildLog = MemoryUtil.memUTF8(buildLogBuffer);
-                System.err.println("Build log:\n" + buildLog);
-                throw new RuntimeException("Failed to build OpenCL program.");
-            }
+            throw new RuntimeException("Failed to create kernel: " + kernelName + ".\n Error code: " + error);
         }
     }
 

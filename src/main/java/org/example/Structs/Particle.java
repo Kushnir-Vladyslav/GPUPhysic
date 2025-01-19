@@ -1,24 +1,29 @@
 package org.example.Structs;
 
-import static org.example.GLOBAL_STATE.WorkZoneHeight;
-import static org.example.GLOBAL_STATE.WorkZoneWidth;
-
 public class Particle {
-    float xPosition;
-    float yPosition;
+    public float xPosition;
+    public float yPosition;
 
-    float xSpeed;
-    float ySpeed;
+    public float radius;
 
-    float radius;
+    public float xSpeed;
+    public float ySpeed;
+
+    public float xAcceleration;
+    public float yAcceleration;
+
+    public Particle () {}
 
     public Particle (float x, float y) {
-        xPosition = (float) Math.random() * WorkZoneWidth;
-        yPosition = (float) Math.random() * WorkZoneHeight;
+        xPosition = x;
+        yPosition = y;
 
-        xSpeed = (float) Math.random();
-        ySpeed = (float) Math.random();
+        radius = 1;
 
-        radius = 2;
+        xSpeed = 0;
+        ySpeed = 0;
+
+        xAcceleration = 0;
+        yAcceleration = 0;
     }
 }

@@ -10,10 +10,10 @@ public class CursorPositionBuffer extends TypeOfBuffer{
 
     @Override
     public void set(Object arr, int startPosition) {
-        if (!CursorPosition.class.isInstance(arr) || buffer == null) {
+        if (buffer == null || !(arr instanceof CursorPosition castedArr)) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
-        CursorPosition castedArr = (CursorPosition) arr;
+
         buffer.rewind().
                 putFloat(castedArr.radius).
                 putFloat(castedArr.x).
@@ -34,5 +34,10 @@ public class CursorPositionBuffer extends TypeOfBuffer{
     @Override
     public Object getArr() {
         return null;
+    }
+
+    @Override
+    protected void updateArray(int length) {
+
     }
 }

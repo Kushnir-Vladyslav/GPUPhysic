@@ -4,15 +4,13 @@ public class IntBufferType extends TypeOfBuffer {
 
     public IntBufferType(int length) {
         create(length);
-        array = new int[length];
     }
 
     @Override
     public void set(Object arr, int startPosition) {
-        if (!int[].class.isInstance(arr) || buffer == null) {
+        if (buffer == null || !(arr instanceof int[] castedArr)) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
-        int[] castedArr = int[].class.cast(arr);
 
         buffer.position(startPosition * getByteSize());
         for (int j : castedArr) {
@@ -23,10 +21,9 @@ public class IntBufferType extends TypeOfBuffer {
 
     @Override
     public int getSize(Object arr) {
-        if (!int[].class.isInstance(arr) || buffer == null) {
+        if (buffer == null || !(arr instanceof int[] castedArr)) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
-        int[] castedArr = (int[]) arr;
         return castedArr.length;
     }
 
@@ -48,5 +45,10 @@ public class IntBufferType extends TypeOfBuffer {
         }
         buffer.rewind();
         return arr;
+    }
+
+    @Override
+    protected void updateArray(int length) {
+        array = new int[length];
     }
 }

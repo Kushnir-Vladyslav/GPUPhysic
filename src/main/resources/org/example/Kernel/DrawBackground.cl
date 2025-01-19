@@ -1,6 +1,6 @@
 
-#define backgroundColor (uchar4)(255, 184, 134, 11)
-#define borderColor (uchar4)(255, 105, 105, 105)
+#define backgroundColor (uchar4)(255, 184, 134, 255)
+#define borderColor (uchar4)(255, 105, 105, 255)
 
 __kernel void DrawBackground (
     __global    uchar4*     outPut,

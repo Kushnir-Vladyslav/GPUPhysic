@@ -10,10 +10,10 @@ public class BoundaryBuffer extends TypeOfBuffer{
 
     @Override
     public void set(Object arr, int startPosition) {
-        if (!Boundary.class.isInstance(arr) || buffer == null) {
+        if (buffer == null || !(arr instanceof Boundary castedArr)) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
-        Boundary castedArr = (Boundary) arr;
+
         buffer.rewind().
                 putFloat(castedArr.width).
                 putFloat(castedArr.height).
@@ -37,5 +37,10 @@ public class BoundaryBuffer extends TypeOfBuffer{
     @Override
     public Object getArr() {
         return null;
+    }
+
+    @Override
+    protected void updateArray(int length) {
+
     }
 }

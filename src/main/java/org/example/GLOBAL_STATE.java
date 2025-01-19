@@ -17,10 +17,10 @@ public class GLOBAL_STATE {
     public static BufferManager bufferManager = new BufferManager();
     public static KernelManager kernelManager = new KernelManager();
 
-    public static Particles[] particles;
     public static Canvas canvas;
     public static Boundary boundary;
     public static CursorPosition cursorPosition;
+    public static Particles particles;
 
     public static boolean IsUpdateWait = false;
 

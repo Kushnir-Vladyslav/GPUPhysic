@@ -4,15 +4,13 @@ public class FloatBufferType extends TypeOfBuffer {
 
     public FloatBufferType(int length) {
         create(length);
-        array = new float[length];
     }
 
     @Override
     public void set(Object arr, int startPosition) {
-        if (!float[].class.isInstance(arr) || buffer == null) {
+        if (buffer == null || !(arr instanceof float[] castedArr)) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
-        float[] castedArr = (float[]) arr;
 
         buffer.position(startPosition * getByteSize());
         for (float v : castedArr) {
@@ -23,10 +21,9 @@ public class FloatBufferType extends TypeOfBuffer {
 
     @Override
     public int getSize(Object arr) {
-        if (!float[].class.isInstance(arr) || buffer == null) {
+        if (buffer == null || !(arr instanceof float[] castedArr)) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
-        float[] castedArr = (float[]) arr;
         return castedArr.length;
     }
 
@@ -48,5 +45,10 @@ public class FloatBufferType extends TypeOfBuffer {
         }
         buffer.rewind();
         return arr;
+    }
+
+    @Override
+    protected void updateArray(int length) {
+        array = new float[length];
     }
 }
