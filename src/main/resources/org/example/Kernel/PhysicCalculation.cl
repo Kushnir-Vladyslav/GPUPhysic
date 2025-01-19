@@ -3,24 +3,13 @@
 #define SIZE_OF_THREAD  64
 #define NUM_OF_THREAD   32
 
-typedef struct  {
-    float   x;
-    float   y;
-    float   radiys; //Прирівнюю до маси
-    float   xSpeed;
-    float   ySpeed;
-    float   xAcseleration;
-    float   yAcseleration;
-} Object;
-
-inline float length(float x1, float y1, float x2, float y2) {
-    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
-}
-
-__kernel void physicCalculation(
+__kernel void PhysicCalculation(
     __global    Object* objects,
-    const       int     numberOfObjects)
+    const       int     num_of_particles)
 {
+    int gid_x = get_global_id(0);
+    int gid_x = get_global_id(0);
+
     __local Object masterObjects[NUM_OF_THREAD];
     __local Object slaveObjects[SIZE_OF_THREAD];
 

@@ -1,85 +1,78 @@
 package org.example.Kernel;
 
-import org.example.Kernel.Kernel;
-import org.lwjgl.PointerBuffer;
+import org.example.BufferControl.GlobalDynamicBuffer;
+import org.example.BufferControl.GlobalStaticBuffer;
+import org.example.BufferControl.SingleValueBuffer;
+import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
+import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
+import org.example.BufferControl.TypeOfBuffer.IntBufferType;
+import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
+import org.example.Structs.Boundary;
+import org.example.Structs.CursorPosition;
+import org.example.Structs.Particles;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import java.nio.FloatBuffer;
-
 import static org.example.GLOBAL_STATE.*;
-import static org.example.OpenCL.*;
+import static org.example.GLOBAL_STATE.cursorPosition;
 
+public class BoundaryCollisionKernel extends Kernel {
 
-public class BoundaryCollisionKernel  {
-//    public FloatBuffer cursorBuffer;
-//
-//    public Long clWorkZoneBoundaryBuffer;
-//    public Long clCursorPosition;
-//
-//    public Long kernelBoundaryCollision;
-//
-//    PointerBuffer global;
-//    PointerBuffer local;
-//
-//    BoundaryCollisionKernel () {
-//        //створення буферів що містять інформацію про зраниці робочиї зони
-//        float radiusBoundaryCircle = (float) Math.sqrt(WorkZoneWidth * WorkZoneWidth + WorkZoneHeight * WorkZoneHeight) / 2;
-//        FloatBuffer boundaryBuffer = MemoryUtil.memAllocFloat(5)
-//                .put(WorkZoneWidth).put(WorkZoneHeight)
-//                .put(radiusBoundaryCircle)
-//                .put((float) WorkZoneWidth / 2).put((float) WorkZoneHeight - radiusBoundaryCircle).rewind();
-//        createRHostBuffer(boundaryBuffer, clWorkZoneBoundaryBuffer);
-//        MemoryUtil.memFree(boundaryBuffer);
-//
-//        //створення буферу що буде місти положення курсору
-//        cursorBuffer = MemoryUtil.memAllocFloat(3);
-//        setCursorBuffer();
-//        createRHostBuffer(cursorBuffer, clCursorPosition);
-//
-//        createKernel("BoundaryCollision.cl", kernelBoundaryCollision);
-//
-//        global = MemoryUtil.memAllocPointer(1);
-//        local = MemoryUtil.memAllocPointer(1);
-//    }
-//
-//    //встановленя параметрів курсору при натисканні/відпусканні
-//    public void setCursorBuffer () {
-//        cursorBuffer.rewind();
-//        cursorBuffer.put(cursorPosition.radius).put(cursorPosition.x).put(cursorPosition.y).rewind();
-//    }
-//
-//    //ввстановлення парамтрів що передадуться ядру
-//    public void setArgumentsForBoundaryCollisionKernel (){
-//        CL10.clSetKernelArg(kernelBoundaryCollision, 0, PointerBuffer.allocateDirect(1).put(0, clParticlesBuffer));
-//        CL10.clSetKernelArg(kernelBoundaryCollision, 1, PointerBuffer.allocateDirect(1).put(0, clWorkZoneBoundaryBuffer));
-//        CL10.clSetKernelArg(kernelBoundaryCollision, 2, PointerBuffer.allocateDirect(1).put(0, clCursorPosition));
-//    }
-//
-//    @Override
-//    public void run () {
-//        local.put(0, LOCAL_WORK_SIZE).rewind();
-//        global.put(0, (long) Math.ceil(particles.length / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).rewind();
-//
-//        CL10.clEnqueueNDRangeKernel(
-//                commandQueue, kernelBoundaryCollision, 1, null,
-//                global, local,
-//                null, null
-//        );
-//    }
-//
-//    @Override
-//    public void destroy() {
-//        //звільнення ядра
-//        CL10.clReleaseKernel(kernelBoundaryCollision);
-//
-//        //звільгнення відео памяті
-//        CL10.clReleaseMemObject(clWorkZoneBoundaryBuffer);
-//        CL10.clReleaseMemObject(clCursorPosition);
-//
-//        //звільнення памяті виділеної в купі
-//        MemoryUtil.memFree(cursorBuffer);
-//        MemoryUtil.memFree(global);
-//        MemoryUtil.memFree(local);
-//    }
+    final int LOCAL_WORK_SIZE = 256;
+
+    GlobalDynamicBuffer<ParticlesBuffer> particlesBuffer;
+    SingleValueBuffer<BoundaryBuffer> boundaryBuffer;
+    SingleValueBuffer<CursorPositionBuffer> cursorPositionBuffer;
+    SingleValueBuffer<IntBufferType> numParticlesBuffer;
+
+    public BoundaryCollisionKernel () {
+        createKernel("BoundaryCollision", "Structs", "Math");
+
+        if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
+            if (particles == null) {
+                particles = new Particles();
+            } else {
+                particles.update();
+            }
+        }
+
+        if (!bufferManager.isExist("BoundaryBuffer")) {
+            if (boundary == null) {
+                boundary = new Boundary();
+            } else {
+                boundary.update();
+            }
+        }
+
+        if (!bufferManager.isExist("CursorBuffer")) {
+            if (cursorPosition == null) {
+                cursorPosition = new CursorPosition();
+            } else {
+                cursorPosition.update();
+            }
+        }
+
+        particlesBuffer = bufferManager.getBuffer("ParticlesBuffer", GlobalDynamicBuffer.class, ParticlesBuffer.class);
+        boundaryBuffer = bufferManager.getBuffer("BoundaryBuffer", SingleValueBuffer.class, BoundaryBuffer.class);
+        cursorPositionBuffer = bufferManager.getBuffer("CursorBuffer", SingleValueBuffer.class, CursorPositionBuffer.class);
+        numParticlesBuffer = bufferManager.getBuffer("NumParticlesBuffer", SingleValueBuffer.class, IntBufferType.class);
+
+        particlesBuffer.addKernel(kernel, 0);
+        boundaryBuffer.addKernel(kernel, 1);
+        cursorPositionBuffer.addKernel(kernel, 2);
+        numParticlesBuffer.addKernel(kernel, 3);
+
+        global = MemoryUtil.memAllocPointer(1);
+        local = MemoryUtil.memAllocPointer(1).put(LOCAL_WORK_SIZE);
+    }
+
+    @Override
+    public void run() {
+        global.put(0, (long) Math.ceil(particles.getNumOfParticle() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
+        CL10.clEnqueueNDRangeKernel(
+                openClContext.commandQueue, kernel, 1, null,
+                global.rewind(), local.rewind(),
+                null, null
+        );
+    }
 }

@@ -1,5 +1,5 @@
 
-__kernel void boundary (
+__kernel void BoundaryCollision (
     __global    Object*     objects,
     const       Boundary    boundary,
     const       Cursor      cursor,
