@@ -1,8 +1,4 @@
 
-
-#define SIZE_OF_THREAD  64
-#define NUM_OF_THREAD   32
-
 __kernel void PhysicCalculation(
     __global    Particle*   particles,
     const       int         num_of_particles)

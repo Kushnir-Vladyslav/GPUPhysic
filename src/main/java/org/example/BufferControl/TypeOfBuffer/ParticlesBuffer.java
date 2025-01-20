@@ -1,6 +1,5 @@
 package org.example.BufferControl.TypeOfBuffer;
 
-import org.example.Structs.Boundary;
 import org.example.Structs.Particle;
 
 public class ParticlesBuffer extends TypeOfBuffer{

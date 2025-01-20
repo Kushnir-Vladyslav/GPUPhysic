@@ -1,24 +1,21 @@
 
-#define FREE_FALL   9.8
+#define FREE_FALL 90.8
 
 __kernel void UpdatePositionParticles (
     __global    Particle*   particles,
-    const       int         num_of_particles
-    const       int         time)
+    const       int         num_of_particles,
+    const       float         time)
 {
     int gid = get_global_id(0);
+    if (gid >= num_of_particles) return;
 
-    if (gid >= num_of_particles) {
-        return;
-    }
+    Particle particle = particles[gid];
 
-    Particle particle = particles[gid_x];
+    particle.ySpeed += FREE_FALL * time;
 
-    particle.xSpeed += FREE_FALL * time;
+    particle.x += particle.xSpeed * time;
+    particle.y += particle.ySpeed * time;
 
-    particle.x += xSpeed * time;
-    particle.y += ySpeed * time;
-
-    particles[gid_x] = particle;
+    particles[gid] = particle;
 }
 

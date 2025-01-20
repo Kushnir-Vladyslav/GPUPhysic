@@ -5,8 +5,8 @@ typedef struct  {
     float   radius; //Прирівнюю до маси
     float   xSpeed;
     float   ySpeed;
-    float   xAcceleration;
-    float   yAcceleration;
+    int     isSleep; //прапорець що символізує при зупинення часинки
+    float   sleepTimer; //час який частинка маєшвидкість менше критичної
 } Particle;
 
 typedef struct {
@@ -24,7 +24,7 @@ typedef struct {
     float cursorY;
 } Cursor;
 
-typedef struct {
+typedef struct { //структура тестового ядра
     int y;
 } __attribute__((packed)) MyStruct;
 

@@ -78,14 +78,16 @@ public class JavaFX extends Application {
         });
 
 
-        //Обробка натискання лівої кнопки миші
+        //Обробка натискання лівої/правої кнопки миші
         scene.setOnMousePressed((event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 cursorPosition.setCursorPosition(
                         (float) event.getX() / getScreenWidth() * WorkZoneWidth,
                         (float) event.getY() / getScreenHeight() * WorkZoneWidth);
             } else if (event.getButton() == MouseButton.SECONDARY) {
-                particles.createNewParticle((float) event.getX(), (float) event.getY());
+                particles.createNewParticle(
+                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
+                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
             }
 
         });

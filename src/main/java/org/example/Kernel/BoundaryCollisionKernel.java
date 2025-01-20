@@ -26,7 +26,7 @@ public class BoundaryCollisionKernel extends Kernel {
     SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public BoundaryCollisionKernel () {
-        createKernel("BoundaryCollision", "Structs", "Math");
+        createKernel("BoundaryCollision", "Constants", "Structs", "Math");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
             if (particles == null) {

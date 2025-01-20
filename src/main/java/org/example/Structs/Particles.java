@@ -22,7 +22,7 @@ public class Particles {
         int xMax = (int) (boundary.width - boundary.borderThickness);
 
         int yMin = (int) (boundary.height / 5 * 2);
-        int yMax = (int) (boundary.height / 5 * 3);
+        int yMax = yMin + 1;
 
         numOfParticle[0] = (yMax - yMin) * (xMax - xMin);
 
