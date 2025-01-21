@@ -10,6 +10,8 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
+import java.time.Duration;
+import java.time.Instant;
 
 import static org.example.GLOBAL_STATE.*;
 
@@ -94,16 +96,26 @@ public class OpenCL extends Task<Void> {
     @Override
     public Void call () {
 //        kernel.run();
-
-        physicCalculation.run();
-        boundaryCollision.run();
-        updatePositionParticles.run();
+        Instant start = Instant.now();
+        for (int i = 0; i < 1000; i++) {
+            physicCalculation.run();
+            boundaryCollision.run();
+            updatePositionParticles.run();
+        }
 
         drawBackground.run();
         drawParticles.run();
+        Instant end = Instant.now();
 
+        printExecutionTime(start, end);
         Pixels = canvas.getCanvas();
         return null;
+    }
+
+    private static void printExecutionTime(Instant start, Instant end) {
+        Duration duration = Duration.between(start, end);
+        System.out.println("Час виконання: " + duration.toSeconds() + " sec");
+        System.out.println("Час виконання: " + duration.toMillis() + " millisec");
     }
 
     public void destroy () {

@@ -74,5 +74,6 @@ public class BoundaryCollisionKernel extends Kernel {
                 global.rewind(), local.rewind(),
                 null, null
         );
+        CL10.clFinish(openClContext.commandQueue);
     }
 }

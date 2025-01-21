@@ -1,9 +1,9 @@
 
 // Фізичні константи
-#define GRAVITY 9.81f
-#define MAX_SPEED 1000.0f
-#define MIN_SPEED 0.1f
-#define RESTITUTION 0.8f
-#define DAMPING 0.99f
+#define GRAVITY 98.1f //величина вказана в пікселях, тому така велика
+#define MAX_SPEED 2000.0f
+#define MIN_SPEED 5.f
+#define RESTITUTION 0.5f
+#define DAMPING 0.95f
 #define SLEEP_TIME_THRESHOLD 0.5f  // Час в секундах перед засинанням
-#define WAKE_VELOCITY_THRESHOLD 0.5f // Поріг швидкості для пробудження
+#define WAKE_VELOCITY_THRESHOLD 10.f // Поріг швидкості для пробудження

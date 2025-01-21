@@ -70,5 +70,6 @@ public class DrawBackgroundKernel extends Kernel {
                 global.rewind(), local.rewind(),
                 null, null
         );
+        CL10.clFinish(openClContext.commandQueue);
     }
 }

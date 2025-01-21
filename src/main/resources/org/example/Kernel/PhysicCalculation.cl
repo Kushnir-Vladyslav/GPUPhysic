@@ -14,6 +14,11 @@ float atomic_add_float(__global float* addr, float val) {
     return current.f32;
 }
 
+inline void particleWakeUp (__global Particle* particle) {
+    particle->isSleep = 0;
+    particle->sleepTimer = 0;
+}
+
 __kernel void PhysicCalculation(
     __global    Particle*   particles,
     const       int         num_of_particles)
@@ -40,11 +45,11 @@ __kernel void PhysicCalculation(
 
         // Корекція позицій
 
-        atomic_add_float(&particles[gid_x].x, normalVector.x * overlap * 0.5f);
-        atomic_add_float(&particles[gid_x].y, normalVector.y * overlap * 0.5f);
+        atomic_add_float(&particles[gid_y].x, normalVector.x * overlap * 0.8f);
+        atomic_add_float(&particles[gid_y].y, normalVector.y * overlap * 0.8f);
 
-        atomic_add_float(&particles[gid_y].x, normalVector.x * overlap * -0.5f);
-        atomic_add_float(&particles[gid_y].y, normalVector.y * overlap * -0.5f);
+        atomic_add_float(&particles[gid_x].x, -normalVector.x * overlap * 0.8f);
+        atomic_add_float(&particles[gid_x].y, -normalVector.y * overlap * 0.8f);
 
         // Корекція швидкостей
         float2 relativeVelocity = (float2)(
@@ -54,15 +59,22 @@ __kernel void PhysicCalculation(
         float scalarProduct = scalar(relativeVelocity, normalVector);
 
         if (scalarProduct < 0) {
-            float impulseScalar = -(1.0f + RESTITUTION) * scalarProduct / 2.0f;
+            float mainMass = mainParticle.radius;
+            float secondMass = secondParticle.radius;
+            float totalMass = mainParticle.radius + secondParticle.radius;
+            float impulseScalar = -(1.0f + RESTITUTION) * scalarProduct *
+                (mainMass * secondMass) / totalMass;
             float2 impulse = normalVector * impulseScalar;
 
-            atomic_add_float(&particles[gid_x].xSpeed, impulse.x);
-            atomic_add_float(&particles[gid_x].ySpeed, impulse.y);
+            atomic_add_float(&particles[gid_x].xSpeed, impulse.x * DAMPING * secondMass / totalMass);
+            atomic_add_float(&particles[gid_x].ySpeed, impulse.y * DAMPING * secondMass / totalMass);
 
-            atomic_add_float(&particles[gid_y].xSpeed, -impulse.x);
-            atomic_add_float(&particles[gid_y].ySpeed, -impulse.y);
+            atomic_add_float(&particles[gid_y].xSpeed, -impulse.x * DAMPING * mainMass / totalMass);
+            atomic_add_float(&particles[gid_y].ySpeed, -impulse.y * DAMPING * mainMass / totalMass);
         }
+
+        particleWakeUp(&particles[gid_x]);
+        particleWakeUp(&particles[gid_y]);
     }
 }
 

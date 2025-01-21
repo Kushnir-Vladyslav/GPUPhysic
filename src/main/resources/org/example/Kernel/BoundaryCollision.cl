@@ -1,4 +1,9 @@
 
+inline void particleWakeUp (Particle* particle) {
+    particle->isSleep = 0;
+    particle->sleepTimer = 0;
+}
+
 //Ядро відповідає за перевірку зіштовхування частинок з границями області...
 __kernel void BoundaryCollision (
     __global    Particle*   particles,
@@ -11,24 +16,29 @@ __kernel void BoundaryCollision (
 
     Particle particle = particles[gid];
 
-    //Перевірка сну/пробудження
-    //...........................................
-
     //перевірка зіштовхування з межами прямокутної зони
     if (particle.x - particle.radius - boundary.borderThickness < 0) {
         particle.x = particle.radius + boundary.borderThickness;
         particle.xSpeed = -particle.xSpeed * RESTITUTION;
+
+        particleWakeUp(&particle);
     } else if (particle.x + particle.radius + boundary.borderThickness > boundary.width) {
         particle.x = boundary.width - particle.radius - boundary.borderThickness;
         particle.xSpeed = -particle.xSpeed * RESTITUTION;
+
+        particleWakeUp(&particle);
     }
 
     if (particle.y - particle.radius - boundary.borderThickness < 0) {
         particle.y = particle.radius + boundary.borderThickness;
         particle.ySpeed = -particle.ySpeed * RESTITUTION;
+
+        particleWakeUp(&particle);
     } else if (particle.y + particle.radius + boundary.borderThickness > boundary.height) {
         particle.y = boundary.height - particle.radius - boundary.borderThickness;
         particle.ySpeed = -particle.ySpeed * RESTITUTION;
+
+        particleWakeUp(&particle);
     }
 
     //перевірка зіштовхування з межами сферичної зони
@@ -52,6 +62,8 @@ __kernel void BoundaryCollision (
                 particle.xSpeed = newObjectSpeed.x * RESTITUTION;
                 particle.ySpeed = newObjectSpeed.y * RESTITUTION;
             }
+
+            particleWakeUp(&particle);
         }
     }
 
@@ -76,6 +88,8 @@ __kernel void BoundaryCollision (
                 particle.xSpeed = newObjectSpeed.x * RESTITUTION;
                 particle.ySpeed = newObjectSpeed.y * RESTITUTION;
             }
+
+            particleWakeUp(&particle);
         }
     }
 

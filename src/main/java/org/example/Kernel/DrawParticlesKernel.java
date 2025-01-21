@@ -77,5 +77,6 @@ public class DrawParticlesKernel extends Kernel{
         if (err != 0) {
             System.out.println("Error: " + err);
         }
+        CL10.clFinish(openClContext.commandQueue);
     }
 }

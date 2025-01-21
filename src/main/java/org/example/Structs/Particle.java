@@ -9,8 +9,8 @@ public class Particle {
     public float xSpeed;
     public float ySpeed;
 
-    public float xAcceleration;
-    public float yAcceleration;
+    public int isSleep;
+    public float sleepTimer;
 
     public Particle () {}
 
@@ -18,12 +18,12 @@ public class Particle {
         xPosition = x;
         yPosition = y;
 
-        radius = 1  ;
+        radius = 5;
 
         xSpeed = 0;
         ySpeed = 0;
 
-        xAcceleration = 0;
-        yAcceleration = 0;
+        isSleep = 0;
+        sleepTimer = 0;
     }
 }

@@ -24,3 +24,5 @@ inline float scalar (float2 particleSpeed, float2 nor) {
 inline float2 newSpeed (float2 particleSpeed, float2 nor, float scal) {
     return particleSpeed - 2.f * scal * nor;
 }
+
+

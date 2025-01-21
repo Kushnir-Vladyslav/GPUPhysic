@@ -55,6 +55,7 @@ public class UpdatePositionParticlesKernel extends Kernel{
 
         long newTime = System.nanoTime();;
         deltaTime[0] = (float) ((newTime - time) / 1e9);
+
         timeMoveParticleBuffer.setData(deltaTime);
         time = newTime;
 
@@ -63,5 +64,6 @@ public class UpdatePositionParticlesKernel extends Kernel{
                 global.rewind(), local.rewind(),
                 null, null
         );
+        CL10.clFinish(openClContext.commandQueue);
     }
 }

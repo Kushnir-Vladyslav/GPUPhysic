@@ -21,8 +21,8 @@ public class Particles {
         int xMin = (int) boundary.borderThickness;
         int xMax = (int) (boundary.width - boundary.borderThickness);
 
-        int yMin = (int) (boundary.height / 10 * 1);
-        int yMax = (int) (boundary.height / 5 * 4);
+        int yMin = (int) (boundary.height / 5 * 2);
+        int yMax = (int) (boundary.height / 10 * 4);
 
         numOfParticle[0] = (yMax - yMin) * (xMax - xMin);
 
@@ -44,7 +44,7 @@ public class Particles {
     }
 
     public void createNewParticle (float x, float y, int num) {
-        num *= 100;
+        num *= 1;
         Particle[] particles = new Particle[num];
         for (int i = 0; i < num; i++) {
             particles[i] = new Particle(x, y);

@@ -21,8 +21,8 @@ public class ParticlesBuffer extends TypeOfBuffer{
                     putFloat(particle.radius).
                     putFloat(particle.xSpeed).
                     putFloat(particle.ySpeed).
-                    putFloat(particle.xSpeed).
-                    putFloat(particle.ySpeed);
+                    putFloat(particle.isSleep).
+                    putFloat(particle.sleepTimer);
         }
         buffer.rewind();
     }
@@ -58,8 +58,8 @@ public class ParticlesBuffer extends TypeOfBuffer{
             particle.xSpeed = buffer.getFloat();
             particle.ySpeed = buffer.getFloat();
 
-            particle.xAcceleration = buffer.getFloat();
-            particle.yAcceleration = buffer.getFloat();
+            particle.isSleep = buffer.getInt();
+            particle.sleepTimer = buffer.getFloat();
         }
         buffer.rewind();
         return arr;
