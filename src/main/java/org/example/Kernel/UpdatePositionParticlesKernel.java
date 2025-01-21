@@ -24,7 +24,7 @@ public class UpdatePositionParticlesKernel extends Kernel{
     SingleValueBuffer<FloatBufferType> timeMoveParticleBuffer;
 
     public UpdatePositionParticlesKernel () {
-        createKernel("UpdatePositionParticles", "Structs", "Math");
+        createKernel("UpdatePositionParticles", "Constants", "Structs", "Math");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
             if (particles == null) {

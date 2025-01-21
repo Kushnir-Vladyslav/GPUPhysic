@@ -18,7 +18,7 @@ public class Particle {
         xPosition = x;
         yPosition = y;
 
-        radius = 1;
+        radius = 1  ;
 
         xSpeed = 0;
         ySpeed = 0;

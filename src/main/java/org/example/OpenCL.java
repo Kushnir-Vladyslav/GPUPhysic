@@ -21,7 +21,8 @@ public class OpenCL extends Task<Void> {
     Kernel drawBackground;
     Kernel drawParticles;
     Kernel boundaryCollision;
-    Kernel updatePositionParticlesKernel;
+    Kernel physicCalculation;
+    Kernel updatePositionParticles;
 
     public OpenCL() {
         org.lwjgl.system.Configuration.OPENCL_EXPLICIT_INIT.set(true);
@@ -79,8 +80,11 @@ public class OpenCL extends Task<Void> {
             boundaryCollision = new BoundaryCollisionKernel();
             kernelManager.addKernel("BoundaryCollision", boundaryCollision);
 
-            updatePositionParticlesKernel = new UpdatePositionParticlesKernel();
-            kernelManager.addKernel("UpdatePositionParticlesKernel", updatePositionParticlesKernel);
+            physicCalculation = new PhysicCalculationKernel();
+            kernelManager.addKernel("PhysicCalculation", physicCalculation);
+
+            updatePositionParticles = new UpdatePositionParticlesKernel();
+            kernelManager.addKernel("UpdatePositionParticles", updatePositionParticles);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -91,13 +95,12 @@ public class OpenCL extends Task<Void> {
     public Void call () {
 //        kernel.run();
 
-        drawBackground.run();
-
-        drawParticles.run();
-
-        updatePositionParticlesKernel.run();
-
+        physicCalculation.run();
         boundaryCollision.run();
+        updatePositionParticles.run();
+
+        drawBackground.run();
+        drawParticles.run();
 
         Pixels = canvas.getCanvas();
         return null;

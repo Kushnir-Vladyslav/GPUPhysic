@@ -13,6 +13,10 @@ __kernel void UpdatePositionParticles (
 
     particle.ySpeed += FREE_FALL * time;
 
+    // Застосовуємо демпфінг
+ //   particle.xSpeed *= DAMPING;
+ //   particle.ySpeed *= DAMPING;
+
     particle.x += particle.xSpeed * time;
     particle.y += particle.ySpeed * time;
 
