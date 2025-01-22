@@ -97,7 +97,7 @@ public class OpenCL extends Task<Void> {
     public Void call () {
 //        kernel.run();
         Instant start = Instant.now();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 10; i++) {
             physicCalculation.run();
             boundaryCollision.run();
             updatePositionParticles.run();

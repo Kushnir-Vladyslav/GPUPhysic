@@ -4,23 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="Fix BoundaryCollision and UpdatePositionParticles">
+    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="Fix some bags">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/TestSt.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/ParticlesBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/ParticlesBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/BoundaryCollisionKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/BoundaryCollisionKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/DrawBackgroundKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/DrawBackgroundKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/DrawParticlesKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/DrawParticlesKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/PhysicCalculationKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/PhysicCalculationKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/UpdatePositionParticlesKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/UpdatePositionParticlesKernel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OpenCL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/OpenCL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particle.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particles.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/BoundaryCollision.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/BoundaryCollision.cl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Constants.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Constants.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/DrawParticles.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/DrawParticles.cl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Math.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Math.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/PhysicCalculation.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/PhysicCalculation.cl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/UpdatePositionParticles.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/UpdatePositionParticles.cl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,7 +138,15 @@
       <option name="project" value="LOCAL" />
       <updated>1737110490022</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Fix some bags">
+      <option name="closed" value="true" />
+      <created>1737470569076</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737470569076</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -170,6 +168,7 @@
     <MESSAGE value="BoundaryCollisionKernel" />
     <MESSAGE value="to ByteBuffer instead other buffer type" />
     <MESSAGE value="fix range calculation" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix range calculation" />
+    <MESSAGE value="Fix some bags" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix some bags" />
   </component>
 </project>

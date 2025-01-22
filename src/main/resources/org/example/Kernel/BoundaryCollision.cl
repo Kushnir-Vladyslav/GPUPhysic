@@ -19,24 +19,28 @@ __kernel void BoundaryCollision (
     //перевірка зіштовхування з межами прямокутної зони
     if (particle.x - particle.radius - boundary.borderThickness < 0) {
         particle.x = particle.radius + boundary.borderThickness;
-        particle.xSpeed = -particle.xSpeed * RESTITUTION;
+        if (particle.xSpeed < 0) particle.xSpeed = -particle.xSpeed;
+        particle.xSpeed *= RESTITUTION;
 
         particleWakeUp(&particle);
     } else if (particle.x + particle.radius + boundary.borderThickness > boundary.width) {
         particle.x = boundary.width - particle.radius - boundary.borderThickness;
-        particle.xSpeed = -particle.xSpeed * RESTITUTION;
+        if (particle.xSpeed > 0) particle.xSpeed = -particle.xSpeed;
+        particle.xSpeed *= RESTITUTION;
 
         particleWakeUp(&particle);
     }
 
     if (particle.y - particle.radius - boundary.borderThickness < 0) {
         particle.y = particle.radius + boundary.borderThickness;
-        particle.ySpeed = -particle.ySpeed * RESTITUTION;
+        if (particle.ySpeed < 0) particle.ySpeed = -particle.ySpeed;
+        particle.ySpeed *= RESTITUTION;
 
         particleWakeUp(&particle);
     } else if (particle.y + particle.radius + boundary.borderThickness > boundary.height) {
         particle.y = boundary.height - particle.radius - boundary.borderThickness;
-        particle.ySpeed = -particle.ySpeed * RESTITUTION;
+        if (particle.ySpeed > 0) particle.ySpeed = -particle.ySpeed;
+        particle.ySpeed *= RESTITUTION;
 
         particleWakeUp(&particle);
     }
