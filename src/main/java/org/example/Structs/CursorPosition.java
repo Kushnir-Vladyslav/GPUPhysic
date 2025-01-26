@@ -3,6 +3,7 @@ package org.example.Structs;
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
 
+import static org.example.GLOBAL_STATE.WorkZoneWidth;
 import static org.example.GLOBAL_STATE.bufferManager;
 
 public class CursorPosition {
@@ -10,7 +11,7 @@ public class CursorPosition {
     public float y;
     public float radius;
 
-    private final float sizeOfCursor = 10;
+    private final float sizeOfCursor = WorkZoneWidth / 25.f;
 
     SingleValueBuffer<CursorPositionBuffer> cursorBuffer;
 

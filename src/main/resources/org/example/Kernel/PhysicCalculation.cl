@@ -35,46 +35,48 @@ __kernel void PhysicCalculation(
     Particle mainParticle = particles[gid_x];
     Particle secondParticle = particles[gid_y];
 
-    float dist = length(mainParticle.x, mainParticle.y, secondParticle.x, secondParticle.y);
+    float2 mainPos = (float2) (mainParticle.x, mainParticle.y);
+    float2 secondPos = (float2) (secondParticle.x, secondParticle.y);
+
+    float2 positionDifference = mainPos - secondPos;
+    float distanceBetweenCenters = length(positionDifference);
+
     float minDist = mainParticle.radius + secondParticle.radius;
 
-    if (dist < minDist) {
-        float2 vectorBetweenCenters = vecToCenter(mainParticle.x, mainParticle.y, secondParticle.x, secondParticle.y);
-        float2 normalVector = normal(vectorBetweenCenters);
-        float overlap = minDist - dist;
+    if (distanceBetweenCenters <= minDist) {
+        float2 normalVector = normalize(positionDifference);
+        float overlap = minDist - distanceBetweenCenters;
 
         // Корекція позицій
+        float correctionFactor = overlap * 0.5f;
+        atomic_add_float(&particles[gid_y].x, -normalVector.x * correctionFactor);
+        atomic_add_float(&particles[gid_y].y, -normalVector.y * correctionFactor);
 
-        atomic_add_float(&particles[gid_y].x, normalVector.x * overlap * 0.8f);
-        atomic_add_float(&particles[gid_y].y, normalVector.y * overlap * 0.8f);
-
-        atomic_add_float(&particles[gid_x].x, -normalVector.x * overlap * 0.8f);
-        atomic_add_float(&particles[gid_x].y, -normalVector.y * overlap * 0.8f);
+        atomic_add_float(&particles[gid_x].x, normalVector.x * correctionFactor);
+        atomic_add_float(&particles[gid_x].y, normalVector.y * correctionFactor);
 
         // Корекція швидкостей
         float2 relativeVelocity = (float2)(
             mainParticle.xSpeed - secondParticle.xSpeed,
             mainParticle.ySpeed - secondParticle.ySpeed
         );
-        float scalarProduct = scalar(relativeVelocity, normalVector);
+        float velAlongNormal = dot(relativeVelocity, normalVector);
 
-        if (scalarProduct < 0) {
+        if (velAlongNormal < 0) {
             float mainMass = mainParticle.radius;
             float secondMass = secondParticle.radius;
             float totalMass = mainParticle.radius + secondParticle.radius;
-            float impulseScalar = -(1.0f + RESTITUTION) * scalarProduct *
-                (mainMass * secondMass) / totalMass;
-            float2 impulse = normalVector * impulseScalar;
 
-            atomic_add_float(&particles[gid_x].xSpeed, impulse.x * DAMPING * secondMass / totalMass);
-            atomic_add_float(&particles[gid_x].ySpeed, impulse.y * DAMPING * secondMass / totalMass);
+            float impulseScalar = -(1.0f + RESTITUTION) * velAlongNormal / totalMass;
+            float2 impulse =  normalVector * impulseScalar;
 
-            atomic_add_float(&particles[gid_y].xSpeed, -impulse.x * DAMPING * mainMass / totalMass);
-            atomic_add_float(&particles[gid_y].ySpeed, -impulse.y * DAMPING * mainMass / totalMass);
+            atomic_add_float(&particles[gid_x].xSpeed, impulse.x * DAMPING * secondMass );
+            atomic_add_float(&particles[gid_x].ySpeed, impulse.y * DAMPING * secondMass );
+
+            atomic_add_float(&particles[gid_y].xSpeed, -impulse.x * DAMPING * mainMass );
+            atomic_add_float(&particles[gid_y].ySpeed, -impulse.y * DAMPING * mainMass );
         }
 
-        particleWakeUp(&particles[gid_x]);
-        particleWakeUp(&particles[gid_y]);
     }
 }
 

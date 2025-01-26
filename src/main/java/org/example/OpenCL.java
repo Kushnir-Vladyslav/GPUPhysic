@@ -100,8 +100,9 @@ public class OpenCL extends Task<Void> {
         for (int i = 0; i < 10; i++) {
             physicCalculation.run();
             boundaryCollision.run();
-            updatePositionParticles.run();
+
         }
+        updatePositionParticles.run();
 
         drawBackground.run();
         drawParticles.run();
