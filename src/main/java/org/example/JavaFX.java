@@ -21,14 +21,11 @@ public class JavaFX extends Application {
 
     private boolean isRun = true;
 
-    private final OpenCL oCL = new OpenCL();
+//    private final OpenCL oCL = new OpenCL();
 
     @Override
     public void start(Stage primaryStage) {
-
-
-
-//        createOpenClThread();
+        createOpenClThread();
 
         writableImage = new WritableImage(WorkZoneWidth, WorkZoneHeight);
 
@@ -112,8 +109,8 @@ public class JavaFX extends Application {
         primaryStage.setOnCloseRequest(event -> {
             isRun = false;
             animationTimer.stop();
-//            closeOpenSlThread();
-            oCL.destroy();
+            closeOpenSlThread();
+//            oCL.destroy();
         });
 
 //        System.out.println("ok");
@@ -156,8 +153,8 @@ public class JavaFX extends Application {
     public void stop() {
         isRun = false;
         animationTimer.stop();
-//        closeOpenSlThread();
-        oCL.destroy();
+        closeOpenSlThread();
+//        oCL.destroy();
     }
 
     public void createOpenClThread () {
@@ -187,7 +184,7 @@ public class JavaFX extends Application {
 
     //основна функція відрисовки
     private void updatePixels(float time)  {
-        oCL.call();
+        OpenClTask.read();
     }
 
     public static void main(String[] args) {

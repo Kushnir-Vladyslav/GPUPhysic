@@ -18,7 +18,7 @@ public class Particle {
         xPosition = x;
         yPosition = y;
 
-        radius = 4;
+        radius = (float)(5 * Math.random());
 
         xSpeed = 0;
         ySpeed = 0;

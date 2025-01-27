@@ -18,6 +18,8 @@ import static org.example.GLOBAL_STATE.*;
 
 public class OpenCL extends Task<Void> {
 
+    protected volatile boolean isRead = false;
+    public volatile boolean isRun = true;
 //    Kernel kernel;
 
     Kernel drawBackground;
@@ -93,24 +95,36 @@ public class OpenCL extends Task<Void> {
         }
     }
 
+    public synchronized void read () {
+        isRead = true;
+//        notifyAll();
+    }
+
     @Override
     public Void call () {
 //        kernel.run();
-        Instant start = Instant.now();
-        for (int i = 0; i < 10; i++) {
-            physicCalculation.run();
-            boundaryCollision.run();
+//        Instant start = Instant.now();
+        while (isRun) {
+            for (int i = 0; i < 10; i++) {
+                physicCalculation.run();
+                boundaryCollision.run();
 
-            CL10.clFinish(openClContext.commandQueue);
+                CL10.clFinish(openClContext.commandQueue);
+            }
+            updatePositionParticles.run();
+
+            synchronized(this) {
+                if (isRead) {
+                    drawBackground.run();
+                    drawParticles.run();
+//        Instant end = Instant.now();
+
+//        printExecutionTime(start, end);
+                    Pixels = canvas.getCanvas();
+                    isRead = false;
+                }
+            }
         }
-        updatePositionParticles.run();
-
-        drawBackground.run();
-        drawParticles.run();
-        Instant end = Instant.now();
-
-        printExecutionTime(start, end);
-        Pixels = canvas.getCanvas();
         return null;
     }
 
