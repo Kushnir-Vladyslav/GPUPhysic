@@ -43,11 +43,11 @@ public class PhysicCalculationKernel extends Kernel{
         global.put((long) Math.ceil(particles.getNumOfParticle() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).
                 put((long) Math.ceil(particles.getNumOfParticle() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
 
-        CL10.clEnqueueNDRangeKernel(
+        err = CL10.clEnqueueNDRangeKernel(
                 openClContext.commandQueue, kernel, 2, null,
                 global.rewind(), local.rewind(),
                 null, null
         );
-        CL10.clFinish(openClContext.commandQueue);
+        checkError();
     }
 }

@@ -22,6 +22,8 @@ public abstract class Kernel {
     PointerBuffer global;
     PointerBuffer local;
 
+    protected int err;
+
     public long getKernel() {
         return kernel;
     }
@@ -93,6 +95,17 @@ public abstract class Kernel {
     protected void modifyKernelSours (String kernelSours) {}
 
     public abstract void run ();
+
+    protected void checkError() {
+        if (err != CL10.CL_SUCCESS) {
+            System.err.println(
+                    "Method \"run()\" of class \"" +
+                            this.getClass().getSimpleName() +
+                            "\" finished with error:" +
+                            err
+            );
+        }
+    }
 
     public void destroy (){
         if (kernel != 0) {

@@ -59,11 +59,11 @@ public class UpdatePositionParticlesKernel extends Kernel{
         timeMoveParticleBuffer.setData(deltaTime);
         time = newTime;
 
-        CL10.clEnqueueNDRangeKernel(
+        err = CL10.clEnqueueNDRangeKernel(
                 openClContext.commandQueue, kernel, 1, null,
                 global.rewind(), local.rewind(),
                 null, null
         );
-        CL10.clFinish(openClContext.commandQueue);
+        checkError();
     }
 }

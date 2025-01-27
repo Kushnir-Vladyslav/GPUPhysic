@@ -69,11 +69,11 @@ public class BoundaryCollisionKernel extends Kernel {
     @Override
     public void run() {
         global.put(0, (long) Math.ceil(particles.getNumOfParticle() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
-        CL10.clEnqueueNDRangeKernel(
+        err = CL10.clEnqueueNDRangeKernel(
                 openClContext.commandQueue, kernel, 1, null,
                 global.rewind(), local.rewind(),
                 null, null
         );
-        CL10.clFinish(openClContext.commandQueue);
+        checkError();
     }
 }

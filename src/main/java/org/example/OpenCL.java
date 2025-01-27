@@ -101,6 +101,7 @@ public class OpenCL extends Task<Void> {
             physicCalculation.run();
             boundaryCollision.run();
 
+            CL10.clFinish(openClContext.commandQueue);
         }
         updatePositionParticles.run();
 
