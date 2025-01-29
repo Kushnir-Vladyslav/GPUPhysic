@@ -84,6 +84,21 @@ public class GlobalDynamicBuffer<K extends TypeOfBuffer> extends BufferContext <
         size += sizeOfArr;
     }
 
+    //змінює розмір на вказаний, всі данні в буфері будуть втрачені
+    public void forceResize (int newSize) {
+        capacity = newSize;
+        size = 0;
+        nativeBuffer.reSize(capacity);
+
+        if (clBuffer != 0) {
+            CL10.clReleaseMemObject(clBuffer);
+        }
+
+        clBuffer = nativeBuffer.createClBuffer(flags);
+        checkClBuffer();
+        setNewArgs();
+    }
+
     public Object readData() {
         nativeBuffer.readClBuffer(clBuffer);
         return nativeBuffer.getArr();

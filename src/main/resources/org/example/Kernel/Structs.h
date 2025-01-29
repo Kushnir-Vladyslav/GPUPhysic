@@ -24,6 +24,11 @@ typedef struct {
     float cursorY;
 } Cursor;
 
+typedef struct {
+    int2 size;
+    int2 num;
+}   GridStruct;
+
 typedef struct { //структура тестового ядра
     int y;
 } __attribute__((packed)) MyStruct;

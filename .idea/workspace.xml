@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="refactoring">
+    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="add asynchronous calculations">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/GridBuilder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/CalculationPrefixAmount.cl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/FindParticleDistribution.cl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/JavaFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/JavaFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OpenCL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/OpenCL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Constants.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Constants.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/PhysicCalculation.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/PhysicCalculation.cl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Structs.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Structs.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -152,7 +156,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738005055792</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add asynchronous calculations">
+      <option name="closed" value="true" />
+      <created>1738011845039</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1738011845039</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -176,6 +188,7 @@
     <MESSAGE value="fix range calculation" />
     <MESSAGE value="fix for mor real work" />
     <MESSAGE value="refactoring" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactoring" />
+    <MESSAGE value="add asynchronous calculations" />
+    <option name="LAST_COMMIT_MESSAGE" value="add asynchronous calculations" />
   </component>
 </project>

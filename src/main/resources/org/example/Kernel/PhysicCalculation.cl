@@ -76,7 +76,6 @@ __kernel void PhysicCalculation(
             atomic_add_float(&particles[gid_y].xSpeed, -impulse.x * DAMPING * mainMass );
             atomic_add_float(&particles[gid_y].ySpeed, -impulse.y * DAMPING * mainMass );
         }
-
     }
 }
 
