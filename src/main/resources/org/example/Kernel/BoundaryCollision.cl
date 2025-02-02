@@ -4,6 +4,10 @@ inline void particleWakeUp (Particle* particle) {
     particle->sleepTimer = 0;
 }
 
+inline float2 normaToTangent (float2 normal) {
+    return (float2)(-normal.y, normal.x);
+}
+
 //Ядро відповідає за перевірку зіштовхування частинок з границями області...
 __kernel void BoundaryCollision (
     __global    Particle*   particles,
@@ -16,86 +20,155 @@ __kernel void BoundaryCollision (
 
     Particle particle = particles[gid];
 
+    float2 particlePosition = (float2)(particle.x, particle.y);
+    float2 boundaryPosition = (float2)(boundary.sphereX, boundary.sphereY);
+    float2 cursorPosition = (float2)(cursor.cursorX, cursor.cursorY);
+
+    float2 particleSpeed = (float2)(particle.xSpeed, particle.ySpeed);
+
     //перевірка зіштовхування з межами прямокутної зони
-    if (particle.x - particle.radius - boundary.borderThickness < 0) {
-        particle.x = particle.radius + boundary.borderThickness;
-        if (particle.xSpeed < 0) particle.xSpeed = -particle.xSpeed;
-        particle.xSpeed *= RESTITUTION;
+    if (particlePosition.x - particle.radius - boundary.borderThickness < 0) {
+        particlePosition.x = particle.radius + boundary.borderThickness;
 
-        particleWakeUp(&particle);
-    } else if (particle.x + particle.radius + boundary.borderThickness > boundary.width) {
-        particle.x = boundary.width - particle.radius - boundary.borderThickness;
-        if (particle.xSpeed > 0) particle.xSpeed = -particle.xSpeed;
-        particle.xSpeed *= RESTITUTION;
+        float2 normalVector = (float2)(1, 0);
+        float normalSpeed = dot(particleSpeed, normalVector);
+        float2 normalComponent = normalSpeed * normalVector;
 
-        particleWakeUp(&particle);
+        float2 tangentVector = (float2)(-normalVector.y, normalVector.x);
+        float tangentSpeed = dot(particleSpeed, tangentVector);
+        float2 tangentComponent = tangentVector * tangentSpeed * pow(DAMPING, 1.f / 10.f);
+
+        if (particleSpeed.x < 0) {
+            normalComponent *= -RESTITUTION;
+        }
+
+        particleSpeed = normalComponent + tangentComponent;
+
+//        particleWakeUp(&particle);
+    } else if (particlePosition.x + particle.radius + boundary.borderThickness > boundary.width) {
+        particlePosition.x = boundary.width - particle.radius - boundary.borderThickness;
+
+        float2 normalVector = (float2)(-1, 0);
+        float normalSpeed = dot(particleSpeed, normalVector);
+        float2 normalComponent = normalSpeed * normalVector;
+
+        float2 tangentVector = (float2)(-normalVector.y, normalVector.x);
+        float tangentSpeed = dot(particleSpeed, tangentVector);
+        float2 tangentComponent = tangentVector * tangentSpeed * pow(DAMPING, 1.f / 10.f);
+
+        if (particleSpeed.x > 0) {
+            normalComponent *= -RESTITUTION;
+        }
+
+        particleSpeed = normalComponent + tangentComponent;
+
+//        particleWakeUp(&particle);
     }
 
-    if (particle.y - particle.radius - boundary.borderThickness < 0) {
-        particle.y = particle.radius + boundary.borderThickness;
-        if (particle.ySpeed < 0) particle.ySpeed = -particle.ySpeed;
-        particle.ySpeed *= RESTITUTION;
+    if (particlePosition.y - particle.radius - boundary.borderThickness < 0) {
+        particlePosition.y = particle.radius + boundary.borderThickness;
 
-        particleWakeUp(&particle);
-    } else if (particle.y + particle.radius + boundary.borderThickness > boundary.height) {
-        particle.y = boundary.height - particle.radius - boundary.borderThickness;
-        if (particle.ySpeed > 0) particle.ySpeed = -particle.ySpeed;
-        particle.ySpeed *= RESTITUTION;
+        float2 normalVector = (float2)(0, -1);
+        float normalSpeed = dot(particleSpeed, normalVector);
+        float2 normalComponent = normalSpeed * normalVector;
 
-        particleWakeUp(&particle);
+        float2 tangentVector = (float2)(-normalVector.y, normalVector.x);
+        float tangentSpeed = dot(particleSpeed, tangentVector);
+        float2 tangentComponent = tangentVector * tangentSpeed * pow(DAMPING, 1.f / 10.f);
+
+        if (particleSpeed.y < 0) {
+            normalComponent *= -RESTITUTION;
+        }
+
+        particleSpeed = normalComponent + tangentComponent;
+
+//        particleWakeUp(&particle);
+    } else if (particlePosition.y + particle.radius + boundary.borderThickness > boundary.height) {
+        particlePosition.y = boundary.height - particle.radius - boundary.borderThickness;
+
+        float2 normalVector = (float2)(0, 1);
+        float normalSpeed = dot(particleSpeed, normalVector);
+        float2 normalComponent = normalSpeed * normalVector;
+
+        float2 tangentVector = (float2)(-normalVector.y, normalVector.x);
+        float tangentSpeed = dot(particleSpeed, tangentVector);
+        float2 tangentComponent = tangentVector * tangentSpeed * pow(DAMPING, 1.f / 10.f);
+
+        if (particleSpeed.y > 0) {
+            normalComponent *= -RESTITUTION;
+        }
+
+        particleSpeed = normalComponent + tangentComponent;
+
+//        particleWakeUp(&particle);
     }
 
     //перевірка зіштовхування з межами сферичної зони
     if (boundary.sphereRadius > 0) { // Якщо частинка намагається вийти за межі сфери
-        float dist = length(boundary.sphereX, boundary.sphereY, particle.x, particle.y);
-        float maxDist = boundary.sphereRadius - particle.radius;
+        float2 positionDifference = particlePosition - boundaryPosition;
+        float distanceBetweenCenters = length(positionDifference);
+        float maxDistance = boundary.sphereRadius - particle.radius;
 
-        if(dist > maxDist) {
-            float2 vectorBetweenCenters = vecToCenter(boundary.sphereX, boundary.sphereY, particle.x, particle.y);
-            float2 normalVector = normal(vectorBetweenCenters);
+        if(distanceBetweenCenters > maxDistance) {
+            float2 normalVector = normalize(positionDifference);
+            float overlap = distanceBetweenCenters - maxDistance;
 
             // Коеркція позиції
-            float overlap = dist - maxDist;
-            particle.x -= normalVector.x * overlap;
-            particle.y -= normalVector.y * overlap;
+            particlePosition -= normalVector * overlap;
 
             // Корекція швидкості
-            float scalarProduct = scalar((float2)(particle.xSpeed, particle.ySpeed), normalVector);
-            if (scalarProduct > 0) {  // Якщо частинка рухається назовні
-                float2 newObjectSpeed = newSpeed((float2)(particle.xSpeed, particle.ySpeed), normalVector, scalarProduct);
-                particle.xSpeed = newObjectSpeed.x * RESTITUTION;
-                particle.ySpeed = newObjectSpeed.y * RESTITUTION;
+            float normalSpeed = dot(particleSpeed, normalVector);
+            float2 normalComponent = normalSpeed * normalVector;
+
+            float2 tangentVector = (float2)(-normalVector.y, normalVector.x);
+            float tangentSpeed = dot(particleSpeed, tangentVector);
+            float2 tangentComponent = tangentVector * tangentSpeed * pow(DAMPING, 1.f / 10.f);
+
+            if (normalSpeed > 0) {
+                normalComponent *= -RESTITUTION;
             }
 
-            particleWakeUp(&particle);
+            particleSpeed = normalComponent + tangentComponent;
+
+//            particleWakeUp(&particle);
         }
     }
 
     //перевірка зіштовхування з межами курсору зони
     if (cursor.cursorRadius > 0) {
-        float dist = length(cursor.cursorX, cursor.cursorY, particle.x, particle.y);
-        float minDist = cursor.cursorRadius + particle.radius;
+        float2 positionDifference = particlePosition - cursorPosition;
+        float distanceBetweenCenters = length(positionDifference);
+        float minDistance = cursor.cursorRadius + particle.radius;
 
-        if (dist < minDist) {  // Якщо частинка намагається увійти всередину курсора
-            float2 vectorBetweenCenters = vecToCenter(cursor.cursorX, cursor.cursorY, particle.x, particle.y);
-            float2 normalVector = normal(vectorBetweenCenters);
+        if (distanceBetweenCenters < minDistance) {  // Якщо частинка намагається увійти всередину курсора
+            float2 normalVector = normalize(positionDifference);
+            float overlap = minDistance - distanceBetweenCenters;
 
             // Коеркція позиції
-            float overlap = minDist - dist;
-            particle.x += normalVector.x * overlap;
-            particle.y += normalVector.y * overlap;
+            particlePosition += normalVector * overlap;
 
             // Корекція швидкості
-            float scalarProduct = scalar((float2)(particle.xSpeed, particle.ySpeed), normalVector);
-            if (scalarProduct < 0) {  // Якщо частинка рухається всередину
-                float2 newObjectSpeed = newSpeed((float2)(particle.xSpeed, particle.ySpeed), normalVector, scalarProduct);
-                particle.xSpeed = newObjectSpeed.x * RESTITUTION;
-                particle.ySpeed = newObjectSpeed.y * RESTITUTION;
+            float normalSpeed = dot(particleSpeed, normalVector);
+            float2 normalComponent = normalSpeed * normalVector;
+
+            float2 tangentVector = (float2)(-normalVector.y, normalVector.x);
+            float tangentSpeed = dot(particleSpeed, tangentVector);
+            float2 tangentComponent = tangentVector * tangentSpeed;
+
+            if (normalSpeed < 0) {
+                normalComponent *= -1;
             }
 
-            particleWakeUp(&particle);
+            particleSpeed = normalComponent + tangentComponent;
+
+//            particleWakeUp(&particle);
         }
     }
+
+    particle.xSpeed = particleSpeed.x;
+    particle.ySpeed = particleSpeed.y;
+    particle.x = particlePosition.x;
+    particle.y = particlePosition.y;
 
     particles[gid] = particle;
 }

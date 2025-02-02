@@ -68,7 +68,7 @@ __kernel void PhysicCalculation(
             float totalMass = mainParticle.radius + secondParticle.radius;
 
             float impulseScalar = -(1.0f + RESTITUTION) * velAlongNormal / totalMass;
-            float2 impulse =  normalVector * impulseScalar;
+            float2 impulse = normalVector * impulseScalar;
 
             atomic_add_float(&particles[gid_x].xSpeed, impulse.x * DAMPING * secondMass );
             atomic_add_float(&particles[gid_x].ySpeed, impulse.y * DAMPING * secondMass );
