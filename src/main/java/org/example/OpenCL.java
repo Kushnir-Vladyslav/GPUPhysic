@@ -1,51 +1,37 @@
 package org.example;
 
 import javafx.concurrent.Task;
+import org.example.Kernel.*;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.Buffer;
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.logging.Logger;
+import java.time.Duration;
+import java.time.Instant;
 
 import static org.example.GLOBAL_STATE.*;
 
 
 public class OpenCL extends Task<Void> {
-    static public FloatBuffer particlesBuffer;
 
-    static public Long clParticlesBuffer;
+    protected volatile boolean isRead = false;
+    public volatile boolean isRun = true;
+//    Kernel kernel;
 
-//    static public long device;
-//    static public long context;
-//    static public long commandQueue;
+    Kernel drawBackground;
+    Kernel drawParticles;
+    Kernel boundaryCollision;
+    Kernel physicCalculation;
+    Kernel updatePositionParticles;
 
-    final static public int LOCAL_WORK_SIZE = 256; // Оптимальний розмір локальної групи
-
-    @Override
-    public Void call () {
+    public OpenCL() {
         org.lwjgl.system.Configuration.OPENCL_EXPLICIT_INIT.set(true);
         CL.create();
 
-
-
-        FloatBuffer aBuffer = MemoryUtil.memAllocFloat(VECTOR_SIZE);
-        FloatBuffer bBuffer = MemoryUtil.memAllocFloat(VECTOR_SIZE);
-        FloatBuffer resultBuffer = MemoryUtil.memAllocFloat(VECTOR_SIZE);
-
-        particlesBufferFiller();
-
-//        long startTime = System.nanoTime();
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             // Отримання платформ та пристроїв (без змін)
@@ -55,22 +41,7 @@ public class OpenCL extends Task<Void> {
             PointerBuffer platforms = stack.mallocPointer(platformCount.get(0));
             CL10.clGetPlatformIDs(platforms, (IntBuffer) null);
 
-            // Отримання інформації про платформи
-//            for (int i = 0; i < platformCount.get(0); i++) {
-//                long platformId = platforms.get(i);
-//
-//                // Запитуємо розмір буфера для зберігання назви платформи
-//                PointerBuffer sizeBuffer = stack.mallocPointer(1);
-//                CL10.clGetPlatformInfo(platformId, CL10.CL_PLATFORM_NAME, (ByteBuffer) null, sizeBuffer);
-//
-//                // Створюємо буфер для зчитування назви
-//                ByteBuffer nameBuffer = stack.malloc((int) sizeBuffer.get(0));
-//                CL10.clGetPlatformInfo(platformId, CL10.CL_PLATFORM_NAME, nameBuffer, null);
-//
-//                // Перетворюємо буфер у строку
-//                String platformName = MemoryUtil.memUTF8(nameBuffer);
-//                System.out.println("Platform " + i + ": " + platformName);
-//            }
+//            platformInfo (platformCount,  platforms);
 
             long platform = platforms.get(0);
 
@@ -82,16 +53,7 @@ public class OpenCL extends Task<Void> {
 
             openClContext.device = devices.get(0);
 
-            // Додаткова діагностика пристрою
-//            try (MemoryStack infoStack = MemoryStack.stackPush()) {
-//                PointerBuffer paramSize = infoStack.mallocPointer(1);
-//                CL10.clGetDeviceInfo(device, CL10.CL_DEVICE_MAX_COMPUTE_UNITS, (IntBuffer)null, paramSize);
-//
-//                IntBuffer paramValue = infoStack.mallocInt((int) paramSize.get(0));
-//                CL10.clGetDeviceInfo(device, CL10.CL_DEVICE_MAX_COMPUTE_UNITS, paramValue, null);
-//
-//                System.out.printf("Максимальна кількість обчислювальних блоків: %d%n", paramValue.get(0));
-//            }
+//            deviceDiagnostic ();
 
             // Створення контексту та черги
             PointerBuffer contextProperties = stack.mallocPointer(3)
@@ -107,165 +69,111 @@ public class OpenCL extends Task<Void> {
                 throw new IllegalStateException("Failed to create OpenCL context or command queue.");
             }
 
-            // Створення буферів
-//            createRWHostBuffer(particlesBuffer, clParticlesBuffer);
+//            kernel = new TestKernel();
 //
-            float[] af = new float[256];
-            long clABuffer = CL10.clCreateBuffer(openClContext.context, CL10.CL_MEM_READ_ONLY | CL10.CL_MEM_COPY_HOST_PTR,
-                    particlesBuffer, null);
-            long clBBuffer = CL10.clCreateBuffer(openClContext.context, CL10.CL_MEM_READ_ONLY | CL10.CL_MEM_COPY_HOST_PTR,
-                    af, null);
-            long clResultBuffer = CL10.clCreateBuffer(openClContext.context, CL10.CL_MEM_WRITE_ONLY,
-                    VECTOR_SIZE * Float.BYTES, null);
+//            kernelManager.addKernel("TestKernel", kernel);
 
-//            if (clABuffer == 0 || clBBuffer == 0 || clResultBuffer == 0) {
-//                throw new IllegalStateException("Failed to create OpenCL memory buffers.");
-//            }
+//            kernel.run();
 
-            // Завантаження OpenCL kernel
-            long localMemSizeInfo = CL10.clGetDeviceInfo(openClContext.device, CL10.CL_DEVICE_LOCAL_MEM_SIZE, (IntBuffer) null, (PointerBuffer) null );
+            drawBackground = new DrawBackgroundKernel();
+            kernelManager.addKernel("DrawBackgroundKernel", drawBackground);
 
-            //створення буферу частинок
-            createRWHostBuffer(particlesBuffer, clParticlesBuffer);
+            drawParticles = new DrawParticlesKernel();
+            kernelManager.addKernel("DrawParticlesKernel", drawParticles);
 
-            // Локальна пам'ять
-            long localMemSize = LOCAL_WORK_SIZE * Float.BYTES * 2;
+            boundaryCollision = new BoundaryCollisionKernel();
+            kernelManager.addKernel("BoundaryCollision", boundaryCollision);
 
-            // Встановлення аргументів
-//            CL10.clSetKernelArg(kernel, 0, PointerBuffer.allocateDirect(1).put(0, clABuffer));
-//            CL10.clSetKernelArg(kernel, 1, PointerBuffer.allocateDirect(1).put(0, clBBuffer));
-//            CL10.clSetKernelArg(kernel, 2, PointerBuffer.allocateDirect(1).put(0, clResultBuffer));
-//
-//            // Локальна пам'ять як аргументи
-            if (localMemSizeInfo > 0) {
-                CL10.clSetKernelArg(kernel, 3, localMemSize);
-                CL10.clSetKernelArg(kernel, 4, localMemSize);
-                CL10.clSetKernelArg(13l, 3, 12.5f);
-            }
+            physicCalculation = new PhysicCalculationKernel();
+            kernelManager.addKernel("PhysicCalculation", physicCalculation);
 
-            // Виконання kernel з явним розміром локальної групи
-            long globalWorkSize = (long) Math.ceil(VECTOR_SIZE / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE;
-
-            PointerBuffer global = stack.mallocPointer(1).put(globalWorkSize).rewind();
-            PointerBuffer local = stack.mallocPointer(1).put(LOCAL_WORK_SIZE).rewind();
-
-
-
-            CL10.clEnqueueNDRangeKernel(
-                    commandQueue, kernel, 1, null,
-                    global, local,
-                    null, null
-            );
-
-
-            // Читання результату
-            CL10.clEnqueueReadBuffer(commandQueue, clResultBuffer, true, 0,
-                    resultBuffer, null, null);
-
-//            long endTime = System.nanoTime();
-//            System.out.printf("Час виконання: %.3f мс%n", (endTime - startTime) / 1_000_000.0);
-//
-            // Перевірка результату
-//            for (int i = 0; i < 10; i++) {
-//                System.out.printf("%.2f + %.2f = %.2f%n",
-//                        aBuffer.get(i), bBuffer.get(i), resultBuffer.get(i));
-//            }
-
-            // Очищення ресурсів (без змін)
-            CL10.clReleaseKernel(kernel);
-            CL10.clReleaseProgram(program);
-            CL10.clReleaseMemObject(clABuffer);
-            CL10.clReleaseMemObject(clBBuffer);
-            CL10.clReleaseMemObject(clResultBuffer);
-            CL10.clReleaseCommandQueue(commandQueue);
-            CL10.clReleaseContext(context);
+            updatePositionParticles = new UpdatePositionParticlesKernel();
+            kernelManager.addKernel("UpdatePositionParticles", updatePositionParticles);
 
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            MemoryUtil.memFree(aBuffer);
-            MemoryUtil.memFree(bBuffer);
-            MemoryUtil.memFree(resultBuffer);
-            CL.destroy();
         }
+    }
 
+    public synchronized void read () {
+        isRead = true;
+//        notifyAll();
+    }
+
+    @Override
+    public Void call () {
+//        kernel.run();
+//        Instant start = Instant.now();
+        while (isRun) {
+            for (int i = 0; i < 10; i++) {
+                physicCalculation.run();
+                boundaryCollision.run();
+
+                CL10.clFinish(openClContext.commandQueue);
+            }
+            updatePositionParticles.run();
+
+            synchronized(this) {
+                if (isRead) {
+                    drawBackground.run();
+                    drawParticles.run();
+//        Instant end = Instant.now();
+
+//        printExecutionTime(start, end);
+                    Pixels = canvas.getCanvas();
+                    isRead = false;
+                }
+            }
+        }
         return null;
     }
 
-    public void particlesBufferFiller () {
-        if (particlesBuffer != null) {
-            MemoryUtil.memFree(particlesBuffer);
-        }
-        particlesBuffer = MemoryUtil.memAllocFloat(particles.length * 7);
-        for (int i = 0; i < particles.length; i++) {
-            particlesBuffer.put(particles[i].xPosition);
-            particlesBuffer.put(particles[i].yPosition);
-            particlesBuffer.put(particles[i].radius);
-            particlesBuffer.put(particles[i].xSpeed);
-            particlesBuffer.put(particles[i].ySpeed);
-            particlesBuffer.put(0);
-            particlesBuffer.put(0);
-        }
-        particlesBuffer.rewind();
+    private static void printExecutionTime(Instant start, Instant end) {
+        Duration duration = Duration.between(start, end);
+        System.out.println("Час виконання: " + duration.toSeconds() + " sec");
+        System.out.println("Час виконання: " + duration.toMillis() + " millisec");
     }
 
+    public void destroy () {
+        kernelManager.destroy();
+        bufferManager.destroy();
+        openClContext.destroy();
 
-    public void createRWHostBuffer(FloatBuffer hostBuffer, Long kernelBuffer) {
-        if (kernelBuffer != null) {
-            CL10.clReleaseMemObject(kernelBuffer);
-        }
-        kernelBuffer = CL10.clCreateBuffer(context, CL10.CL_MEM_READ_WRITE | CL10.CL_MEM_USE_HOST_PTR , hostBuffer, null);
-        if (kernelBuffer == 0) {
-            throw new IllegalStateException("Failed to create OpenCL memory buffers.");
-        }
-    }
-    public void createRHostBuffer(FloatBuffer hostBuffer, Long kernelBuffer) {
-        if (kernelBuffer != null) {
-            CL10.clReleaseMemObject(kernelBuffer);
-        }
-        kernelBuffer = CL10.clCreateBuffer(context, CL10.CL_MEM_READ_ONLY | CL10.CL_MEM_USE_HOST_PTR , hostBuffer, null);
-        if (kernelBuffer == 0) {
-            throw new IllegalStateException("Failed to create OpenCL memory buffers.");
-        }
+        CL.destroy();
     }
 
-    public void createKernel (String kernelName, Long kernel) {
-        URL URLKernelSource = getClass().getResource(kernelName);
+    protected void platformInfo(IntBuffer platformCount,  PointerBuffer platforms) {
+        // Отримання інформації про платформи
+        for (int i = 0; i < platformCount.get(0); i++) {
+            long platformId = platforms.get(i);
 
-        assert URLKernelSource != null;
-        String kernelSource = null;
-        try {
-            kernelSource = Files.readString(Paths.get(URLKernelSource.toURI()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+            // Запитуємо розмір буфера для зберігання назви платформи
+            PointerBuffer sizeBuffer = MemoryUtil.memAllocPointer(1);
+            CL10.clGetPlatformInfo(platformId, CL10.CL_PLATFORM_NAME, (ByteBuffer) null, sizeBuffer);
 
-        // Компіляція та створення kernel
-        long program = CL10.clCreateProgramWithSource(context, kernelSource, null);
-        CL10.clBuildProgram(program, device, "", null, 0);
+            // Створюємо буфер для зчитування назви
+            ByteBuffer nameBuffer = MemoryUtil.memAlloc((int) sizeBuffer.get(0));
+            CL10.clGetPlatformInfo(platformId, CL10.CL_PLATFORM_NAME, nameBuffer, null);
 
-        kernel = CL10.clCreateKernel(program, "physicCalculation", (IntBuffer) null);
+            // Перетворюємо буфер у строку
+            String platformName = MemoryUtil.memUTF8(nameBuffer);
+            System.err.println("Platform " + i + ": " + platformName);
 
-        // Перевірка чи правельно пройшла уомпіляція
-        if (kernel == 0) {
-            int buildStatus = CL10.clBuildProgram(program, device, "", null, 0);
-            if (buildStatus != CL10.CL_SUCCESS) {
-                // Отримання журналу компіляції
-                PointerBuffer sizeBuffer = MemoryStack.stackMallocPointer(1);
-                CL10.clGetProgramBuildInfo(program, device, CL10.CL_PROGRAM_BUILD_LOG, (ByteBuffer) null, sizeBuffer);
-
-                ByteBuffer buildLogBuffer = MemoryStack.stackMalloc((int) sizeBuffer.get(0));
-                CL10.clGetProgramBuildInfo(program, device, CL10.CL_PROGRAM_BUILD_LOG, buildLogBuffer, null);
-
-                String buildLog = MemoryUtil.memUTF8(buildLogBuffer);
-                System.err.println("Build log:\n" + buildLog);
-                throw new RuntimeException("Failed to build OpenCL program.");
-            }
+            MemoryUtil.memFree(sizeBuffer);
+            MemoryUtil.memFree(nameBuffer);
         }
     }
 
+    protected void deviceDiagnostic() {
+        // Додаткова діагностика пристрою
+        try (MemoryStack infoStack = MemoryStack.stackPush()) {
+            PointerBuffer paramSize = infoStack.mallocPointer(1);
+            CL10.clGetDeviceInfo(openClContext.device, CL10.CL_DEVICE_MAX_COMPUTE_UNITS, (IntBuffer) null, paramSize);
 
+            IntBuffer paramValue = infoStack.mallocInt((int) paramSize.get(0));
+            CL10.clGetDeviceInfo(openClContext.device, CL10.CL_DEVICE_MAX_COMPUTE_UNITS, paramValue, null);
 
+            System.err.printf("Максимальна кількість обчислювальних блоків: %d%n", paramValue.get(0));
+        }
+    }
 }

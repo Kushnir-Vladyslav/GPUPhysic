@@ -1,27 +1,32 @@
 package org.example;
 
-import org.example.Structs.CursorPosition;
-import org.example.Structs.OpenClContext;
-import org.example.Structs.Particle;
+import org.example.BufferControl.BufferManager;
+import org.example.Kernel.KernelManager;
+import org.example.Structs.*;
 
 public class GLOBAL_STATE {
     //початковий розмір вікна, може змінюватись користувачем
-    private static int ScreenWidth = 400;
-    private static int ScreenHeight = 400;
+    private static int ScreenWidth = 256 * 3;
+    private static int ScreenHeight = 256 * 3;
 
     //розмір робочої областіж
-    public static int WorkZoneWidth = 400;
-    public static int WorkZoneHeight = 400;
+    public static int WorkZoneWidth = 256 * 3;
+    public static int WorkZoneHeight = 256 * 3;
 
-    public static Particle[] particles;
-    public static CursorPosition cursorPosition = new CursorPosition();
+    public static OpenClContext openClContext = new OpenClContext();
+    public static BufferManager bufferManager = new BufferManager();
+    public static KernelManager kernelManager = new KernelManager();
+
+    public static Canvas canvas;
+    public static Boundary boundary;
+    public static CursorPosition cursorPosition;
+    public static Particles particles;
 
     public static boolean IsUpdateWait = false;
 
     public static OpenCL OpenClTask;
     public static Thread OpenClThread;
 
-    public static OpenClContext openClContext = new OpenClContext();
 
     //масив пікселів що відображаються на екрані
     public static int[] Pixels;
@@ -53,7 +58,5 @@ public class GLOBAL_STATE {
     public static void setScreenHeight(int Height) {
         ScreenHeight = Height;
     }
-
-//    public static int VECTOR_SIZE;
 
 }

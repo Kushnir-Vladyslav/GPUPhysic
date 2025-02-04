@@ -17,17 +17,24 @@ public class JavaFX extends Application {
     private WritableImage writableImage;
     private ImageView imageView;
 
+    private AnimationTimer animationTimer;
+
+    private boolean isRun = true;
+
+//    private final OpenCL oCL = new OpenCL();
+
     @Override
     public void start(Stage primaryStage) {
-
         createOpenClThread();
 
-        writableImage = new WritableImage(getScreenWidth(), getScreenHeight());
+        writableImage = new WritableImage(WorkZoneWidth, WorkZoneHeight);
 
         Pixels = new int [getScreenWidth() * getScreenHeight()];
         DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
 
         imageView = new ImageView(writableImage);
+        imageView.setFitWidth(getScreenWidth());
+        imageView.setFitHeight(getScreenHeight());
 
         StackPane root = new StackPane();
         root.getChildren().add(imageView);
@@ -67,28 +74,60 @@ public class JavaFX extends Application {
             }
         });
 
-        //Обробка натискання лівої кнопки миші і руху
+
+        //Обробка натискання лівої/правої кнопки миші
         scene.setOnMousePressed((event) -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-
+                cursorPosition.setCursorPosition(
+                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
+                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
+            } else if (event.getButton() == MouseButton.SECONDARY) {
+                particles.createNewParticle(
+                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
+                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
             }
+
         });
 
+        //Обробка перреміщення мишки
         scene.setOnMouseDragged((event) -> {
             if (event.isPrimaryButtonDown()) {
-
+                cursorPosition.setCursorPosition(
+                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
+                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
             }
         });
 
-        primaryStage.setOnCloseRequest(event -> {
-            closeOpenSlThread();
+        //обробка відпускання мишки
+        scene.setOnMouseReleased(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                cursorPosition.inactivateCursor();
+            }
         });
 
+        //закриття вікна
+        primaryStage.setOnCloseRequest(event -> {
+            isRun = false;
+            animationTimer.stop();
+            closeOpenSlThread();
+//            oCL.destroy();
+        });
+
+//        System.out.println("ok");
+//        System.out.println(Pixels[1]);
+//
+//        for (int i = 0; i < Pixels.length; i++) {
+//            System.out.println(i + " " + Pixels[i]);
+//        }
+
         //запуск таймеру для анімації
-        AnimationTimer animationTimer = new AnimationTimer() {
+         animationTimer = new AnimationTimer() {
             private long last = 0;
             @Override
             public void handle(long now) {
+                if(!isRun) {
+                    return;
+                }
                 if (last == 0) {
                     last = now;
                     return;
@@ -98,9 +137,10 @@ public class JavaFX extends Application {
 
                 updatePixels((float) (now - last) / 1000000000);
 
+
                 writableImage.getPixelWriter().setPixels(0, 0,
-                        getScreenWidth(), getScreenHeight(),
-                        PixelFormat.getIntArgbInstance(), Pixels, 0, getScreenWidth());
+                        WorkZoneWidth, WorkZoneHeight,
+                        PixelFormat.getIntArgbInstance(), Pixels, 0, WorkZoneWidth);
 
                 last = now;
             }
@@ -108,9 +148,13 @@ public class JavaFX extends Application {
         animationTimer.start();
     }
 
+    //при закритті вікна
     @Override
     public void stop() {
+        isRun = false;
+        animationTimer.stop();
         closeOpenSlThread();
+//        oCL.destroy();
     }
 
     public void createOpenClThread () {
@@ -130,16 +174,17 @@ public class JavaFX extends Application {
 
     //оновлення вікна після зміни розміру
     private void updateImageSize() {
-        writableImage = new WritableImage( getScreenWidth(), getScreenHeight());
-        Pixels = new int[ getScreenWidth() * getScreenHeight()];
-        DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
-        imageView.setImage(writableImage);
+//        writableImage = new WritableImage( getScreenWidth(), getScreenHeight());
+//        Pixels = new int[ getScreenWidth() * getScreenHeight()];
+//        DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
+//        imageView.setImage(writableImage);
+        imageView.setFitWidth(getScreenWidth());
+        imageView.setFitHeight(getScreenHeight());
     }
 
     //основна функція відрисовки
     private void updatePixels(float time)  {
-
-
+        OpenClTask.read();
     }
 
     public static void main(String[] args) {

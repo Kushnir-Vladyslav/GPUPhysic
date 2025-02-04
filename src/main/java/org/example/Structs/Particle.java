@@ -1,23 +1,29 @@
 package org.example.Structs;
 
-import static org.example.GLOBAL_STATE.*;
-
 public class Particle {
-    float xPosition;
-    float yPosition;
+    public float xPosition;
+    public float yPosition;
 
-    float xSpeed;
-    float ySpeed;
+    public float radius;
 
-    float radius;
+    public float xSpeed;
+    public float ySpeed;
 
-    public Particle() {
-        xPosition = (float) Math.random() * WorkZoneWidth;
-        yPosition = (float) Math.random() * WorkZoneHeight;
+    public int isSleep;
+    public float sleepTimer;
 
-        xSpeed = (float) Math.random();
-        ySpeed = (float) Math.random();
+    public Particle () {}
+
+    public Particle (float x, float y) {
+        xPosition = x;
+        yPosition = y;
 
         radius = 5;
+
+        xSpeed = 0;
+        ySpeed = 0;
+
+        isSleep = 0;
+        sleepTimer = 0;
     }
 }

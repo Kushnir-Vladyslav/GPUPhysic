@@ -1,37 +1,70 @@
 package org.example.BufferControl;
 
+import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class BufferManager {
-    Map<String, BufferContext<?, ?>> bufferContextMap;
+    protected Map<String, BufferContext<?>> buffers;
 
     public BufferManager () {
-        bufferContextMap = new HashMap<>();
+        buffers = new HashMap<>();
     }
 
-    public void set (String name, BufferContext<?, ?> bufferContext) {
-        if (bufferContextMap.containsKey(name)) {
-            if (!bufferContextMap.get(name).getClass().equals(bufferContext.getClass())) {
-                throw new IllegalArgumentException("The classes of the existing and new values do not match.");
-            }
-        } else {
-            bufferContextMap.put(name, bufferContext);
+    public <K extends TypeOfBuffer, T extends BufferContext<K>> T createBuffer (String name, Class<T> contextType, Class<K> bufferType) {
+        if (isExist(name)) {
+            return getBuffer(name, contextType, bufferType);
+        }
+
+        try {
+            T newBuffer = contextType.getConstructor(Class.class).newInstance(bufferType);
+
+            buffers.put(name, newBuffer);
+
+            return newBuffer;
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Unable to create new buffer", e);
         }
     }
 
-    public BufferContext<?, ?> get (String name) {
-        if (!bufferContextMap.containsKey(name)) {
-            throw new IllegalArgumentException("An element with such a key does not exist.");
-        } else {
-            return bufferContextMap.get(name);
+    public <K extends TypeOfBuffer, T extends BufferContext<K>> T getBuffer(String name, Class<T> contextType, Class<K> bufferType) {
+        if(!isExist(name)) {
+            throw new IllegalArgumentException("A buffer with that name does not exist.");
         }
+        BufferContext<?> bufferContext = buffers.get(name);
+
+        // Перевірка типу контексту
+        if (!contextType.isInstance(bufferContext)) {
+            throw new IllegalArgumentException("Buffer type mismatch: expected "
+                    + contextType.getSimpleName() + ", found " + bufferContext.getClass().getSimpleName());
+        }
+
+        // Перевірка параметризованого типу
+        T casted = contextType.cast(bufferContext);
+        if (!casted.getType().equals(bufferType)) {
+            throw new IllegalArgumentException("Buffer parameter type mismatch: expected "
+                    + bufferType.getSimpleName() + ", found " + casted.getType().getSimpleName());
+        }
+
+        return casted;
+    }
+
+    public void removeBuffer(String name) {
+        if(!isExist(name)) {
+            throw new IllegalArgumentException("A buffer with that name does not exist.");
+        }
+    }
+
+    public boolean isExist (String name) {
+        return buffers.containsKey(name);
     }
 
     public void destroy () {
-        for (BufferContext<?, ?> buffer : bufferContextMap.values()) {
+        for (BufferContext<?> buffer : buffers.values()) {
             buffer.destroy();
         }
-        bufferContextMap.clear();
+        buffers.clear();
     }
 }
+

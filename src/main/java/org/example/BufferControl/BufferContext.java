@@ -1,44 +1,28 @@
 package org.example.BufferControl;
 
-import org.example.Kernel.Kernel;
+import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import java.nio.Buffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
 import java.util.Vector;
-import static org.example.GLOBAL_STATE.openClContext;
 
-public abstract class BufferContext<T, K extends Buffer> {
-    protected T hostBuffer;
-    protected K nativeBuffer;
+public abstract class BufferContext <K extends TypeOfBuffer> {
+    protected final Class<K> type;
     protected long clBuffer;
-    protected int length;
 
-    MemoryAccessControl memoryAccessControl;
     PointerBuffer pointerBuffer = MemoryUtil.memAllocPointer(1);
     Vector<KernelDependency> kernels = new Vector<>();
 
-    public void addKernel (Kernel kernel, int numberArg) {
-        kernels.add(new KernelDependency(kernel, numberArg));
-        setNewArg(kernels.lastElement());
+    protected K nativeBuffer;
+
+    public BufferContext (Class<K> type) {
+        this.type = type;
     }
 
-    protected void destroy () {
-        if (clBuffer != 0) {
-            CL10.clReleaseMemObject(clBuffer);
-            clBuffer = 0;
-        }
-        if (nativeBuffer != null) {
-            MemoryUtil.memFree(nativeBuffer);
-            nativeBuffer = null;
-        }
-        if (pointerBuffer != null) {
-            MemoryUtil.memFree(pointerBuffer);
-            pointerBuffer = null;
-        }
+    public void addKernel (long kernel, int numberArg) {
+        kernels.add(new KernelDependency(kernel, numberArg));
+        setNewArg(kernels.lastElement());
     }
 
     protected void setNewArgs() {
@@ -48,35 +32,15 @@ public abstract class BufferContext<T, K extends Buffer> {
     }
 
     protected void setNewArg(KernelDependency KD) {
-        CL10.clSetKernelArg(KD.targetKernel.getKernel(), KD.numberArg, pointerBuffer.put(0, clBuffer).rewind());
+        CL10.clSetKernelArg(
+                KD.targetKernel,
+                KD.numberArg,
+                pointerBuffer.put(0, clBuffer).rewind()
+        );
     }
 
-    public T getData() {
-        return hostBuffer;
-    }
-    public int getLength() {
-        return length;
-    }
-
-    public void readBuffer() {
-        if (nativeBuffer instanceof FloatBuffer nB) {
-            float[] hB = (float[]) hostBuffer;
-            CL10.clEnqueueReadBuffer(openClContext.commandQueue, clBuffer, true, 0L,
-                    nB, null, null);
-            nB.get(hB);
-        } else if (nativeBuffer instanceof IntBuffer nB) {
-            int[] hB = (int[]) hostBuffer;
-            CL10.clEnqueueReadBuffer(openClContext.commandQueue, clBuffer, true, 0L,
-                    nB, null, null);
-            nB.get(hB);
-        }
-    }
-
-    public void appendData(T data) {
-        if (!(this.getClass().equals(GlobalBuffer.class) && ((GlobalBuffer) this).isDynamic)) {
-            throw new IllegalStateException("Cannot append to static buffer");
-        }
-        ((GlobalBuffer) this).addToEnd(data);
+    public Class<K> getType() {
+        return type;
     }
 
     protected void checkClBuffer() {
@@ -85,7 +49,35 @@ public abstract class BufferContext<T, K extends Buffer> {
         }
     }
 
-    public abstract void update (T newDats);
-    public abstract void update ();
-    public abstract void resize (int newSize);
+    protected class KernelDependency {
+        public long targetKernel;
+        public int numberArg;
+
+        public KernelDependency (long targetKernel, int numberArg) {
+            this.targetKernel = targetKernel;
+            this.numberArg = numberArg;
+        }
+    }
+
+    protected void removeKernel(long kernel) {
+        kernels.removeIf(value -> value.targetKernel == kernel);
+    }
+
+    protected void destroy () {
+        if (clBuffer != 0) {
+            CL10.clReleaseMemObject(clBuffer);
+            clBuffer = 0;
+        }
+        if (nativeBuffer != null) {
+            nativeBuffer.destroy();
+            nativeBuffer = null;
+        }
+        if (pointerBuffer != null)  {
+            MemoryUtil.memFree(pointerBuffer);
+            pointerBuffer = null;
+        }
+        if (kernels != null) {
+            kernels.clear();
+        }
+    }
 }

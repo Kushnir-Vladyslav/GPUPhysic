@@ -4,15 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="refact">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalBuffer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/ReadBuffer.java" afterDir="false" />
+    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="add tangent speed component, fix boundary collision">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalFloatBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalFloatBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalIntBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalIntBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/ReadFloatBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/ReadFloatBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/SingleFloatValue.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/SingleFloatValue.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicBuffer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,18 +51,39 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "BufferManager",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;BufferManagerSecondTry&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;
   }
-}]]></component>
+}</component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.Main" />
+      <module name="PhysicalOfParticle" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -94,7 +109,79 @@
       <option name="project" value="LOCAL" />
       <updated>1735591773783</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="to ByteBuffer instead other buffer type">
+      <option name="closed" value="true" />
+      <created>1736951154012</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1736951154012</updated>
+    </task>
+    <task id="LOCAL-00004" summary="to ByteBuffer instead other buffer type">
+      <option name="closed" value="true" />
+      <created>1736951202684</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736951202684</updated>
+    </task>
+    <task id="LOCAL-00005" summary="fix range calculation">
+      <option name="closed" value="true" />
+      <created>1737110490022</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737110490022</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix for mor real work">
+      <option name="closed" value="true" />
+      <created>1737932634171</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737932634171</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactoring">
+      <option name="closed" value="true" />
+      <created>1738005055792</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1738005055792</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add asynchronous calculations">
+      <option name="closed" value="true" />
+      <created>1738011845039</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1738011845039</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fast push">
+      <option name="closed" value="true" />
+      <created>1738139112948</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738139112948</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fast push">
+      <option name="closed" value="true" />
+      <created>1738223270075</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1738223270075</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add tangent speed component, fix boundary collision">
+      <option name="closed" value="true" />
+      <created>1738521087061</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1738521087062</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -114,6 +201,13 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="refact" />
     <MESSAGE value="BoundaryCollisionKernel" />
-    <option name="LAST_COMMIT_MESSAGE" value="BoundaryCollisionKernel" />
+    <MESSAGE value="to ByteBuffer instead other buffer type" />
+    <MESSAGE value="fix range calculation" />
+    <MESSAGE value="fix for mor real work" />
+    <MESSAGE value="refactoring" />
+    <MESSAGE value="add asynchronous calculations" />
+    <MESSAGE value="fast push" />
+    <MESSAGE value="add tangent speed component, fix boundary collision" />
+    <option name="LAST_COMMIT_MESSAGE" value="add tangent speed component, fix boundary collision" />
   </component>
 </project>
