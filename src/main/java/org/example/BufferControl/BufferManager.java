@@ -52,7 +52,9 @@ public class BufferManager {
 
     public void removeBuffer(String name) {
         if(!isExist(name)) {
-            throw new IllegalArgumentException("A buffer with that name does not exist.");
+            throw new IllegalArgumentException("A buffer with name \"" + name + "\" does not exist.");
+        } else {
+            buffers.remove(name);
         }
     }
 
