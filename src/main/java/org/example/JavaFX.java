@@ -2,13 +2,19 @@ package org.example;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.example.EventManager.AddParticlesEvent;
+import org.example.EventManager.EventManager;
+import org.example.EventManager.EventStructs.NewParticle;
+
 
 import static org.example.GLOBAL_STATE.*;
 
@@ -76,18 +82,43 @@ public class JavaFX extends Application {
 
 
         //Обробка натискання лівої/правої кнопки миші
-        scene.setOnMousePressed((event) -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                cursorPosition.setCursorPosition(
-                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
-                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
-            } else if (event.getButton() == MouseButton.SECONDARY) {
-                particles.createNewParticle(
-                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
-                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
-            }
+//        scene.setOnMousePressed((event) -> {
+//            if (event.getButton() == MouseButton.PRIMARY) {
+//                cursorPosition.setCursorPosition(
+//                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
+//                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
+//            } else if (event.getButton() == MouseButton.SECONDARY) {
+//
+//                AddParticlesEvent APD = EventManager.
+//                        getEventManager().
+//                        getEvent(AddParticlesEvent.EVENT_NAME);
+//
+//                APD.invoke(new NewParticle(
+//                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
+//                        (float) event.getY() / getScreenHeight() * WorkZoneWidth,
+//                        1
+//                        )
+//                );
+//            }
+//        });
 
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            AddParticlesEvent APD = EventManager.
+                    getEventManager().
+                    getEvent(AddParticlesEvent.EVENT_NAME);
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                APD.invoke(new NewParticle(
+                                (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
+                                (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth,
+                                1
+                        )
+                );
+            }
         });
+
+
 
         //Обробка перреміщення мишки
         scene.setOnMouseDragged((event) -> {

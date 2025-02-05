@@ -4,6 +4,8 @@ import org.example.BufferControl.GlobalDynamicBuffer;
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
+import org.example.EventManager.AddParticlesEvent;
+import org.example.EventManager.EventManager;
 import org.lwjgl.opencl.CL10;
 
 import static org.example.GLOBAL_STATE.*;
@@ -18,6 +20,27 @@ public class Particles {
     private SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public Particles() {
+        EventManager.getEventManager().print();
+
+        AddParticlesEvent APD = EventManager.
+                getEventManager().
+                getEvent(AddParticlesEvent.EVENT_NAME);
+
+        APD.subscribe(this, (event) -> {
+            float x = event.x;
+            float y = event.y;
+            int num = event.num;
+            float randM = (float) num / 10.f;
+            Particle[] particles = new Particle[num];
+            for (int i = 0; i < num; i++) {
+                particles[i] = new Particle(
+                        x + randM * (float) Math.random() - randM / 2,
+                        y + randM * (float) Math.random() - randM / 2
+                );
+            }
+            addNewParticle(particles);
+        });
+
         int xMin = (int) boundary.borderThickness;
         int xMax = (int) (boundary.width - boundary.borderThickness);
 
@@ -44,7 +67,6 @@ public class Particles {
     }
 
     public void createNewParticle (float x, float y, int num) {
-        num *= 1;
         Particle[] particles = new Particle[num];
         for (int i = 0; i < num; i++) {
             particles[i] = new Particle(x, y);
@@ -63,8 +85,6 @@ public class Particles {
     }
 
     public void update () {
-
-
         if (particlesBuffer == null) {
             if (bufferManager.isExist("ParticlesBuffer")) {
                 particlesBuffer = bufferManager.getBuffer("ParticlesBuffer", GlobalDynamicBuffer.class, ParticlesBuffer.class);

@@ -45,11 +45,11 @@ public class EventManager {
      * @param name Назва події.
      * @return Об'єкт події.
      */
-    public Event<?> getEvent(String name) {
+    public <T extends Event<?>> T getEvent(String name) {
         if (!events.containsKey(name)) {
-            throw new IllegalArgumentException("Подія з назвою \"" + name + "\" не існує.");
+            throw new IllegalArgumentException("A event \"" + name + "\" does not exist.");
         }
-        return events.get(name);
+        return (T) events.get(name);
     }
 
     /**
@@ -59,7 +59,7 @@ public class EventManager {
      */
     public void removeEvent (String name) {
         if (!events.containsKey(name)) {
-            throw new IllegalArgumentException("A event with name \"" + name + "\" does not exist.");
+            throw new IllegalArgumentException("A event \"" + name + "\" does not exist.");
         } else {
             events.remove(name);
         }
@@ -73,5 +73,11 @@ public class EventManager {
             event.destroy();
         }
         events.clear();
+    }
+
+    public void print() {
+        for (String name : events.keySet()) {
+            System.out.println(name);
+        }
     }
 }

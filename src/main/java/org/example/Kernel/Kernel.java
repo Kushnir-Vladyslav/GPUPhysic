@@ -15,19 +15,36 @@ import java.nio.file.Paths;
 
 import static org.example.GLOBAL_STATE.*;
 
+/**
+ * Абстрактний клас, який представляє OpenCL ядро.
+ * Відповідає за створення, запуск та звільнення ресурсів ядра.
+ */
 public abstract class Kernel {
-    public long kernel;
-    private long program;
+    protected long kernel;     // Ідентифікатор OpenCL ядра
+    private long program;   // Ідентифікатор OpenCL програми
 
-    PointerBuffer global;
-    PointerBuffer local;
+    PointerBuffer global;   // Буфер для передачі загальної кількості задач
+    PointerBuffer local;    // Буфер для передачі кількості задач в одній робочій групі
 
-    protected int err;
+    protected int err;      // Код помилки, що повертається після виконання ядра
 
+    /**
+     * Повертає ідентифікатор OpenCL ядра.
+     *
+     * @return Ідентифікатор ядра.
+     */
     public long getKernel() {
         return kernel;
     }
 
+    /**
+     * Створює OpenCL ядро з вихідного коду.
+     *
+     * @param kernelName                Назва ядра, та файлу з ядром
+     * @param libraries                 Бібліотеки, які потрібно підключити до ядра.
+     * @throws IllegalStateException    Якщо файл з кодом ядра не знайдено.
+     * @throws RuntimeException         Якщо не вдається створити або скомпілювати ядро.
+     */
     protected void createKernel (String kernelName, String... libraries) {
         String kernelSource = "";
 
@@ -92,10 +109,21 @@ public abstract class Kernel {
         }
     }
 
+    /**
+     * Метод для внесення правок до вихідного коду ядра перед компіляцією.
+     *
+     * @param kernelSours Вихідний код ядра.
+     */
     protected void modifyKernelSours (String kernelSours) {}
 
+    /**
+     * Абстрактний метод для запуску ядра.
+     */
     public abstract void run ();
 
+    /**
+     * Перевіряє, чи виникла помилка під час виконання ядра.
+     */
     protected void checkError() {
         if (err != CL10.CL_SUCCESS) {
             System.err.println(
@@ -107,6 +135,9 @@ public abstract class Kernel {
         }
     }
 
+    /**
+     * Звільняє ресурси ядра.
+     */
     public void destroy (){
         if (kernel != 0) {
             CL10.clReleaseKernel(kernel);

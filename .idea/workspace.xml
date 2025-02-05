@@ -4,14 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="add particles collision kernel">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/ChangeNumberOfParticlesEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/Event.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/EventHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/EventManager.java" afterDir="false" />
+    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="fast push">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/AddParticlesEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/EventStructs/MousePosition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/EventStructs/NewParticle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/RightMousePressEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/RightMouseReleaseEvent.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferContext.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/KernelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/KernelManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/TypeOfBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/TypeOfBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/EventManager/ChangeNumberOfParticlesEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/NumParticlesEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/EventManager/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/EventManager/EventManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/JavaFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/JavaFX.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Kernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Kernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particles.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +37,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="KernelMeneger" />
+        <entry key="$PROJECT_DIR$" value="BufferManagerSecondTry" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -56,20 +63,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "EventManager",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.pluginManager"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;EventManager&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.Main" />
@@ -139,7 +145,55 @@
       <option name="project" value="LOCAL" />
       <updated>1737110490022</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="fix for mor real work">
+      <option name="closed" value="true" />
+      <created>1737932634171</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737932634171</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactoring">
+      <option name="closed" value="true" />
+      <created>1738005055792</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1738005055792</updated>
+    </task>
+    <task id="LOCAL-00008" summary="add asynchronous calculations">
+      <option name="closed" value="true" />
+      <created>1738011845039</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1738011845039</updated>
+    </task>
+    <task id="LOCAL-00009" summary="fast push">
+      <option name="closed" value="true" />
+      <created>1738139112948</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1738139112948</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fast push">
+      <option name="closed" value="true" />
+      <created>1738223270075</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1738223270075</updated>
+    </task>
+    <task id="LOCAL-00011" summary="add tangent speed component, fix boundary collision">
+      <option name="closed" value="true" />
+      <created>1738521087061</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1738521087062</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -161,6 +215,11 @@
     <MESSAGE value="BoundaryCollisionKernel" />
     <MESSAGE value="to ByteBuffer instead other buffer type" />
     <MESSAGE value="fix range calculation" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix range calculation" />
+    <MESSAGE value="fix for mor real work" />
+    <MESSAGE value="refactoring" />
+    <MESSAGE value="add asynchronous calculations" />
+    <MESSAGE value="fast push" />
+    <MESSAGE value="add tangent speed component, fix boundary collision" />
+    <option name="LAST_COMMIT_MESSAGE" value="add tangent speed component, fix boundary collision" />
   </component>
 </project>
