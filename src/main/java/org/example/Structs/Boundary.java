@@ -2,9 +2,9 @@ package org.example.Structs;
 
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
-import org.example.GLOBAL_STATE;
+import org.example.JavaFX.GLOBAL_STATE;
 
-import static org.example.GLOBAL_STATE.bufferManager;
+import static org.example.JavaFX.GLOBAL_STATE.bufferManager;
 
 public class Boundary {
     public float width;

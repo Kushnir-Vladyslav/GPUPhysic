@@ -1,7 +1,6 @@
 package org.example.Kernel;
 
 import org.example.BufferControl.GlobalDynamicBuffer;
-import org.example.BufferControl.GlobalStaticBuffer;
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
@@ -13,8 +12,8 @@ import org.example.Structs.Particles;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.example.GLOBAL_STATE.*;
-import static org.example.GLOBAL_STATE.cursorPosition;
+import static org.example.JavaFX.GLOBAL_STATE.*;
+import static org.example.JavaFX.GLOBAL_STATE.cursorPosition;
 
 public class BoundaryCollisionKernel extends Kernel {
 

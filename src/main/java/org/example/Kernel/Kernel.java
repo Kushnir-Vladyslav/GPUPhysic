@@ -13,7 +13,7 @@ import java.nio.IntBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.example.GLOBAL_STATE.*;
+import static org.example.JavaFX.GLOBAL_STATE.*;
 
 /**
  * Абстрактний клас, який представляє OpenCL ядро.

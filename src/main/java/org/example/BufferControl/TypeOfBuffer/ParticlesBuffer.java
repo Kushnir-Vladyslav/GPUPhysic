@@ -1,6 +1,6 @@
 package org.example.BufferControl.TypeOfBuffer;
 
-import org.example.Structs.Particle;
+import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Particle;
 
 public class ParticlesBuffer extends TypeOfBuffer{
 

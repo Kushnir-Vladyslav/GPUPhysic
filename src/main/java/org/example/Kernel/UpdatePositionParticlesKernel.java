@@ -2,7 +2,6 @@ package org.example.Kernel;
 
 import org.example.BufferControl.GlobalDynamicBuffer;
 import org.example.BufferControl.SingleValueBuffer;
-import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.BufferControl.TypeOfBuffer.FloatBufferType;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
@@ -10,7 +9,7 @@ import org.example.Structs.Particles;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.example.GLOBAL_STATE.*;
+import static org.example.JavaFX.GLOBAL_STATE.*;
 
 public class UpdatePositionParticlesKernel extends Kernel{
 

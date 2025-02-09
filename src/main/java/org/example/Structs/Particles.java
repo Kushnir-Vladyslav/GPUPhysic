@@ -2,13 +2,14 @@ package org.example.Structs;
 
 import org.example.BufferControl.GlobalDynamicBuffer;
 import org.example.BufferControl.SingleValueBuffer;
+import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Particle;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
-import org.example.EventManager.AddParticlesEvent;
 import org.example.EventManager.EventManager;
+import org.example.EventManager.RightMousePressEvent;
 import org.lwjgl.opencl.CL10;
 
-import static org.example.GLOBAL_STATE.*;
+import static org.example.JavaFX.GLOBAL_STATE.*;
 
 
 public class Particles {
@@ -20,16 +21,14 @@ public class Particles {
     private SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public Particles() {
-        EventManager.getEventManager().print();
-
-        AddParticlesEvent APD = EventManager.
+        RightMousePressEvent rightMousePressEvent = EventManager.
                 getEventManager().
-                getEvent(AddParticlesEvent.EVENT_NAME);
+                getEvent(RightMousePressEvent.EVENT_NAME);
 
-        APD.subscribe(this, (event) -> {
+        rightMousePressEvent.subscribe(this, (event) -> {
             float x = event.x;
             float y = event.y;
-            int num = event.num;
+            int num = 1;
             float randM = (float) num / 10.f;
             Particle[] particles = new Particle[num];
             for (int i = 0; i < num; i++) {

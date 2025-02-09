@@ -12,8 +12,8 @@ import org.example.Structs.Particles;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.example.GLOBAL_STATE.*;
-import static org.example.GLOBAL_STATE.boundary;
+import static org.example.JavaFX.GLOBAL_STATE.*;
+import static org.example.JavaFX.GLOBAL_STATE.boundary;
 
 public class DrawParticlesKernel extends Kernel{
 

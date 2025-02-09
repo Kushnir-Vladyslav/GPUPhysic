@@ -11,7 +11,7 @@ import org.example.Structs.CursorPosition;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.example.GLOBAL_STATE.*;
+import static org.example.JavaFX.GLOBAL_STATE.*;
 
 
 public class DrawBackgroundKernel extends Kernel {

@@ -1,7 +1,9 @@
-package org.example;
+package org.example.JavaFX;
 
 import org.example.BufferControl.BufferManager;
 import org.example.Kernel.KernelManager;
+import org.example.OpenCL.OpenCL;
+import org.example.OpenCL.OpenClContext;
 import org.example.Structs.*;
 
 public class GLOBAL_STATE {

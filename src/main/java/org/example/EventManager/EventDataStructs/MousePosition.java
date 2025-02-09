@@ -1,8 +1,8 @@
-package org.example.EventManager.EventStructs;
+package org.example.EventManager.EventDataStructs;
 
 public class MousePosition {
-    float x;
-    float y;
+    public float x;
+    public float y;
 
     public MousePosition (float x, float y) {
         this.x = x;

@@ -2,12 +2,12 @@ package org.example.EventManager;
 
 import org.example.EventManager.EventDataStructs.MousePosition;
 
-public class RightMouseReleaseEvent extends Event<MousePosition>{
-    public static String EVENT_NAME = "rightMouseReleaseEvent";
+public class MoveMouseEvent extends Event<MousePosition>{
+    public static String EVENT_NAME = "moveMouseEvent";
 
     static {
         EventManager.getEventManager().addEvent(
                 EVENT_NAME,
-                new RightMouseReleaseEvent());
+                new MoveMouseEvent());
     }
 }

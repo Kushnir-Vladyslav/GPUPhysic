@@ -2,9 +2,10 @@ package org.example.Structs;
 
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
+import org.example.EventManager.*;
 
-import static org.example.GLOBAL_STATE.WorkZoneWidth;
-import static org.example.GLOBAL_STATE.bufferManager;
+import static org.example.JavaFX.GLOBAL_STATE.WorkZoneWidth;
+import static org.example.JavaFX.GLOBAL_STATE.bufferManager;
 
 public class CursorPosition {
     public float x;
@@ -20,19 +21,51 @@ public class CursorPosition {
         y = 0;
         radius = 0;
 
-        update();
-    }
+        LeftMousePressEvent leftMousePressEvent = EventManager.
+                getEventManager().
+                getEvent(LeftMousePressEvent.EVENT_NAME);
 
-    public void setCursorPosition (float x, float y) {
-        this.x = x;
-        this.y = y;
-        radius = sizeOfCursor;
+        leftMousePressEvent.subscribe(
+                this,
+                (event) -> {
+                    this.x = event.x;
+                    this.y = event.y;
+                    radius = sizeOfCursor;
 
-        update();
-    }
+                    update();
+                }
+        );
 
-    public void inactivateCursor () {
-        radius = 0;
+        MoveMouseEvent moveMouseEvent = EventManager.
+                getEventManager().
+                getEvent(MoveMouseEvent.EVENT_NAME);
+
+        moveMouseEvent.subscribe(
+                this,
+                (event) -> {
+                    if (radius != 0) {
+                        this.x = event.x;
+                        this.y = event.y;
+
+                        update();
+                    }
+                }
+        );
+
+        LeftMouseReleaseEvent leftMouseReleaseEvent = EventManager.
+                getEventManager().
+                getEvent(LeftMouseReleaseEvent.EVENT_NAME);
+
+        leftMouseReleaseEvent.subscribe(
+                this,
+                (event) -> {
+                    if (radius != 0) {
+                        radius = 0;
+
+                        update();
+                    }
+                }
+        );
 
         update();
     }

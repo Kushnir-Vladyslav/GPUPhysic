@@ -1,4 +1,4 @@
-package org.example;
+package org.example.OpenCL;
 
 import javafx.concurrent.Task;
 import org.example.Kernel.*;
@@ -13,7 +13,7 @@ import java.nio.IntBuffer;
 import java.time.Duration;
 import java.time.Instant;
 
-import static org.example.GLOBAL_STATE.*;
+import static org.example.JavaFX.GLOBAL_STATE.*;
 
 
 public class OpenCL extends Task<Void> {

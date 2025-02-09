@@ -1,6 +1,6 @@
 package org.example.EventManager;
 
-import org.example.EventManager.EventStructs.NewParticle;
+import org.example.EventManager.EventDataStructs.NewParticle;
 
 public class AddParticlesEvent extends Event<NewParticle> {
     public static String EVENT_NAME = "addParticlesEvent";

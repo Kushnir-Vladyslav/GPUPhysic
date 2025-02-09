@@ -74,10 +74,4 @@ public class EventManager {
         }
         events.clear();
     }
-
-    public void print() {
-        for (String name : events.keySet()) {
-            System.out.println(name);
-        }
-    }
 }

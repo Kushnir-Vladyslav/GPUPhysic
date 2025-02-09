@@ -1,17 +1,14 @@
 package org.example.Kernel;
 
 import org.example.BufferControl.*;
-import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
 import org.example.BufferControl.TypeOfBuffer.FloatBufferType;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.SingleValueBuffer;
-import org.example.Structs.CursorPosition;
-import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.example.GLOBAL_STATE.bufferManager;
-import static org.example.GLOBAL_STATE.openClContext;
+import static org.example.JavaFX.GLOBAL_STATE.bufferManager;
+import static org.example.JavaFX.GLOBAL_STATE.openClContext;
 
 public class TestKernel extends Kernel{
 

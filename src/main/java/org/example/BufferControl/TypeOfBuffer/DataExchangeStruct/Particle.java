@@ -1,4 +1,4 @@
-package org.example.Structs;
+package org.example.BufferControl.TypeOfBuffer.DataExchangeStruct;
 
 public class Particle {
     public float xPosition;

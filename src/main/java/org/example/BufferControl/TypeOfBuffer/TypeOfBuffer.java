@@ -5,7 +5,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 
-import static org.example.GLOBAL_STATE.openClContext;
+import static org.example.JavaFX.GLOBAL_STATE.openClContext;
 
 /**
  * Абстрактний клас, який представляє буфер даних.

@@ -1,4 +1,4 @@
-package org.example.Structs;
+package org.example.OpenCL;
 
 import org.lwjgl.opencl.CL10;
 
