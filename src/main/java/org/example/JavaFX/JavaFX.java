@@ -11,8 +11,9 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.example.EventManager.*;
-import org.example.EventManager.EventDataStructs.MousePosition;
+import org.example.Event.*;
+import org.example.Event.EventDataStructs.MousePosition;
+import org.example.Event.MouseEvent.*;
 import org.example.OpenCL.OpenCL;
 
 
@@ -84,11 +85,11 @@ public class JavaFX extends Application {
         //Обробка натискання лівої/правої кнопки миші
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             final RightMousePressEvent rightMousePressEvent = EventManager.
-                    getEventManager().
+                    getInstance().
                     getEvent(RightMousePressEvent.EVENT_NAME);
 
             final LeftMousePressEvent leftMousePressEvent = EventManager.
-                    getEventManager().
+                    getInstance().
                     getEvent(LeftMousePressEvent.EVENT_NAME);
 
             @Override
@@ -112,7 +113,7 @@ public class JavaFX extends Application {
         //Обробка перреміщення мишки
         scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
             final MoveMouseEvent moveMouseEvent = EventManager.
-                    getEventManager().
+                    getInstance().
                     getEvent(MoveMouseEvent.EVENT_NAME);
 
             @Override
@@ -127,11 +128,11 @@ public class JavaFX extends Application {
         //обробка відпускання мишки
         scene.setOnMouseReleased(new EventHandler<MouseEvent>() {
             final RightMouseReleaseEvent rightMouseReleaseEvent = EventManager.
-                    getEventManager().
+                    getInstance().
                     getEvent(RightMouseReleaseEvent.EVENT_NAME);
 
             final LeftMouseReleaseEvent leftMouseReleaseEvent = EventManager.
-                    getEventManager().
+                    getInstance().
                     getEvent(LeftMouseReleaseEvent.EVENT_NAME);
 
             @Override

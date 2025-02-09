@@ -5,7 +5,7 @@ import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Particle;
 public class ParticlesBuffer extends TypeOfBuffer{
 
     public ParticlesBuffer (int length) {
-        create(length);
+        super(length);
     }
 
     @Override

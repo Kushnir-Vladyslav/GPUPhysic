@@ -7,9 +7,6 @@ import org.example.BufferControl.SingleValueBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.example.JavaFX.GLOBAL_STATE.bufferManager;
-import static org.example.JavaFX.GLOBAL_STATE.openClContext;
-
 public class TestKernel extends Kernel{
 
     final int VECTOR_SIZE = 16_000_000; // Збільшено розмір
@@ -28,7 +25,7 @@ public class TestKernel extends Kernel{
     SingleValueBuffer<IntBufferType> singleV;
 
     public TestKernel () {
-        createKernel("TestKernel", "Structs");
+        super("TestKernel", "TestKernel.h");
 
         for (int i = 0; i < VECTOR_SIZE; i++) {
             fb[i] = (float) Math.random();

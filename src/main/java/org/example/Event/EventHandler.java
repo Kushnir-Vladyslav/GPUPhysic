@@ -1,4 +1,4 @@
-package org.example.EventManager;
+package org.example.Event;
 
 @FunctionalInterface
 public interface EventHandler<T> {

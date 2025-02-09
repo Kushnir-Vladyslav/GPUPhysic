@@ -1,19 +1,18 @@
 package org.example.Structs;
 
+import org.example.BufferControl.BufferManager;
 import org.example.BufferControl.GlobalDynamicBuffer;
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Particle;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
-import org.example.EventManager.EventManager;
-import org.example.EventManager.RightMousePressEvent;
+import org.example.Event.EventManager;
+import org.example.Event.MouseEvent.RightMousePressEvent;
 import org.lwjgl.opencl.CL10;
-
-import static org.example.JavaFX.GLOBAL_STATE.*;
 
 
 public class Particles {
-
+    BufferManager bufferManager;
 
     private final int[] numOfParticle = new int[1];
 
@@ -21,8 +20,10 @@ public class Particles {
     private SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public Particles() {
+        bufferManager = BufferManager.getInstance();
+
         RightMousePressEvent rightMousePressEvent = EventManager.
-                getEventManager().
+                getInstance().
                 getEvent(RightMousePressEvent.EVENT_NAME);
 
         rightMousePressEvent.subscribe(this, (event) -> {
@@ -40,37 +41,25 @@ public class Particles {
             addNewParticle(particles);
         });
 
-        int xMin = (int) boundary.borderThickness;
-        int xMax = (int) (boundary.width - boundary.borderThickness);
-
-        int yMin = (int) (boundary.height / 5 * 2);
-        int yMax = yMin + 0;
-
-        numOfParticle[0] = (yMax - yMin) * (xMax - xMin);
+//        int xMin = (int) boundary.borderThickness;
+//        int xMax = (int) (boundary.width - boundary.borderThickness);
+//
+//        int yMin = (int) (boundary.height / 5 * 2);
+//        int yMax = yMin + 0;
+//
+//        numOfParticle[0] = (yMax - yMin) * (xMax - xMin);
 
         update();
 
-        Particle[] particles = new Particle[numOfParticle[0]];
-
-        int pos = 0;
-        for (int x = xMin; x < xMax; x++) {
-            for (int y = yMin; y < yMax; y++) {
-                particles[pos++] = new Particle(x, y);
-            }
-        }
-        particlesBuffer.setData(particles);
-    }
-
-    public void createNewParticle (float x, float y) {
-        createNewParticle(x, y, 1);
-    }
-
-    public void createNewParticle (float x, float y, int num) {
-        Particle[] particles = new Particle[num];
-        for (int i = 0; i < num; i++) {
-            particles[i] = new Particle(x, y);
-        }
-        addNewParticle(particles);
+//        Particle[] particles = new Particle[numOfParticle[0]];
+//
+//        int pos = 0;
+//        for (int x = xMin; x < xMax; x++) {
+//            for (int y = yMin; y < yMax; y++) {
+//                particles[pos++] = new Particle(x, y);
+//            }
+//        }
+//        particlesBuffer.setData(particles);
     }
 
     private void addNewParticle (Particle[] particles) {

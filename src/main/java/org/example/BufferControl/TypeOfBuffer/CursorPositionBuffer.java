@@ -1,11 +1,11 @@
 package org.example.BufferControl.TypeOfBuffer;
 
-import org.example.Structs.CursorPosition;
+import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.CursorPosition;
 
 public class CursorPositionBuffer extends TypeOfBuffer{
 
     public CursorPositionBuffer(int length) {
-        create(length);
+        super(length);
     }
 
     @Override

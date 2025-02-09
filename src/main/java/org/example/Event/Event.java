@@ -1,4 +1,4 @@
-package org.example.EventManager;
+package org.example.Event;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import java.util.Objects;
 public abstract class Event <T> {
     Map<Object, EventHandler<T>> eventHandlers;
 
-    Event () {
+    public Event () {
         eventHandlers = new HashMap<>();
     }
 

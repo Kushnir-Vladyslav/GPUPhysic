@@ -1,4 +1,4 @@
-package org.example.EventManager;
+package org.example.Event;
 
 public class NumParticlesEvent extends Event <Integer> {
 //    static {

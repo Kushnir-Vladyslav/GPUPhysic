@@ -3,7 +3,7 @@ package org.example.BufferControl.TypeOfBuffer;
 public class FloatBufferType extends TypeOfBuffer {
 
     public FloatBufferType(int length) {
-        create(length);
+        super(length);
     }
 
     @Override

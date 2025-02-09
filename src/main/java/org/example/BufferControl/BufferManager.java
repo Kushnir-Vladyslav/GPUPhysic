@@ -10,9 +10,19 @@ import java.util.Map;
  * Дозволяє створювати, отримувати та видаляти буфери.
  */
 public class BufferManager {
+    private static BufferManager bufferManager;
+
     protected Map<String, BufferContext<?>> buffers; // Мапа для зберігання всіх створених буферів
 
-    public BufferManager () {
+    public static BufferManager getInstance() {
+        if (bufferManager == null) {
+            bufferManager = new BufferManager();
+        }
+
+        return bufferManager;
+    }
+
+    private BufferManager () {
         buffers = new HashMap<>();
     }
 

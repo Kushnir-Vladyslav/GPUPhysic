@@ -1,4 +1,4 @@
-package org.example.EventManager.EventDataStructs;
+package org.example.Event.EventDataStructs;
 
 public class NewParticle {
     public float x;

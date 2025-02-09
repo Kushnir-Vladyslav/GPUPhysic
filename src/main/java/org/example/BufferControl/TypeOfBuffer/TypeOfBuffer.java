@@ -1,11 +1,10 @@
 package org.example.BufferControl.TypeOfBuffer;
 
+import org.example.OpenCL.OpenClContext;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
-
-import static org.example.JavaFX.GLOBAL_STATE.openClContext;
 
 /**
  * Абстрактний клас, який представляє буфер даних.
@@ -14,6 +13,14 @@ import static org.example.JavaFX.GLOBAL_STATE.openClContext;
 public abstract class TypeOfBuffer {
     protected ByteBuffer buffer;    // Буфер для зберігання даних
     protected Object array;         // Масив даних
+
+    // Змінні що потрібні для роботи з буферами OpenCL
+    protected OpenClContext openClContext;
+
+    TypeOfBuffer (int length) {
+        openClContext = OpenClContext.getInstance();
+        create(length);
+    }
 
     /**
      * Створює новий буфер заданого розміру.

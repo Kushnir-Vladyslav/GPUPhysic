@@ -1,4 +1,4 @@
-package org.example.EventManager.EventDataStructs;
+package org.example.Event.EventDataStructs;
 
 public class MousePosition {
     public float x;

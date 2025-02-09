@@ -1,7 +1,13 @@
 package org.example.OpenCL;
 
 import javafx.concurrent.Task;
+import org.example.BufferControl.BufferManager;
 import org.example.Kernel.*;
+import org.example.Kernel.Draw.DrawBackgroundKernel;
+import org.example.Kernel.Draw.DrawParticlesKernel;
+import org.example.Kernel.Physic.BoundaryCollisionKernel;
+import org.example.Kernel.Physic.PhysicCalculationKernel;
+import org.example.Kernel.Physic.UpdatePositionParticlesKernel;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL;
 import org.lwjgl.opencl.CL10;
@@ -17,9 +23,13 @@ import static org.example.JavaFX.GLOBAL_STATE.*;
 
 
 public class OpenCL extends Task<Void> {
+    OpenClContext openClContext;
 
     protected volatile boolean isRead = false;
     public volatile boolean isRun = true;
+
+    KernelManager kernelManager;
+
 //    Kernel kernel;
 
     Kernel drawBackground;
@@ -32,6 +42,7 @@ public class OpenCL extends Task<Void> {
         org.lwjgl.system.Configuration.OPENCL_EXPLICIT_INIT.set(true);
         CL.create();
 
+        openClContext = OpenClContext.getInstance();
 
         try (MemoryStack stack = MemoryStack.stackPush()) {
             // Отримання платформ та пристроїв (без змін)
@@ -68,6 +79,8 @@ public class OpenCL extends Task<Void> {
             if (openClContext.context == 0 || openClContext.commandQueue == 0) {
                 throw new IllegalStateException("Failed to create OpenCL context or command queue.");
             }
+
+            kernelManager = KernelManager.getInstance();
 
 //            kernel = new TestKernel();
 //
@@ -136,7 +149,7 @@ public class OpenCL extends Task<Void> {
 
     public void destroy () {
         kernelManager.destroy();
-        bufferManager.destroy();
+        BufferManager.getInstance().destroy();
         openClContext.destroy();
 
         CL.destroy();

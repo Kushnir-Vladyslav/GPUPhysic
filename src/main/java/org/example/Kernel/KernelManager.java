@@ -8,9 +8,19 @@ import java.util.Map;
  * Дозволяє додавати, отримувати та видаляти ядра.
  */
 public class KernelManager {
+    private static KernelManager kernelManager;
+
     Map<String, Kernel> kernelMap; // Мапа для зберігання ядер
 
-    public KernelManager () {
+    public static KernelManager getInstance() {
+        if (kernelManager == null) {
+            kernelManager = new KernelManager();
+        }
+
+        return kernelManager;
+    }
+
+    private KernelManager () {
         kernelMap = new HashMap<>();
     }
 

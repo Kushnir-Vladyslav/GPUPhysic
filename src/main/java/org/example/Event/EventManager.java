@@ -1,4 +1,4 @@
-package org.example.EventManager;
+package org.example.Event;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,7 +13,7 @@ public class EventManager {
      *
      * @return Екземпляр EventManager.
      */
-    public static EventManager getEventManager () {
+    public static EventManager getInstance() {
         if (eventManager == null) {
             synchronized (EventManager.class) {
                 if (eventManager == null) {

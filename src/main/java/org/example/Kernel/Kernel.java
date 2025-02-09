@@ -1,5 +1,7 @@
 package org.example.Kernel;
 
+import org.example.BufferControl.BufferManager;
+import org.example.OpenCL.OpenClContext;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryStack;
@@ -23,19 +25,16 @@ public abstract class Kernel {
     protected long kernel;     // Ідентифікатор OpenCL ядра
     private long program;   // Ідентифікатор OpenCL програми
 
-    PointerBuffer global;   // Буфер для передачі загальної кількості задач
-    PointerBuffer local;    // Буфер для передачі кількості задач в одній робочій групі
+    // Менеджер що відповідає за створення, зміну та видалення OpenCl буферів
+    protected BufferManager bufferManager;
+
+    // Змінні що потрібні для роботи з буферами OpenCL та ядрами
+    protected OpenClContext openClContext;
+
+    protected PointerBuffer global;   // Буфер для передачі загальної кількості задач
+    protected PointerBuffer local;    // Буфер для передачі кількості задач в одній робочій групі
 
     protected int err;      // Код помилки, що повертається після виконання ядра
-
-    /**
-     * Повертає ідентифікатор OpenCL ядра.
-     *
-     * @return Ідентифікатор ядра.
-     */
-    public long getKernel() {
-        return kernel;
-    }
 
     /**
      * Створює OpenCL ядро з вихідного коду.
@@ -45,11 +44,15 @@ public abstract class Kernel {
      * @throws IllegalStateException    Якщо файл з кодом ядра не знайдено.
      * @throws RuntimeException         Якщо не вдається створити або скомпілювати ядро.
      */
-    protected void createKernel (String kernelName, String... libraries) {
+    protected Kernel (String kernelName, String kernelFile, String... libraries) {
+        bufferManager = BufferManager.getInstance();
+
+        openClContext = OpenClContext.getInstance();
+
         String kernelSource = "";
 
         for (String library : libraries) {
-            URL URLLibrary = getClass().getResource(library + ".h");
+            URL URLLibrary = getClass().getResource(library);
 
             if(URLLibrary == null) {
                 throw new IllegalStateException("The kernel code file was not found.");
@@ -62,7 +65,7 @@ public abstract class Kernel {
             }
         }
 
-        URL URLKernelSource = getClass().getResource(kernelName + ".cl");
+        URL URLKernelSource = getClass().getResource(kernelFile);
 
         if(URLKernelSource == null) {
             throw new IllegalStateException("The kernel code file was not found.");
@@ -108,6 +111,16 @@ public abstract class Kernel {
             throw new RuntimeException("Failed to create kernel: " + kernelName + ".\n Error code: " + error);
         }
     }
+
+    /**
+     * Повертає ідентифікатор OpenCL ядра.
+     *
+     * @return Ідентифікатор ядра.
+     */
+    public long getKernel() {
+        return kernel;
+    }
+
 
     /**
      * Метод для внесення правок до вихідного коду ядра перед компіляцією.

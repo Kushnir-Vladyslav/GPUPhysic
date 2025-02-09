@@ -1,13 +1,14 @@
-package org.example.Kernel;
+package org.example.Kernel.Draw;
 
 import org.example.BufferControl.GlobalStaticBuffer;
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
-import org.example.Structs.Boundary;
+import org.example.Kernel.Kernel;
+import org.example.Structs.BoundaryController;
 import org.example.Structs.Canvas;
-import org.example.Structs.CursorPosition;
+import org.example.Structs.CursorController;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
@@ -23,7 +24,7 @@ public class DrawBackgroundKernel extends Kernel {
     SingleValueBuffer<CursorPositionBuffer> cursorPositionBuffer;
 
     public DrawBackgroundKernel() {
-        createKernel("DrawBackground", "Structs", "Math");
+        super("DrawBackground", "DrawBackground.cl", "../Structs.h", "../Math.h");
 
         if (!bufferManager.isExist("CanvasBuffer")) {
             if (canvas == null) {
@@ -34,19 +35,11 @@ public class DrawBackgroundKernel extends Kernel {
         }
 
         if (!bufferManager.isExist("BoundaryBuffer")) {
-            if (boundary == null) {
-                boundary = new Boundary();
-            } else {
-                boundary.update();
-            }
+            BoundaryController.getInstance().update();
         }
 
         if (!bufferManager.isExist("CursorBuffer")) {
-            if (cursorPosition == null) {
-                cursorPosition = new CursorPosition();
-            } else {
-                cursorPosition.update();
-            }
+            CursorController.getInstance().update();
         }
 
         canvasBuffer = bufferManager.getBuffer("CanvasBuffer", GlobalStaticBuffer.class, IntBufferType.class);
