@@ -1,20 +1,21 @@
 package org.example.Structs;
 
+import org.example.BufferControl.BufferManager;
 import org.example.BufferControl.GlobalStaticBuffer;
-import org.example.BufferControl.SingleValueBuffer;
-import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.lwjgl.opencl.CL10;
 
-import static org.example.GLOBAL_STATE.bufferManager;
-import static org.example.GLOBAL_STATE.WorkZoneHeight;
-import static org.example.GLOBAL_STATE.WorkZoneWidth;
+import static org.example.JavaFX.GLOBAL_STATE.WorkZoneHeight;
+import static org.example.JavaFX.GLOBAL_STATE.WorkZoneWidth;
 
 public class Canvas {
+    BufferManager bufferManager;
 
     GlobalStaticBuffer<IntBufferType> canvas;
 
     public Canvas () {
+        bufferManager = BufferManager.getInstance();
+
         update();
     }
 

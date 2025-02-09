@@ -1,16 +1,23 @@
-package org.example;
+package org.example.JavaFX;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.PixelFormat;
 import javafx.scene.image.WritableImage;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import org.example.Event.*;
+import org.example.Event.EventDataStructs.MousePosition;
+import org.example.Event.MouseEvent.*;
+import org.example.OpenCL.OpenCL;
 
-import static org.example.GLOBAL_STATE.*;
+
+import static org.example.JavaFX.GLOBAL_STATE.*;
 
 public class JavaFX extends Application {
 
@@ -76,32 +83,71 @@ public class JavaFX extends Application {
 
 
         //Обробка натискання лівої/правої кнопки миші
-        scene.setOnMousePressed((event) -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                cursorPosition.setCursorPosition(
-                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
-                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
-            } else if (event.getButton() == MouseButton.SECONDARY) {
-                particles.createNewParticle(
-                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
-                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
-            }
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            final RightMousePressEvent rightMousePressEvent = EventManager.
+                    getInstance().
+                    getEvent(RightMousePressEvent.EVENT_NAME);
 
+            final LeftMousePressEvent leftMousePressEvent = EventManager.
+                    getInstance().
+                    getEvent(LeftMousePressEvent.EVENT_NAME);
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    leftMousePressEvent.invoke(new MousePosition(
+                            (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
+                            (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                    );
+                } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                    rightMousePressEvent.invoke(new MousePosition(
+                            (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
+                            (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                    );
+                }
+            }
         });
 
+
+
         //Обробка перреміщення мишки
-        scene.setOnMouseDragged((event) -> {
-            if (event.isPrimaryButtonDown()) {
-                cursorPosition.setCursorPosition(
-                        (float) event.getX() / getScreenWidth() * WorkZoneWidth,
-                        (float) event.getY() / getScreenHeight() * WorkZoneWidth);
+        scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            final MoveMouseEvent moveMouseEvent = EventManager.
+                    getInstance().
+                    getEvent(MoveMouseEvent.EVENT_NAME);
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                moveMouseEvent.invoke(new MousePosition(
+                        (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
+                        (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                );
             }
         });
 
         //обробка відпускання мишки
-        scene.setOnMouseReleased(event -> {
-            if (event.getButton() == MouseButton.PRIMARY) {
-                cursorPosition.inactivateCursor();
+        scene.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            final RightMouseReleaseEvent rightMouseReleaseEvent = EventManager.
+                    getInstance().
+                    getEvent(RightMouseReleaseEvent.EVENT_NAME);
+
+            final LeftMouseReleaseEvent leftMouseReleaseEvent = EventManager.
+                    getInstance().
+                    getEvent(LeftMouseReleaseEvent.EVENT_NAME);
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                    leftMouseReleaseEvent.invoke(new MousePosition(
+                            (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
+                            (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                    );
+                } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                    rightMouseReleaseEvent.invoke(new MousePosition(
+                            (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
+                            (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                    );
+                }
             }
         });
 

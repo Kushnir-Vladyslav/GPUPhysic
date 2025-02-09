@@ -3,7 +3,7 @@ package org.example.BufferControl.TypeOfBuffer;
 public class IntBufferType extends TypeOfBuffer {
 
     public IntBufferType(int length) {
-        create(length);
+        super(length);
     }
 
     @Override

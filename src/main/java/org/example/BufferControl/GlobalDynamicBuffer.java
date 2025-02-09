@@ -1,7 +1,6 @@
 package org.example.BufferControl;
 
 import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
-import org.example.Structs.Particle;
 import org.lwjgl.opencl.CL10;
 
 public class GlobalDynamicBuffer<K extends TypeOfBuffer> extends BufferContext <K>{

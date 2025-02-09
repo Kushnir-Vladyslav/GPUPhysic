@@ -1,16 +1,18 @@
 package org.example.Structs;
 
+import org.example.BufferControl.BufferManager;
 import org.example.BufferControl.GlobalDynamicBuffer;
 import org.example.BufferControl.SingleValueBuffer;
+import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Particle;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
+import org.example.Event.EventManager;
+import org.example.Event.MouseEvent.RightMousePressEvent;
 import org.lwjgl.opencl.CL10;
-
-import static org.example.GLOBAL_STATE.*;
 
 
 public class Particles {
-
+    BufferManager bufferManager;
 
     private final int[] numOfParticle = new int[1];
 
@@ -18,38 +20,46 @@ public class Particles {
     private SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public Particles() {
-        int xMin = (int) boundary.borderThickness;
-        int xMax = (int) (boundary.width - boundary.borderThickness);
+        bufferManager = BufferManager.getInstance();
 
-        int yMin = (int) (boundary.height / 5 * 2);
-        int yMax = yMin + 0;
+        RightMousePressEvent rightMousePressEvent = EventManager.
+                getInstance().
+                getEvent(RightMousePressEvent.EVENT_NAME);
 
-        numOfParticle[0] = (yMax - yMin) * (xMax - xMin);
+        rightMousePressEvent.subscribe(this, (event) -> {
+            float x = event.x;
+            float y = event.y;
+            int num = 1;
+            float randM = (float) num / 10.f;
+            Particle[] particles = new Particle[num];
+            for (int i = 0; i < num; i++) {
+                particles[i] = new Particle(
+                        x + randM * (float) Math.random() - randM / 2,
+                        y + randM * (float) Math.random() - randM / 2
+                );
+            }
+            addNewParticle(particles);
+        });
+
+//        int xMin = (int) boundary.borderThickness;
+//        int xMax = (int) (boundary.width - boundary.borderThickness);
+//
+//        int yMin = (int) (boundary.height / 5 * 2);
+//        int yMax = yMin + 0;
+//
+//        numOfParticle[0] = (yMax - yMin) * (xMax - xMin);
 
         update();
 
-        Particle[] particles = new Particle[numOfParticle[0]];
-
-        int pos = 0;
-        for (int x = xMin; x < xMax; x++) {
-            for (int y = yMin; y < yMax; y++) {
-                particles[pos++] = new Particle(x, y);
-            }
-        }
-        particlesBuffer.setData(particles);
-    }
-
-    public void createNewParticle (float x, float y) {
-        createNewParticle(x, y, 1);
-    }
-
-    public void createNewParticle (float x, float y, int num) {
-        num *= 1;
-        Particle[] particles = new Particle[num];
-        for (int i = 0; i < num; i++) {
-            particles[i] = new Particle(x, y);
-        }
-        addNewParticle(particles);
+//        Particle[] particles = new Particle[numOfParticle[0]];
+//
+//        int pos = 0;
+//        for (int x = xMin; x < xMax; x++) {
+//            for (int y = yMin; y < yMax; y++) {
+//                particles[pos++] = new Particle(x, y);
+//            }
+//        }
+//        particlesBuffer.setData(particles);
     }
 
     private void addNewParticle (Particle[] particles) {
@@ -63,8 +73,6 @@ public class Particles {
     }
 
     public void update () {
-
-
         if (particlesBuffer == null) {
             if (bufferManager.isExist("ParticlesBuffer")) {
                 particlesBuffer = bufferManager.getBuffer("ParticlesBuffer", GlobalDynamicBuffer.class, ParticlesBuffer.class);

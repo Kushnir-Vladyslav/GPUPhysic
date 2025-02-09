@@ -1,16 +1,17 @@
-package org.example.Kernel;
+package org.example.Kernel.Physic;
 
 import org.example.BufferControl.GlobalDynamicBuffer;
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
+import org.example.Kernel.Kernel;
 import org.example.Structs.Particles;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.example.GLOBAL_STATE.*;
+import static org.example.JavaFX.GLOBAL_STATE.*;
 
-public class PhysicCalculationKernel extends Kernel{
+public class PhysicCalculationKernel extends Kernel {
 
     final int LOCAL_WORK_SIZE = 16;
 
@@ -18,7 +19,7 @@ public class PhysicCalculationKernel extends Kernel{
     SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public PhysicCalculationKernel () {
-        createKernel("PhysicCalculation", "Constants", "Structs", "Math");
+        super("PhysicCalculation", "PhysicCalculation.cl", "../Structs.h", "../Constants.h", "../Math.h");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
             if (particles == null) {

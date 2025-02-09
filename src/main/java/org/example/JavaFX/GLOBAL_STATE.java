@@ -1,7 +1,8 @@
-package org.example;
+package org.example.JavaFX;
 
-import org.example.BufferControl.BufferManager;
-import org.example.Kernel.KernelManager;
+import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Boundary;
+import org.example.OpenCL.OpenCL;
+import org.example.OpenCL.OpenClContext;
 import org.example.Structs.*;
 
 public class GLOBAL_STATE {
@@ -13,13 +14,8 @@ public class GLOBAL_STATE {
     public static int WorkZoneWidth = 256 * 3;
     public static int WorkZoneHeight = 256 * 3;
 
-    public static OpenClContext openClContext = new OpenClContext();
-    public static BufferManager bufferManager = new BufferManager();
-    public static KernelManager kernelManager = new KernelManager();
-
     public static Canvas canvas;
-    public static Boundary boundary;
-    public static CursorPosition cursorPosition;
+
     public static Particles particles;
 
     public static boolean IsUpdateWait = false;

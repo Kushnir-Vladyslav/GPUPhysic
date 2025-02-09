@@ -1,11 +1,11 @@
 package org.example.BufferControl.TypeOfBuffer;
 
-import org.example.Structs.Boundary;
+import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Boundary;
 
 public class BoundaryBuffer extends TypeOfBuffer{
 
     public BoundaryBuffer(int length) {
-        create(length);
+        super(length);
     }
 
     @Override

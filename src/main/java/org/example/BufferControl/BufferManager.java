@@ -5,13 +5,38 @@ import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Клас для управління буферами.
+ * Дозволяє створювати, отримувати та видаляти буфери.
+ */
 public class BufferManager {
-    protected Map<String, BufferContext<?>> buffers;
+    private static BufferManager bufferManager;
 
-    public BufferManager () {
+    protected Map<String, BufferContext<?>> buffers; // Мапа для зберігання всіх створених буферів
+
+    public static BufferManager getInstance() {
+        if (bufferManager == null) {
+            bufferManager = new BufferManager();
+        }
+
+        return bufferManager;
+    }
+
+    private BufferManager () {
         buffers = new HashMap<>();
     }
 
+    /**
+     * Створює новий буфер.
+     *
+     * @param name        Назва буфера.
+     * @param contextType Тип буфера.
+     * @param bufferType  Тип даних що будуть передаватись.
+     * @param <K>         Тип даних що будуть передаватись.
+     * @param <T>         Тип буфера.
+     * @return Створений контекст буфера.
+     * @throws IllegalArgumentException Якщо не вдається створити буфер.
+     */
     public <K extends TypeOfBuffer, T extends BufferContext<K>> T createBuffer (String name, Class<T> contextType, Class<K> bufferType) {
         if (isExist(name)) {
             return getBuffer(name, contextType, bufferType);
@@ -28,6 +53,17 @@ public class BufferManager {
         }
     }
 
+    /**
+     * Отримує буфер за назвою.
+     *
+     * @param name        Назва буфера.
+     * @param contextType Тип буфера.
+     * @param bufferType  Тип даних що будуть передаватись.
+     * @param <K>         Тип даних що будуть передаватись.
+     * @param <T>         Тип буфера.
+     * @return Контекст буфера.
+     * @throws IllegalArgumentException Якщо буфер не існує або типи не співпадають.
+     */
     public <K extends TypeOfBuffer, T extends BufferContext<K>> T getBuffer(String name, Class<T> contextType, Class<K> bufferType) {
         if(!isExist(name)) {
             throw new IllegalArgumentException("A buffer with that name does not exist.");
@@ -50,6 +86,12 @@ public class BufferManager {
         return casted;
     }
 
+    /**
+     * Видаляє буфер за назвою.
+     *
+     * @param name Назва буфера.
+     * @throws IllegalArgumentException Якщо буфер не існує.
+     */
     public void removeBuffer(String name) {
         if(!isExist(name)) {
             throw new IllegalArgumentException("A buffer with name \"" + name + "\" does not exist.");
@@ -58,10 +100,19 @@ public class BufferManager {
         }
     }
 
+    /**
+     * Перевіряє, чи існує буфер з заданою назвою.
+     *
+     * @param name Назва буфера.
+     * @return true, якщо буфер існує, інакше false.
+     */
     public boolean isExist (String name) {
         return buffers.containsKey(name);
     }
 
+    /**
+     * Звільняє всі ресурси буферів.
+     */
     public void destroy () {
         for (BufferContext<?> buffer : buffers.values()) {
             buffer.destroy();
