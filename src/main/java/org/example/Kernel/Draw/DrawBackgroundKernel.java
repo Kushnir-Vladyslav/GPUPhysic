@@ -24,7 +24,7 @@ public class DrawBackgroundKernel extends Kernel {
     SingleValueBuffer<CursorPositionBuffer> cursorPositionBuffer;
 
     public DrawBackgroundKernel() {
-        super("DrawBackground", "DrawBackground.cl", "../Structs.h", "../Math.h");
+        super("DrawBackground", "DrawBackground.cl", "../Structs.h");
 
         if (!bufferManager.isExist("CanvasBuffer")) {
             if (canvas == null) {

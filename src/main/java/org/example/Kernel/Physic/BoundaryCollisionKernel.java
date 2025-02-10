@@ -25,7 +25,7 @@ public class BoundaryCollisionKernel extends Kernel {
     SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public BoundaryCollisionKernel () {
-        super("BoundaryCollision", "BoundaryCollision.cl", "../Structs.h", "../Constants.h", "../Math.h");
+        super("BoundaryCollision", "BoundaryCollision.cl", "../Structs.h", "../Constants.h");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
             if (particles == null) {

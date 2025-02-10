@@ -25,7 +25,7 @@ public class DrawParticlesKernel extends Kernel {
     SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public DrawParticlesKernel() {
-        super("DrawParticles", "DrawParticles.cl", "../Structs.h", "../Math.h");
+        super("DrawParticles", "DrawParticles.cl", "../Structs.h");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
             if (particles == null) {

@@ -19,7 +19,7 @@ public class PhysicCalculationKernel extends Kernel {
     SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public PhysicCalculationKernel () {
-        super("PhysicCalculation", "PhysicCalculation.cl", "../Structs.h", "../Constants.h", "../Math.h");
+        super("PhysicCalculation", "PhysicCalculation.cl", "../Structs.h", "../Constants.h");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
             if (particles == null) {

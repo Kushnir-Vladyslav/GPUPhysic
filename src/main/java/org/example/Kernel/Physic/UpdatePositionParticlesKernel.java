@@ -24,7 +24,7 @@ public class UpdatePositionParticlesKernel extends Kernel {
     SingleValueBuffer<FloatBufferType> timeMoveParticleBuffer;
 
     public UpdatePositionParticlesKernel () {
-        super("UpdatePositionParticles", "UpdatePositionParticles.cl","../Structs.h", "../Constants.h", "../Math.h");
+        super("UpdatePositionParticles", "UpdatePositionParticles.cl","../Structs.h", "../Constants.h");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
             if (particles == null) {
