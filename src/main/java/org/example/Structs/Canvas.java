@@ -5,18 +5,40 @@ import org.example.BufferControl.GlobalStaticBuffer;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.lwjgl.opencl.CL10;
 
-import static org.example.JavaFX.GLOBAL_STATE.WorkZoneHeight;
-import static org.example.JavaFX.GLOBAL_STATE.WorkZoneWidth;
 
 public class Canvas {
+    private static Canvas canvasInstance;
+
     BufferManager bufferManager;
 
-    GlobalStaticBuffer<IntBufferType> canvas;
+    private GlobalStaticBuffer<IntBufferType> canvas;
 
-    public Canvas () {
+    private int canvasWidth;
+    private int canvasHeight;
+
+    public static Canvas getInstance() {
+        if (canvasInstance == null) {
+            canvasInstance = new Canvas();
+        }
+
+        return canvasInstance;
+    }
+
+    private Canvas () {
         bufferManager = BufferManager.getInstance();
 
+        canvasWidth = 256 * 4;
+        canvasHeight = 256 * 3;
+
         update();
+    }
+
+    public static int getCanvasWidth() {
+        return getInstance().canvasWidth;
+    }
+
+    public static int getCanvasHeight() {
+        return getInstance().canvasHeight;
     }
 
     public void update () {
@@ -24,7 +46,7 @@ public class Canvas {
             canvas = bufferManager.getBuffer("CanvasBuffer", GlobalStaticBuffer.class, IntBufferType.class);
         } else {
             canvas = bufferManager.createBuffer("CanvasBuffer", GlobalStaticBuffer.class, IntBufferType.class);
-            canvas.init(WorkZoneHeight * WorkZoneWidth, CL10.CL_MEM_WRITE_ONLY);
+            canvas.init(canvasHeight * canvasWidth, CL10.CL_MEM_WRITE_ONLY);
         }
     }
 

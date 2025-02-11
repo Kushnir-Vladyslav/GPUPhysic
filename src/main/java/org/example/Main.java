@@ -21,6 +21,10 @@ public class Main {
             throw new RuntimeException(e);
         }
 
+        String text = "lol dva SOME_VALUE";
+
+        text = text.replace("SOME_VALUE", String.valueOf(500.f / 2.56f));
+        System.out.println(text + "f");
 //        System.out.println(LibraryManager.getInstance().getLibrary("Structs"));
 
         JavaFX.main(args);

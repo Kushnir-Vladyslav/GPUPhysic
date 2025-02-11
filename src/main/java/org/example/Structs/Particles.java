@@ -8,10 +8,12 @@ import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
 import org.example.Event.EventManager;
 import org.example.Event.MouseEvent.RightMousePressEvent;
+import org.example.Event.NumberParticlesEvent.NumParticlesEvent;
 import org.lwjgl.opencl.CL10;
 
 
 public class Particles {
+    private static Particles particles;
     BufferManager bufferManager;
 
     private final int[] numOfParticle = new int[1];
@@ -19,7 +21,17 @@ public class Particles {
     private GlobalDynamicBuffer<ParticlesBuffer> particlesBuffer;
     private SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
-    public Particles() {
+    private NumParticlesEvent numParticlesEvent;
+
+    public static Particles getInstance() {
+        if (particles == null) {
+            particles = new Particles();
+        }
+
+        return particles;
+    }
+
+    private Particles() {
         bufferManager = BufferManager.getInstance();
 
         RightMousePressEvent rightMousePressEvent = EventManager.
@@ -41,35 +53,23 @@ public class Particles {
             addNewParticle(particles);
         });
 
-//        int xMin = (int) boundary.borderThickness;
-//        int xMax = (int) (boundary.width - boundary.borderThickness);
-//
-//        int yMin = (int) (boundary.height / 5 * 2);
-//        int yMax = yMin + 0;
-//
-//        numOfParticle[0] = (yMax - yMin) * (xMax - xMin);
+        numParticlesEvent = EventManager
+                .getInstance().
+                getEvent(NumParticlesEvent.EVENT_NAME);
 
         update();
-
-//        Particle[] particles = new Particle[numOfParticle[0]];
-//
-//        int pos = 0;
-//        for (int x = xMin; x < xMax; x++) {
-//            for (int y = yMin; y < yMax; y++) {
-//                particles[pos++] = new Particle(x, y);
-//            }
-//        }
-//        particlesBuffer.setData(particles);
     }
 
     private void addNewParticle (Particle[] particles) {
         particlesBuffer.addData(particles);
         numOfParticle[0] += particles.length;
         numParticlesBuffer.setData(numOfParticle);
+
+        numParticlesEvent.invoke(numOfParticle[0]);
     }
 
-    public int getNumOfParticle() {
-        return numOfParticle[0];
+    public static int getNumOfParticle() {
+        return particles.numOfParticle[0];
     }
 
     public void update () {

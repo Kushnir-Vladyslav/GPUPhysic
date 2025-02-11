@@ -5,12 +5,12 @@ import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.FloatBufferType;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
+import org.example.Event.EventManager;
+import org.example.Event.NumberParticlesEvent.NumParticlesEvent;
 import org.example.Kernel.Kernel;
 import org.example.Structs.Particles;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
-
-import static org.example.JavaFX.GLOBAL_STATE.*;
 
 public class UpdatePositionParticlesKernel extends Kernel {
 
@@ -27,11 +27,7 @@ public class UpdatePositionParticlesKernel extends Kernel {
         super("UpdatePositionParticles", "UpdatePositionParticles.cl","Structs", "Constants");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
-            if (particles == null) {
-                particles = new Particles();
-            } else {
-                particles.update();
-            }
+            Particles.getInstance().update();
         }
 
         particlesBuffer = bufferManager.getBuffer("ParticlesBuffer", GlobalDynamicBuffer.class, ParticlesBuffer.class);
@@ -43,16 +39,29 @@ public class UpdatePositionParticlesKernel extends Kernel {
         numParticlesBuffer.addKernel(kernel, 1);
         timeMoveParticleBuffer.addKernel(kernel, 2);
 
-        global = MemoryUtil.memAllocPointer(1);
+        global = MemoryUtil.memAllocPointer(1).put(0,
+                (long) Math.ceil(Particles.getNumOfParticle() /
+                        (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
         local = MemoryUtil.memAllocPointer(1).put(LOCAL_WORK_SIZE);
 
         time = System.nanoTime();
+
+        NumParticlesEvent numParticlesEvent = EventManager
+                .getInstance().
+                getEvent(NumParticlesEvent.EVENT_NAME);
+
+        numParticlesEvent.subscribe(
+                this,
+                (event) -> {
+                    global.put(0,
+                            (long) Math.ceil(Particles.getNumOfParticle() /
+                                    (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
+                }
+        );
     }
 
     @Override
     public void run() {
-        global.put(0, (long) Math.ceil(particles.getNumOfParticle() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
-
         long newTime = System.nanoTime();;
         deltaTime[0] = (float) ((newTime - time) / 1e9);
 
@@ -65,5 +74,16 @@ public class UpdatePositionParticlesKernel extends Kernel {
                 null, null
         );
         checkError();
+    }
+
+    @Override
+    public void destroy () {
+        super.destroy();
+
+        NumParticlesEvent numParticlesEvent = EventManager
+                .getInstance().
+                getEvent(NumParticlesEvent.EVENT_NAME);
+
+        numParticlesEvent.removeHandler(this);
     }
 }

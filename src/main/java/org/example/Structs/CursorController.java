@@ -9,12 +9,10 @@ import org.example.Event.MouseEvent.LeftMousePressEvent;
 import org.example.Event.MouseEvent.LeftMouseReleaseEvent;
 import org.example.Event.MouseEvent.MoveMouseEvent;
 
-import static org.example.JavaFX.GLOBAL_STATE.WorkZoneWidth;
-
 public class CursorController {
     private static CursorController cursorController;
 
-    private final float sizeOfCursor = WorkZoneWidth / 25.f;
+    private final float sizeOfCursor = Canvas.getCanvasHeight() / 25.f;
 
     SingleValueBuffer<CursorPositionBuffer> cursorBuffer;
 

@@ -4,12 +4,12 @@ import org.example.BufferControl.GlobalDynamicBuffer;
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
+import org.example.Event.EventManager;
+import org.example.Event.NumberParticlesEvent.NumParticlesEvent;
 import org.example.Kernel.Kernel;
 import org.example.Structs.Particles;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
-
-import static org.example.JavaFX.GLOBAL_STATE.*;
 
 public class PhysicCalculationKernel extends Kernel {
 
@@ -22,11 +22,7 @@ public class PhysicCalculationKernel extends Kernel {
         super("PhysicCalculation", "PhysicCalculation.cl", "Structs", "Constants");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
-            if (particles == null) {
-                particles = new Particles();
-            } else {
-                particles.update();
-            }
+            Particles.getInstance().update();
         }
 
         particlesBuffer = bufferManager.getBuffer("ParticlesBuffer", GlobalDynamicBuffer.class, ParticlesBuffer.class);
@@ -35,20 +31,47 @@ public class PhysicCalculationKernel extends Kernel {
         particlesBuffer.addKernel(kernel, 0);
         numParticlesBuffer.addKernel(kernel, 1);
 
-        global = MemoryUtil.memAllocPointer(2);
-        local = MemoryUtil.memAllocPointer(2).put(LOCAL_WORK_SIZE).put(LOCAL_WORK_SIZE);
+        global = MemoryUtil.memAllocPointer(2).
+                put((long) Math.ceil(Particles.getNumOfParticle() /
+                        (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).
+                put((long) Math.ceil(Particles.getNumOfParticle() /
+                        (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
+        local = MemoryUtil.memAllocPointer(2).
+                put(LOCAL_WORK_SIZE).put(LOCAL_WORK_SIZE);
+
+        NumParticlesEvent numParticlesEvent = EventManager
+                .getInstance().
+                getEvent(NumParticlesEvent.EVENT_NAME);
+
+        numParticlesEvent.subscribe(
+                this,
+                (event) -> {
+                    global.put((long) Math.ceil(Particles.getNumOfParticle() /
+                                    (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).
+                            put((long) Math.ceil(Particles.getNumOfParticle() /
+                                    (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
+                }
+        );
     }
 
     @Override
     public void run() {
-        global.put((long) Math.ceil(particles.getNumOfParticle() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).
-                put((long) Math.ceil(particles.getNumOfParticle() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
-
         err = CL10.clEnqueueNDRangeKernel(
                 openClContext.commandQueue, kernel, 2, null,
                 global.rewind(), local.rewind(),
                 null, null
         );
         checkError();
+    }
+
+    @Override
+    public void destroy () {
+        super.destroy();
+
+        NumParticlesEvent numParticlesEvent = EventManager
+                .getInstance().
+                getEvent(NumParticlesEvent.EVENT_NAME);
+
+        numParticlesEvent.removeHandler(this);
     }
 }

@@ -10,14 +10,6 @@ public class GLOBAL_STATE {
     private static int ScreenWidth = 256 * 4;
     private static int ScreenHeight = 256 * 3;
 
-    //розмір робочої областіж
-    public static int WorkZoneWidth = 256 * 4;
-    public static int WorkZoneHeight = 256 * 3;
-
-    public static Canvas canvas;
-
-    public static Particles particles;
-
     public static boolean IsUpdateWait = false;
 
     public static OpenCL OpenClTask;
@@ -26,9 +18,6 @@ public class GLOBAL_STATE {
 
     //масив пікселів що відображаються на екрані
     public static int[] Pixels;
-
-    //масив глибин пікселів
-    public static float [] DepthBuffer;
 
     //Час від початку запуску програми
     public static float Time = 0.f;
