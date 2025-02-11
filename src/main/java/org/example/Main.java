@@ -1,5 +1,7 @@
 package org.example;
 
+
+import org.example.FileFinder.ResourceFileFinder;
 import org.example.JavaFX.JavaFX;
 
 public class Main {
@@ -10,9 +12,13 @@ public class Main {
 //            particles[i] = new Particle();
 //        }
 
+        ResourceFileFinder.main(args);
+
         JavaFX.main(args);
 
 //        OpenCL oCL = new OpenCL();
 //        oCL.call();
     }
+
+
 }
