@@ -12,9 +12,6 @@ import org.example.Structs.CursorController;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import static org.example.JavaFX.GLOBAL_STATE.*;
-
-
 public class DrawBackgroundKernel extends Kernel {
 
     final int LOCAL_WORK_SIZE = 16;
@@ -24,14 +21,10 @@ public class DrawBackgroundKernel extends Kernel {
     SingleValueBuffer<CursorPositionBuffer> cursorPositionBuffer;
 
     public DrawBackgroundKernel() {
-        super("DrawBackground", "DrawBackground.cl", "../Structs.h", "../Math.h");
+        super("DrawBackground", "DrawBackground.cl", "Structs");
 
         if (!bufferManager.isExist("CanvasBuffer")) {
-            if (canvas == null) {
-                canvas = new Canvas();
-            } else {
-                canvas.update();
-            }
+            Canvas.getInstance().update();
         }
 
         if (!bufferManager.isExist("BoundaryBuffer")) {
@@ -51,8 +44,8 @@ public class DrawBackgroundKernel extends Kernel {
         cursorPositionBuffer.addKernel(kernel, 2);
 
         global = MemoryUtil.memAllocPointer(2).
-                put((long) Math.ceil(WorkZoneWidth / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).
-                put((long) Math.ceil(WorkZoneHeight / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
+                put((long) Math.ceil(Canvas.getCanvasWidth() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).
+                put((long) Math.ceil(Canvas.getCanvasHeight() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
         local = MemoryUtil.memAllocPointer(2).put(LOCAL_WORK_SIZE).put(LOCAL_WORK_SIZE);
     }
 

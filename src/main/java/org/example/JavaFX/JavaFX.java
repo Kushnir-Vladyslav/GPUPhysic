@@ -15,6 +15,7 @@ import org.example.Event.*;
 import org.example.Event.EventDataStructs.MousePosition;
 import org.example.Event.MouseEvent.*;
 import org.example.OpenCL.OpenCL;
+import org.example.Structs.Canvas;
 
 
 import static org.example.JavaFX.GLOBAL_STATE.*;
@@ -34,10 +35,9 @@ public class JavaFX extends Application {
     public void start(Stage primaryStage) {
         createOpenClThread();
 
-        writableImage = new WritableImage(WorkZoneWidth, WorkZoneHeight);
+        writableImage = new WritableImage(Canvas.getCanvasWidth(), Canvas.getCanvasHeight());
 
         Pixels = new int [getScreenWidth() * getScreenHeight()];
-        DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
 
         imageView = new ImageView(writableImage);
         imageView.setFitWidth(getScreenWidth());
@@ -96,13 +96,13 @@ public class JavaFX extends Application {
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                     leftMousePressEvent.invoke(new MousePosition(
-                            (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
-                            (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                            (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
+                            (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
                     );
                 } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                     rightMousePressEvent.invoke(new MousePosition(
-                            (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
-                            (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                            (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
+                            (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
                     );
                 }
             }
@@ -119,8 +119,8 @@ public class JavaFX extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 moveMouseEvent.invoke(new MousePosition(
-                        (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
-                        (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                        (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
+                        (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
                 );
             }
         });
@@ -139,13 +139,13 @@ public class JavaFX extends Application {
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                     leftMouseReleaseEvent.invoke(new MousePosition(
-                            (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
-                            (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                            (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
+                            (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
                     );
                 } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                     rightMouseReleaseEvent.invoke(new MousePosition(
-                            (float) mouseEvent.getX() / getScreenWidth() * WorkZoneWidth,
-                            (float) mouseEvent.getY() / getScreenHeight() * WorkZoneWidth)
+                            (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
+                            (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
                     );
                 }
             }
@@ -185,8 +185,8 @@ public class JavaFX extends Application {
 
 
                 writableImage.getPixelWriter().setPixels(0, 0,
-                        WorkZoneWidth, WorkZoneHeight,
-                        PixelFormat.getIntArgbInstance(), Pixels, 0, WorkZoneWidth);
+                        Canvas.getCanvasWidth(), Canvas.getCanvasHeight(),
+                        PixelFormat.getIntArgbInstance(), Pixels, 0, Canvas.getCanvasWidth());
 
                 last = now;
             }

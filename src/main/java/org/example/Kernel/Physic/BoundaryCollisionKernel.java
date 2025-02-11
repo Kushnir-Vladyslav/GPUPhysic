@@ -6,14 +6,14 @@ import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
+import org.example.Event.EventManager;
+import org.example.Event.NumberParticlesEvent.NumParticlesEvent;
 import org.example.Kernel.Kernel;
 import org.example.Structs.BoundaryController;
 import org.example.Structs.CursorController;
 import org.example.Structs.Particles;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
-
-import static org.example.JavaFX.GLOBAL_STATE.*;
 
 public class BoundaryCollisionKernel extends Kernel {
 
@@ -25,14 +25,10 @@ public class BoundaryCollisionKernel extends Kernel {
     SingleValueBuffer<IntBufferType> numParticlesBuffer;
 
     public BoundaryCollisionKernel () {
-        super("BoundaryCollision", "BoundaryCollision.cl", "../Structs.h", "../Constants.h", "../Math.h");
+        super("BoundaryCollision", "BoundaryCollision.cl", "Structs", "Constants");
 
         if (!bufferManager.isExist("ParticlesBuffer") || !bufferManager.isExist("NumParticlesBuffer")) {
-            if (particles == null) {
-                particles = new Particles();
-            } else {
-                particles.update();
-            }
+            Particles.getInstance().update();
         }
 
         if (!bufferManager.isExist("BoundaryBuffer")) {
@@ -53,18 +49,43 @@ public class BoundaryCollisionKernel extends Kernel {
         cursorPositionBuffer.addKernel(kernel, 2);
         numParticlesBuffer.addKernel(kernel, 3);
 
-        global = MemoryUtil.memAllocPointer(1);
+        global = MemoryUtil.memAllocPointer(1).put(0,
+                (long) Math.ceil(Particles.getNumOfParticle() /
+                        (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
         local = MemoryUtil.memAllocPointer(1).put(LOCAL_WORK_SIZE);
+
+        NumParticlesEvent numParticlesEvent = EventManager
+                .getInstance().
+                getEvent(NumParticlesEvent.EVENT_NAME);
+
+        numParticlesEvent.subscribe(
+                this,
+                (event) -> {
+                    global.put(0,
+                            (long) Math.ceil(Particles.getNumOfParticle() /
+                                    (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
+                }
+        );
     }
 
     @Override
     public void run() {
-        global.put(0, (long) Math.ceil(particles.getNumOfParticle() / (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);
         err = CL10.clEnqueueNDRangeKernel(
                 openClContext.commandQueue, kernel, 1, null,
                 global.rewind(), local.rewind(),
                 null, null
         );
         checkError();
+    }
+
+    @Override
+    public void destroy () {
+        super.destroy();
+
+        NumParticlesEvent numParticlesEvent = EventManager
+                .getInstance().
+                getEvent(NumParticlesEvent.EVENT_NAME);
+
+        numParticlesEvent.removeHandler(this);
     }
 }

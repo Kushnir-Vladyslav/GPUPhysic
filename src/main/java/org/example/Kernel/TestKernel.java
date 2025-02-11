@@ -25,7 +25,7 @@ public class TestKernel extends Kernel{
     SingleValueBuffer<IntBufferType> singleV;
 
     public TestKernel () {
-        super("TestKernel", "TestKernel.h");
+        super("TestKernel", "TestKernel");
 
         for (int i = 0; i < VECTOR_SIZE; i++) {
             fb[i] = (float) Math.random();

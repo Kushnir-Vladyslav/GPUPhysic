@@ -8,6 +8,7 @@ import org.example.Kernel.Draw.DrawParticlesKernel;
 import org.example.Kernel.Physic.BoundaryCollisionKernel;
 import org.example.Kernel.Physic.PhysicCalculationKernel;
 import org.example.Kernel.Physic.UpdatePositionParticlesKernel;
+import org.example.Structs.Canvas;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL;
 import org.lwjgl.opencl.CL10;
@@ -121,8 +122,6 @@ public class OpenCL extends Task<Void> {
             for (int i = 0; i < 10; i++) {
                 physicCalculation.run();
                 boundaryCollision.run();
-
-                CL10.clFinish(openClContext.commandQueue);
             }
             updatePositionParticles.run();
 
@@ -133,10 +132,11 @@ public class OpenCL extends Task<Void> {
 //        Instant end = Instant.now();
 
 //        printExecutionTime(start, end);
-                    Pixels = canvas.getCanvas();
+                    Pixels = Canvas.getInstance().getCanvas();
                     isRead = false;
                 }
             }
+            CL10.clFinish(openClContext.commandQueue);
         }
         return null;
     }

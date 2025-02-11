@@ -1,6 +1,7 @@
 package org.example.Kernel;
 
 import org.example.BufferControl.BufferManager;
+import org.example.Library.LibraryManager;
 import org.example.OpenCL.OpenClContext;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
@@ -15,8 +16,6 @@ import java.nio.IntBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import static org.example.JavaFX.GLOBAL_STATE.*;
-
 /**
  * Абстрактний клас, який представляє OpenCL ядро.
  * Відповідає за створення, запуск та звільнення ресурсів ядра.
@@ -24,6 +23,8 @@ import static org.example.JavaFX.GLOBAL_STATE.*;
 public abstract class Kernel {
     protected long kernel;     // Ідентифікатор OpenCL ядра
     private long program;   // Ідентифікатор OpenCL програми
+
+    protected static LibraryManager libraryManager = LibraryManager.getInstance();
 
     // Менеджер що відповідає за створення, зміну та видалення OpenCl буферів
     protected BufferManager bufferManager;
@@ -52,17 +53,7 @@ public abstract class Kernel {
         String kernelSource = "";
 
         for (String library : libraries) {
-            URL URLLibrary = getClass().getResource(library);
-
-            if(URLLibrary == null) {
-                throw new IllegalStateException("The kernel code file was not found.");
-            }
-
-            try {
-                kernelSource += Files.readString(Paths.get(URLLibrary.toURI()));
-            } catch (IOException | URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
+            kernelSource += libraryManager.getLibrary(library);
         }
 
         URL URLKernelSource = getClass().getResource(kernelFile);

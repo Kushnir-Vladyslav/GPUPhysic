@@ -4,7 +4,6 @@ import org.example.BufferControl.BufferManager;
 import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Boundary;
-import org.example.JavaFX.GLOBAL_STATE;
 
 public class BoundaryController {
     private static BoundaryController boundaryController;
@@ -28,8 +27,8 @@ public class BoundaryController {
 
         boundary = new Boundary();
 
-        boundary.width = GLOBAL_STATE.WorkZoneWidth;
-        boundary.height = GLOBAL_STATE.WorkZoneHeight;
+        boundary.width = Canvas.getCanvasWidth();
+        boundary.height = Canvas.getCanvasHeight();
 
         boundary.borderThickness = 2;
 

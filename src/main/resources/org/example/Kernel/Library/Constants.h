@@ -1,6 +1,6 @@
 
 // Фізичні константи
-#define GRAVITY 198.1f //величина вказана в пікселях, тому така велика
+#define GRAVITY VALUE_OF_GRAVITY //величина вказана в пікселях, тому така велика
 #define MAX_SPEED 10.f * GRAVITY
 #define MIN_SPEED 0.025f * GRAVITY
 #define RESTITUTION 0.5f
