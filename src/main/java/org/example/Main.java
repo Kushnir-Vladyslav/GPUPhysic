@@ -1,8 +1,10 @@
 package org.example;
 
 
-import org.example.FileFinder.ResourceFileFinder;
+import org.example.FileFinder.ClassFinder;
+import org.example.FileFinder.LibraryFinder;
 import org.example.JavaFX.JavaFX;
+import org.example.Library.LibraryManager;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,7 +14,14 @@ public class Main {
 //            particles[i] = new Particle();
 //        }
 
-        ResourceFileFinder.main(args);
+
+        try {
+            System.out.println(ClassFinder.findClass("StructsLibrary"));
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+//        System.out.println(LibraryManager.getInstance().getLibrary("Structs"));
 
         JavaFX.main(args);
 

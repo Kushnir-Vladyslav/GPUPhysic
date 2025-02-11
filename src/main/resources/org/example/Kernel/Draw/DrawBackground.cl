@@ -20,9 +20,11 @@ __kernel void DrawBackground (
             gid_y <= boundaries.borderThickness ||
             gid_y >= boundaries.height - boundaries.borderThickness ||
             (boundaries.sphereRadius > 0 &&
-            boundaries.sphereRadius < length(gid_x, gid_y, boundaries.sphereX, boundaries.sphereY)) ||
+            boundaries.sphereRadius < length(
+            (float2)(gid_x - boundaries.sphereX, gid_y - boundaries.sphereY))) ||
             (cursor.cursorRadius > 0 &&
-            cursor.cursorRadius > length(gid_x, gid_y, cursor.cursorX, cursor.cursorY ));
+            cursor.cursorRadius > length(
+            (float2)(gid_x - cursor.cursorX, gid_y - cursor.cursorY)));
 
     int pixel = gid_y * boundaries.width + gid_x;
 

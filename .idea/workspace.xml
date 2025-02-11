@@ -4,11 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="refactoring">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/FileFinder/ResourceFileFinder.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/ResourcesFoldersList.java" afterDir="false" />
+    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="implement event manager">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/FileFinder/ClassFinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/FileFinder/KernelFinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/FileFinder/LibraryFinder.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/Library/StructsLibrary.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/FileFinder/FileFinder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/FileFinder/FileFinder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/FileFinder/ResourceFileFinder.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Draw/DrawBackgroundKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Draw/DrawBackgroundKernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Draw/DrawParticlesKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Draw/DrawParticlesKernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Kernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Kernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/BoundaryCollisionKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/BoundaryCollisionKernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/PhysicCalculationKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/PhysicCalculationKernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/UpdatePositionParticlesKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/UpdatePositionParticlesKernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/ResourcesFoldersList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/TestKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/TestKernel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Library/DynamicLibrary.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Library/DynamicLibrary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Library/Library.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Library/Library.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Library/LibraryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Library/LibraryManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Draw/DrawBackground.cl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/Kernel/Draw/DrawBackground.cl" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,27 +72,22 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Main.executor": "Run",
+    "Maven.PhysicalOfParticle [clean].executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "LibrariesManager",
     "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Modules",
+    "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.fileTypes"
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\vlad9\IdeaProjects\demo1\PhysicalOfParticle\src\main\resources\org\example\Kernel\Physic" />
-      <recent name="C:\Users\vlad9\IdeaProjects\demo1\PhysicalOfParticle\src\main\resources\org\example\Kernel\Draw" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="org.example" />
-      <recent name="org.example.Kernel" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="org.example.EventManager" />
+      <recent name="C:\Users\dep18\IdeaProjects\GPUPhysic\src\main\resources\org\example\Kernel\Library" />
+      <recent name="C:\Users\dep18\IdeaProjects\GPUPhysic\src\main\resources\org\example\Kernel" />
     </key>
   </component>
   <component name="RunManager">
@@ -85,7 +96,7 @@
       <module name="PhysicalOfParticle" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="org.example.OpenCL.*" />
+          <option name="PATTERN" value="org.example.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -148,71 +159,7 @@
       <option name="project" value="LOCAL" />
       <updated>1737110490022</updated>
     </task>
-    <task id="LOCAL-00006" summary="fix for mor real work">
-      <option name="closed" value="true" />
-      <created>1737932634171</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1737932634171</updated>
-    </task>
-    <task id="LOCAL-00007" summary="refactoring">
-      <option name="closed" value="true" />
-      <created>1738005055792</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1738005055792</updated>
-    </task>
-    <task id="LOCAL-00008" summary="add asynchronous calculations">
-      <option name="closed" value="true" />
-      <created>1738011845039</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1738011845039</updated>
-    </task>
-    <task id="LOCAL-00009" summary="fast push">
-      <option name="closed" value="true" />
-      <created>1738139112948</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1738139112948</updated>
-    </task>
-    <task id="LOCAL-00010" summary="fast push">
-      <option name="closed" value="true" />
-      <created>1738223270075</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1738223270075</updated>
-    </task>
-    <task id="LOCAL-00011" summary="add tangent speed component, fix boundary collision">
-      <option name="closed" value="true" />
-      <created>1738521087061</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1738521087062</updated>
-    </task>
-    <task id="LOCAL-00012" summary="add comments">
-      <option name="closed" value="true" />
-      <created>1738776769917</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1738776769917</updated>
-    </task>
-    <task id="LOCAL-00013" summary="fast push">
-      <option name="closed" value="true" />
-      <created>1739129478866</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1739129478866</updated>
-    </task>
-    <option name="localTasksCounter" value="14" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -223,19 +170,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="EventManager" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -246,27 +181,6 @@
     <MESSAGE value="BoundaryCollisionKernel" />
     <MESSAGE value="to ByteBuffer instead other buffer type" />
     <MESSAGE value="fix range calculation" />
-    <MESSAGE value="fix for mor real work" />
-    <MESSAGE value="refactoring" />
-    <MESSAGE value="add asynchronous calculations" />
-    <MESSAGE value="add tangent speed component, fix boundary collision" />
-    <MESSAGE value="add comments" />
-    <MESSAGE value="fast push" />
-    <option name="LAST_COMMIT_MESSAGE" value="fast push" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="java-exception">
-          <properties class="java.nio.file.FileSystemNotFoundException" package="java.nio.file" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/FileFinder/ResourceFileFinder.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <option name="LAST_COMMIT_MESSAGE" value="fix range calculation" />
   </component>
 </project>

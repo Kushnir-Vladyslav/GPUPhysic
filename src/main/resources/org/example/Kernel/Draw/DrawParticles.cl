@@ -59,7 +59,7 @@ __kernel void DrawParticles (
 
     for (int y = y_min; y <= y_max; y++) {
         for (int x = x_min; x <= x_max; x++) {
-            if (particle.radius >= length(x, y, particle.x, particle.y)) {
+            if (particle.radius >= length((float2)(x - particle.x, y - particle.y))) {
                 outPut[y * (int) boundary.width + x] = collor;
             }
         }

@@ -1,5 +1,7 @@
 package org.example.Library;
 
+import org.example.FileFinder.ClassFinder;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,20 +27,23 @@ public class LibraryManager {
     }
 
     private Library loadLibrary(String libraryName) {
-        // Спочатку шукаємо клас бібліотеки
+
         String className = libraryName + "Library";
         try {
-            Class<?> clazz = Class.forName(className);
+            Class<?> clazz = ClassFinder.findClass(className);
             if (Library.class.isAssignableFrom(clazz)) {
                 return (Library) clazz.getDeclaredConstructor().newInstance();
             }
         } catch (ClassNotFoundException e) {
-            // Клас не знайдено, створюємо динамічну бібліотеку
+            System.err.println("Class of " + className + " not found, creating a dynamic library.");
         } catch (Exception e) {
             throw new RuntimeException("Failed to instantiate library class: " + className, e);
         }
 
-        // Якщо клас не знайдено, створюємо динамічну бібліотеку
-        return new DynamicLibrary(libraryName);
+        try {
+            return new DynamicLibrary(libraryName);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create library named: " + libraryName, e);
+        }
     }
 }
