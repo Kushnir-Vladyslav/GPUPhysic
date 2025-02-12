@@ -6,6 +6,7 @@ import org.example.BufferControl.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Particle;
 import org.example.BufferControl.TypeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
+import org.example.Event.EventDataStructs.MousePosition;
 import org.example.Event.EventManager;
 import org.example.Event.MouseEvent.RightMousePressEvent;
 import org.example.Event.NumberParticlesEvent.NumParticlesEvent;
@@ -60,6 +61,32 @@ public class Particles {
         update();
     }
 
+    public void spawnALot() {
+
+        RightMousePressEvent rightMousePressEvent = EventManager.
+                getInstance().
+                getEvent(RightMousePressEvent.EVENT_NAME);
+
+        int xMin = (int) BoundaryController.getBoundary().borderThickness;
+        int xMax = (int) (Canvas.getCanvasWidth()- BoundaryController.getBoundary().borderThickness);
+
+
+
+        int yMin = (int) Canvas.getCanvasHeight() * 2 / 5;
+        int yMax = yMin + 25;
+
+        Particle[] particles1 = new Particle[(xMax - xMin) * (yMax - yMin)];
+
+        int pos = 0;
+        for (int x = xMin; x < xMax; x++) {
+            for (int y = yMin; y < yMax; y++) {
+               rightMousePressEvent.invoke(new MousePosition(x, y));
+            }
+        }
+
+//        addNewParticle(particles1);
+    }
+
     private void addNewParticle (Particle[] particles) {
         particlesBuffer.addData(particles);
         numOfParticle[0] += particles.length;
@@ -69,7 +96,7 @@ public class Particles {
     }
 
     public static int getNumOfParticle() {
-        return particles.numOfParticle[0];
+        return getInstance().numOfParticle[0];
     }
 
     public void update () {

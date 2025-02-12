@@ -9,6 +9,7 @@ import org.example.Kernel.Physic.BoundaryCollisionKernel;
 import org.example.Kernel.Physic.PhysicCalculationKernel;
 import org.example.Kernel.Physic.UpdatePositionParticlesKernel;
 import org.example.Structs.Canvas;
+import org.example.Structs.Particles;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL;
 import org.lwjgl.opencl.CL10;
@@ -114,8 +115,12 @@ public class OpenCL extends Task<Void> {
 //        notifyAll();
     }
 
+    boolean isFirst = true;
+
     @Override
     public Void call () {
+
+
 //        kernel.run();
 //        Instant start = Instant.now();
         while (isRun) {
@@ -124,6 +129,11 @@ public class OpenCL extends Task<Void> {
                 boundaryCollision.run();
             }
             updatePositionParticles.run();
+
+            if (isFirst) {
+                Particles.getInstance().spawnALot();
+                isFirst = false;
+            }
 
             synchronized(this) {
                 if (isRead) {

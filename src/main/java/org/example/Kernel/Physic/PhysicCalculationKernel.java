@@ -46,7 +46,7 @@ public class PhysicCalculationKernel extends Kernel {
         numParticlesEvent.subscribe(
                 this,
                 (event) -> {
-                    global.put((long) Math.ceil(Particles.getNumOfParticle() /
+                    global.rewind().put((long) Math.ceil(Particles.getNumOfParticle() /
                                     (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE).
                             put((long) Math.ceil(Particles.getNumOfParticle() /
                                     (float) LOCAL_WORK_SIZE) * LOCAL_WORK_SIZE);

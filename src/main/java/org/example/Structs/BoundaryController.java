@@ -40,6 +40,10 @@ public class BoundaryController {
         update();
     }
 
+    public static Boundary getBoundary () {
+        return getInstance().boundary;
+    }
+
     public void update() {
         if (boundaryBuffer == null) {
             if (bufferManager.isExist("BoundaryBuffer")) {
