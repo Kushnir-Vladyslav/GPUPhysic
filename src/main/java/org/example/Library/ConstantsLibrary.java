@@ -33,6 +33,6 @@ public class ConstantsLibrary extends Library{
 
     @Override
     protected void modifyLibrary() {
-        libraryCode = libraryCode.replace("VALUE_OF_GRAVITY", (Canvas.getCanvasHeight() / 2.f) + "f");
+        libraryCode = libraryCode.replace("VALUE_OF_GRAVITY", (Canvas.getCanvasHeight() / 200000.f) + "f");
     }
 }

@@ -2,6 +2,8 @@ package org.example.JavaFX;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.image.PixelFormat;
@@ -14,11 +16,13 @@ import javafx.stage.Stage;
 import org.example.Event.*;
 import org.example.Event.EventDataStructs.MousePosition;
 import org.example.Event.MouseEvent.*;
+import org.example.Event.WindowResizeEvent.WindowHeightResizeEvent;
+import org.example.Event.WindowResizeEvent.WindowWidthResizeEvent;
 import org.example.OpenCL.OpenCL;
 import org.example.Structs.Canvas;
 
 
-import static org.example.JavaFX.GLOBAL_STATE.*;
+import static org.example.JavaFX.Window.*;
 
 public class JavaFX extends Application {
 
@@ -29,56 +33,78 @@ public class JavaFX extends Application {
 
     private boolean isRun = true;
 
-//    private final OpenCL oCL = new OpenCL();
+    private OpenCL openClTask;
+    private Thread openClThread;
 
+    private Window window;
+    
     @Override
     public void start(Stage primaryStage) {
+
+        window = Window.getInstance();
+        
         createOpenClThread();
 
         writableImage = new WritableImage(Canvas.getCanvasWidth(), Canvas.getCanvasHeight());
 
-        Pixels = new int [getScreenWidth() * getScreenHeight()];
+        getInstance().pixels = new int [window.getScreenWidth() * window.getScreenHeight()];
 
         imageView = new ImageView(writableImage);
-        imageView.setFitWidth(getScreenWidth());
-        imageView.setFitHeight(getScreenHeight());
+        imageView.setFitWidth(window.getScreenWidth());
+        imageView.setFitHeight(window.getScreenHeight());
 
         StackPane root = new StackPane();
         root.getChildren().add(imageView);
-        Scene scene = new Scene(root, getScreenWidth(), getScreenHeight());
+        Scene scene = new Scene(root, window.getScreenWidth(), window.getScreenHeight());
 
         primaryStage.setTitle("Simple render");
         primaryStage.setScene(scene);
         primaryStage.show();
 
         //обробники подій зміни розміру вікна
-        scene.widthProperty().addListener((observable, oldValue, newValue) -> {
-            setScreenWidth(newValue.intValue());
-            updateImageSize();
+        scene.widthProperty().addListener(new ChangeListener<Number>() {
+            final WindowWidthResizeEvent windowWidthResizeEvent =
+                    EventManager.
+                    getInstance().
+                    getEvent(WindowWidthResizeEvent.EVENT_NAME);
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                windowWidthResizeEvent.invoke(newValue.intValue());
+                updateImageSize();
+            }
         });
 
-        scene.heightProperty().addListener((observable, oldValue, newValue) -> {
-            setScreenHeight(newValue.intValue());
-            updateImageSize();
+        scene.heightProperty().addListener(new ChangeListener<Number>() {
+            final WindowHeightResizeEvent windowHeightResizeEvent =
+                    EventManager.
+                            getInstance().
+                            getEvent(WindowHeightResizeEvent.EVENT_NAME);
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                windowHeightResizeEvent.invoke(newValue.intValue());
+                updateImageSize();
+            }
         });
 
         //Обробка натискання клавіш
         scene.setOnKeyPressed((event) -> {
-            switch (event.getCode()) {
-                case UP, W -> IsUp = true;
-                case DOWN, S -> IsDown = true;
-                case LEFT, A -> IsLeft = true;
-                case RIGHT, D -> IsRight = true;
-            }
+//            switch (event.getCode()) {
+//                case UP, W -> IsUp = true;
+//                case DOWN, S -> IsDown = true;
+//                case LEFT, A -> IsLeft = true;
+//                case RIGHT, D -> IsRight = true;
+//            }
         });
 
         scene.setOnKeyReleased((event) -> {
-            switch (event.getCode()) {
-                case UP, W -> IsUp = false;
-                case DOWN, S -> IsDown = false;
-                case LEFT, A -> IsLeft = false;
-                case RIGHT, D -> IsRight = false;
-            }
+//            switch (event.getCode()) {
+//                case UP, W -> IsUp = false;
+//                case DOWN, S -> IsDown = false;
+//                case LEFT, A -> IsLeft = false;
+//                case RIGHT, D -> IsRight = false;
+//            }
         });
 
 
@@ -96,13 +122,13 @@ public class JavaFX extends Application {
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                     leftMousePressEvent.invoke(new MousePosition(
-                            (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
-                            (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
+                            (float) mouseEvent.getX() / window.getScreenWidth() * Canvas.getCanvasWidth(),
+                            (float) mouseEvent.getY() / window.getScreenHeight() * Canvas.getCanvasHeight())
                     );
                 } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                     rightMousePressEvent.invoke(new MousePosition(
-                            (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
-                            (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
+                            (float) mouseEvent.getX() / window.getScreenWidth() * Canvas.getCanvasWidth(),
+                            (float) mouseEvent.getY() / window.getScreenHeight() * Canvas.getCanvasHeight())
                     );
                 }
             }
@@ -119,8 +145,8 @@ public class JavaFX extends Application {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 moveMouseEvent.invoke(new MousePosition(
-                        (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
-                        (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
+                        (float) mouseEvent.getX() / window.getScreenWidth() * Canvas.getCanvasWidth(),
+                        (float) mouseEvent.getY() / window.getScreenHeight() * Canvas.getCanvasHeight())
                 );
             }
         });
@@ -139,13 +165,13 @@ public class JavaFX extends Application {
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                     leftMouseReleaseEvent.invoke(new MousePosition(
-                            (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
-                            (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
+                            (float) mouseEvent.getX() / window.getScreenWidth() * Canvas.getCanvasWidth(),
+                            (float) mouseEvent.getY() / window.getScreenHeight() * Canvas.getCanvasHeight())
                     );
                 } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                     rightMouseReleaseEvent.invoke(new MousePosition(
-                            (float) mouseEvent.getX() / getScreenWidth() * Canvas.getCanvasWidth(),
-                            (float) mouseEvent.getY() / getScreenHeight() * Canvas.getCanvasHeight())
+                            (float) mouseEvent.getX() / window.getScreenWidth() * Canvas.getCanvasWidth(),
+                            (float) mouseEvent.getY() / window.getScreenHeight() * Canvas.getCanvasHeight())
                     );
                 }
             }
@@ -156,15 +182,7 @@ public class JavaFX extends Application {
             isRun = false;
             animationTimer.stop();
             closeOpenSlThread();
-//            oCL.destroy();
         });
-
-//        System.out.println("ok");
-//        System.out.println(Pixels[1]);
-//
-//        for (int i = 0; i < Pixels.length; i++) {
-//            System.out.println(i + " " + Pixels[i]);
-//        }
 
         //запуск таймеру для анімації
          animationTimer = new AnimationTimer() {
@@ -179,14 +197,11 @@ public class JavaFX extends Application {
                     return;
                 }
 
-                Time += (float) (now - last) / 1000000000;
-
                 updatePixels((float) (now - last) / 1000000000);
-
 
                 writableImage.getPixelWriter().setPixels(0, 0,
                         Canvas.getCanvasWidth(), Canvas.getCanvasHeight(),
-                        PixelFormat.getIntArgbInstance(), Pixels, 0, Canvas.getCanvasWidth());
+                        PixelFormat.getIntArgbInstance(), window.pixels, 0, Canvas.getCanvasWidth());
 
                 last = now;
             }
@@ -200,37 +215,36 @@ public class JavaFX extends Application {
         isRun = false;
         animationTimer.stop();
         closeOpenSlThread();
-//        oCL.destroy();
     }
 
     public void createOpenClThread () {
-        OpenClTask = new OpenCL();
-        OpenClThread = new Thread(OpenClTask);
-        OpenClThread.setDaemon(true);
-        OpenClThread.start();
+        openClTask = new OpenCL();
+        openClThread = new Thread(openClTask);
+        openClThread.setDaemon(true);
+        openClThread.start();
     }
 
     public void closeOpenSlThread () {
-        if (OpenClTask != null) {
-            OpenClTask.cancel();
-            OpenClThread.interrupt();
-            OpenClTask = null;
+        if (openClTask != null) {
+            openClTask.cancel();
+            openClThread.interrupt();
+            openClTask = null;
         }
     }
 
     //оновлення вікна після зміни розміру
     private void updateImageSize() {
-//        writableImage = new WritableImage( getScreenWidth(), getScreenHeight());
-//        Pixels = new int[ getScreenWidth() * getScreenHeight()];
-//        DepthBuffer = new float [getScreenWidth() * getScreenHeight()];
+//        writableImage = new WritableImage( window.getScreenWidth(), window.getScreenHeight());
+//        Pixels = new int[ window.getScreenWidth() * window.getScreenHeight()];
+//        DepthBuffer = new float [window.getScreenWidth() * window.getScreenHeight()];
 //        imageView.setImage(writableImage);
-        imageView.setFitWidth(getScreenWidth());
-        imageView.setFitHeight(getScreenHeight());
+        imageView.setFitWidth(window.getScreenWidth());
+        imageView.setFitHeight(window.getScreenHeight());
     }
 
     //основна функція відрисовки
     private void updatePixels(float time)  {
-        OpenClTask.read();
+        openClTask.read();
     }
 
     public static void main(String[] args) {

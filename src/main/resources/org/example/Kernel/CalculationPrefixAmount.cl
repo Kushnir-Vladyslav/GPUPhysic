@@ -29,6 +29,6 @@ __kernel void CalculationPrefixAmount(
     }
 
     if (lid == groupSize - 1) {
-        blockSums[get_group_id] = localBuffer[lid];
+        blockSums[get_group_id(0)] = localBuffer[lid];
     }
 }

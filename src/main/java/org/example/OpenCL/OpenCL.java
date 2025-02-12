@@ -2,6 +2,7 @@ package org.example.OpenCL;
 
 import javafx.concurrent.Task;
 import org.example.BufferControl.BufferManager;
+import org.example.JavaFX.Window;
 import org.example.Kernel.*;
 import org.example.Kernel.Draw.DrawBackgroundKernel;
 import org.example.Kernel.Draw.DrawParticlesKernel;
@@ -20,8 +21,6 @@ import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.time.Duration;
 import java.time.Instant;
-
-import static org.example.JavaFX.GLOBAL_STATE.*;
 
 
 public class OpenCL extends Task<Void> {
@@ -115,12 +114,10 @@ public class OpenCL extends Task<Void> {
 //        notifyAll();
     }
 
-    boolean isFirst = true;
-
     @Override
     public Void call () {
 
-
+        Particles.getInstance().spawnALot();
 //        kernel.run();
 //        Instant start = Instant.now();
         while (isRun) {
@@ -130,11 +127,6 @@ public class OpenCL extends Task<Void> {
             }
             updatePositionParticles.run();
 
-            if (isFirst) {
-                Particles.getInstance().spawnALot();
-                isFirst = false;
-            }
-
             synchronized(this) {
                 if (isRead) {
                     drawBackground.run();
@@ -142,7 +134,7 @@ public class OpenCL extends Task<Void> {
 //        Instant end = Instant.now();
 
 //        printExecutionTime(start, end);
-                    Pixels = Canvas.getInstance().getCanvas();
+                    Window.getInstance().pixels = Canvas.getInstance().getCanvas();
                     isRead = false;
                 }
             }
