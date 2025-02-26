@@ -2,14 +2,12 @@ package org.example.OpenCL;
 
 import javafx.concurrent.Task;
 import org.example.BufferControl.BufferManager;
-import org.example.JavaFX.Window;
 import org.example.Kernel.*;
-import org.example.Kernel.Draw.DrawBackgroundKernel;
-import org.example.Kernel.Draw.DrawParticlesKernel;
+import org.example.Kernel.Draw.DrawController;
 import org.example.Kernel.Physic.BoundaryCollisionKernel;
 import org.example.Kernel.Physic.PhysicCalculationKernel;
+import org.example.Kernel.Physic.PhysicController;
 import org.example.Kernel.Physic.UpdatePositionParticlesKernel;
-import org.example.Structs.Canvas;
 import org.example.Structs.Particles;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL;
@@ -29,15 +27,10 @@ public class OpenCL extends Task<Void> {
     protected volatile boolean isRead = false;
     public volatile boolean isRun = true;
 
-    KernelManager kernelManager;
-
 //    Kernel kernel;
 
-    Kernel drawBackground;
-    Kernel drawParticles;
-    Kernel boundaryCollision;
-    Kernel physicCalculation;
-    Kernel updatePositionParticles;
+    DrawController drawer;
+    PhysicController physic;
 
     public OpenCL() {
         org.lwjgl.system.Configuration.OPENCL_EXPLICIT_INIT.set(true);
@@ -81,32 +74,16 @@ public class OpenCL extends Task<Void> {
                 throw new IllegalStateException("Failed to create OpenCL context or command queue.");
             }
 
-            kernelManager = KernelManager.getInstance();
-
-//            kernel = new TestKernel();
-//
-//            kernelManager.addKernel("TestKernel", kernel);
-
-//            kernel.run();
-
-            drawBackground = new DrawBackgroundKernel();
-            kernelManager.addKernel("DrawBackgroundKernel", drawBackground);
-
-            drawParticles = new DrawParticlesKernel();
-            kernelManager.addKernel("DrawParticlesKernel", drawParticles);
-
-            boundaryCollision = new BoundaryCollisionKernel();
-            kernelManager.addKernel("BoundaryCollision", boundaryCollision);
-
-            physicCalculation = new PhysicCalculationKernel();
-            kernelManager.addKernel("PhysicCalculation", physicCalculation);
-
-            updatePositionParticles = new UpdatePositionParticlesKernel();
-            kernelManager.addKernel("UpdatePositionParticles", updatePositionParticles);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+//            kernel = new TestKernel();
+//            KernelManager.getInstance().addKernel("TestKernel", kernel);
+//            kernel.run();
+
+        drawer = new DrawController();
+        physic = new PhysicController();
     }
 
     public synchronized void read () {
@@ -121,20 +98,12 @@ public class OpenCL extends Task<Void> {
 //        kernel.run();
 //        Instant start = Instant.now();
         while (isRun) {
-            for (int i = 0; i < 10; i++) {
-                physicCalculation.run();
-                boundaryCollision.run();
-            }
-            updatePositionParticles.run();
+            physic.runPhysic();
 
             synchronized(this) {
                 if (isRead) {
-                    drawBackground.run();
-                    drawParticles.run();
-//        Instant end = Instant.now();
+                    drawer.draw();
 
-//        printExecutionTime(start, end);
-                    Window.getInstance().pixels = Canvas.getInstance().getCanvas();
                     isRead = false;
                 }
             }
@@ -150,7 +119,7 @@ public class OpenCL extends Task<Void> {
     }
 
     public void destroy () {
-        kernelManager.destroy();
+        KernelManager.getInstance().destroy();
         BufferManager.getInstance().destroy();
         openClContext.destroy();
 

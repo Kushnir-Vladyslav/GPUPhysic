@@ -73,7 +73,7 @@ public class Particles {
 
 
         int yMin = (int) Canvas.getCanvasHeight() * 2 / 5;
-        int yMax = yMin + 50;
+        int yMax = yMin + 1;
 
         Particle[] particles1 = new Particle[(xMax - xMin) * (yMax - yMin)];
 
