@@ -68,7 +68,7 @@ public abstract class Kernel {
             throw new RuntimeException(e);
         }
 
-        modifyKernelSours(kernelSource);
+        kernelSource = modifyKernelSours(kernelSource);
 
         // Компіляція та створення kernel
         program = CL10.clCreateProgramWithSource(openClContext.context, kernelSource, null);
@@ -118,7 +118,9 @@ public abstract class Kernel {
      *
      * @param kernelSours Вихідний код ядра.
      */
-    protected void modifyKernelSours (String kernelSours) {}
+    protected String modifyKernelSours (String kernelSours) {
+        return kernelSours;
+    }
 
     /**
      * Абстрактний метод для запуску ядра.
