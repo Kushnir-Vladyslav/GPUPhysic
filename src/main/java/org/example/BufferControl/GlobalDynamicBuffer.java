@@ -4,7 +4,6 @@ import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
 import org.lwjgl.opencl.CL10;
 
 public class GlobalDynamicBuffer<K extends TypeOfBuffer> extends BufferContext <K>{
-    protected int size;
     protected int capacity;
     protected long flags;
 

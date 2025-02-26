@@ -96,7 +96,6 @@ public class OpenCL extends Task<Void> {
 
         Particles.getInstance().spawnALot();
 //        kernel.run();
-//        Instant start = Instant.now();
         while (isRun) {
             physic.runPhysic();
 

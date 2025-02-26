@@ -17,6 +17,8 @@ public abstract class BufferContext <K extends TypeOfBuffer> {
     protected final Class<K> type;  // Тип буфера
     protected long clBuffer;        // Ідентифікатор OpenCL буфера
 
+    protected int size;             // Кількість даних в буфері, в одиницях, не байтах
+
     // Буфер для передачі індексу OpenCl буферу ядру
     PointerBuffer pointerBuffer = MemoryUtil.memAllocPointer(1);
     // Список ядер до якого привязаний даний буфер
@@ -106,6 +108,20 @@ public abstract class BufferContext <K extends TypeOfBuffer> {
      */
     protected void removeKernel(long kernel) {
         kernels.removeIf(value -> value.targetKernel == kernel);
+    }
+
+    /**
+     * @return Повертає ідентифікатор OpenCl буферу.
+     */
+    long getClBuffer () {
+        return clBuffer;
+    }
+
+    /**
+     * @return Повертає розмір (зайнятий) буферу в байтах.
+     */
+    public int getByteSize () {
+        return size * nativeBuffer.getByteSize();
     }
 
     /**
