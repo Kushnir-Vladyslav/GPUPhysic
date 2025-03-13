@@ -1,4 +1,4 @@
 package org.example.Kernel.PrefixSum;
 
-public class AddBlockSums {
+public class ReverseSum {
 }

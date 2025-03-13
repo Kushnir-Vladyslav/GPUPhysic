@@ -27,7 +27,13 @@ typedef struct {
 typedef struct {
     int2 size;
     int2 num;
-}   GridStruct;
+} GridStruct;
+
+struct {
+    int offsetBase;
+    int offsetBlocSum;
+    int sizeBase;
+} PrefixSumConstants;
 
 typedef struct { //структура тестового ядра
     int y;

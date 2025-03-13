@@ -1,6 +1,8 @@
 package org.example.Kernel.PrefixSum;
 
 import org.example.BufferControl.BufferContext;
+import org.example.BufferControl.GlobalDynamicBuffer;
+import org.example.BufferControl.TypeOfBuffer.ByteBufferType;
 import org.example.Kernel.Kernel;
 
 
@@ -11,7 +13,7 @@ public class CalculationPrefixAmount extends Kernel {
     private BufferContext<?> soursBuffer;
     private BufferContext<?> destinationBuffer;
 
-
+    private GlobalDynamicBuffer<ByteBufferType> wordBuffer;
 
     public CalculationPrefixAmount () {
         super("CalculationPrefixAmount", "CalculationPrefixAmount.cl");
