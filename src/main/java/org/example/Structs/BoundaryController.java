@@ -1,7 +1,7 @@
 package org.example.Structs;
 
-import org.example.BufferControl.BufferManager;
-import org.example.BufferControl.SingleValueBuffer;
+import com.jopencl.core.memory.BufferManager;
+import com.jopencl.core.memory.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Boundary;
 

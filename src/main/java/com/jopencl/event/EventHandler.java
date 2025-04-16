@@ -1,4 +1,4 @@
-package org.example.Event;
+package com.jopencl.event;
 
 @FunctionalInterface
 public interface EventHandler<T> {

@@ -1,14 +1,14 @@
 package org.example.Kernel.Physic;
 
-import org.example.BufferControl.GlobalDynamicBuffer;
-import org.example.BufferControl.SingleValueBuffer;
+import com.jopencl.core.memory.GlobalDynamicBuffer;
+import com.jopencl.core.memory.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
-import org.example.BufferControl.TypeOfBuffer.IntBufferType;
+import com.jopencl.core.memory.typeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
-import org.example.Event.EventManager;
+import com.jopencl.event.EventManager;
 import org.example.Event.NumberParticlesEvent.NumParticlesEvent;
-import org.example.Kernel.Kernel;
+import com.jopencl.core.kernel.Kernel;
 import org.example.Structs.BoundaryController;
 import org.example.Structs.CursorController;
 import org.example.Structs.Particles;

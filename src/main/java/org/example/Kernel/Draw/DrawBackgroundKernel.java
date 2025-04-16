@@ -1,11 +1,11 @@
 package org.example.Kernel.Draw;
 
-import org.example.BufferControl.GlobalStaticBuffer;
-import org.example.BufferControl.SingleValueBuffer;
+import com.jopencl.core.memory.GlobalStaticBuffer;
+import com.jopencl.core.memory.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
-import org.example.BufferControl.TypeOfBuffer.IntBufferType;
-import org.example.Kernel.Kernel;
+import com.jopencl.core.memory.typeOfBuffer.IntBufferType;
+import com.jopencl.core.kernel.Kernel;
 import org.example.Structs.BoundaryController;
 import org.example.Structs.Canvas;
 import org.example.Structs.CursorController;

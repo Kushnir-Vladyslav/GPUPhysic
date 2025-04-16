@@ -1,13 +1,15 @@
 package org.example.Kernel;
 
-import org.example.BufferControl.*;
-import org.example.BufferControl.TypeOfBuffer.FloatBufferType;
-import org.example.BufferControl.TypeOfBuffer.IntBufferType;
-import org.example.BufferControl.SingleValueBuffer;
+import com.jopencl.core.kernel.Kernel;
+import com.jopencl.core.memory.GlobalStaticBuffer;
+import com.jopencl.core.memory.LocalBuffer;
+import com.jopencl.core.memory.typeOfBuffer.FloatBufferType;
+import com.jopencl.core.memory.typeOfBuffer.IntBufferType;
+import com.jopencl.core.memory.SingleValueBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-public class TestKernel extends Kernel{
+public class TestKernel extends Kernel {
 
     final int VECTOR_SIZE = 16_000_000; // Збільшено розмір
     final int LOCAL_WORK_SIZE = 256; // Оптимальний розмір локальної групи

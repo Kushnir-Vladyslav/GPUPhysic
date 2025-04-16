@@ -1,5 +1,6 @@
 package org.example.JavaFX;
 
+import com.jopencl.event.EventManager;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -13,7 +14,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import org.example.Event.*;
 import org.example.Event.EventDataStructs.MousePosition;
 import org.example.Event.MouseEvent.*;
 import org.example.Event.WindowResizeEvent.WindowHeightResizeEvent;

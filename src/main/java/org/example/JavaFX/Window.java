@@ -1,6 +1,6 @@
 package org.example.JavaFX;
 
-import org.example.Event.EventManager;
+import com.jopencl.event.EventManager;
 import org.example.Event.WindowResizeEvent.WindowHeightResizeEvent;
 import org.example.Event.WindowResizeEvent.WindowWidthResizeEvent;
 

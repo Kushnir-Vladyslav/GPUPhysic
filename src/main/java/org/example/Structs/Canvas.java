@@ -1,8 +1,8 @@
 package org.example.Structs;
 
-import org.example.BufferControl.BufferManager;
-import org.example.BufferControl.GlobalStaticBuffer;
-import org.example.BufferControl.TypeOfBuffer.IntBufferType;
+import com.jopencl.core.memory.BufferManager;
+import com.jopencl.core.memory.GlobalStaticBuffer;
+import com.jopencl.core.memory.typeOfBuffer.IntBufferType;
 import org.lwjgl.opencl.CL10;
 
 

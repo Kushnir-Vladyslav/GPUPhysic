@@ -1,6 +1,6 @@
-package org.example.BufferControl;
+package com.jopencl.core.memory;
 
-import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
+import com.jopencl.core.memory.typeOfBuffer.TypeOfBuffer;
 
 import java.util.HashMap;
 import java.util.Map;

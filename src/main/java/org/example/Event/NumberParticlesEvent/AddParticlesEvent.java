@@ -1,8 +1,8 @@
 package org.example.Event.NumberParticlesEvent;
 
-import org.example.Event.Event;
+import com.jopencl.event.Event;
 import org.example.Event.EventDataStructs.NewParticle;
-import org.example.Event.EventManager;
+import com.jopencl.event.EventManager;
 
 public class AddParticlesEvent extends Event<NewParticle> {
     public static String EVENT_NAME = "addParticlesEvent";

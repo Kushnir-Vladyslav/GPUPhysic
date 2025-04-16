@@ -1,13 +1,13 @@
 package org.example.Structs;
 
-import org.example.BufferControl.BufferManager;
-import org.example.BufferControl.GlobalDynamicBuffer;
-import org.example.BufferControl.SingleValueBuffer;
+import com.jopencl.core.memory.BufferManager;
+import com.jopencl.core.memory.GlobalDynamicBuffer;
+import com.jopencl.core.memory.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Particle;
-import org.example.BufferControl.TypeOfBuffer.IntBufferType;
+import com.jopencl.core.memory.typeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
 import org.example.Event.EventDataStructs.MousePosition;
-import org.example.Event.EventManager;
+import com.jopencl.event.EventManager;
 import org.example.Event.MouseEvent.RightMousePressEvent;
 import org.example.Event.NumberParticlesEvent.NumParticlesEvent;
 import org.lwjgl.opencl.CL10;

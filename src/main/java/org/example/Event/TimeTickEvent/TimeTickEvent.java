@@ -1,7 +1,7 @@
 package org.example.Event.TimeTickEvent;
 
-import org.example.Event.Event;
-import org.example.Event.EventManager;
+import com.jopencl.event.Event;
+import com.jopencl.event.EventManager;
 
 public class TimeTickEvent extends Event<Float> {
     public static String EVENT_NAME = "timeTickEvent";

@@ -1,4 +1,4 @@
-package org.example.BufferControl.TypeOfBuffer;
+package com.jopencl.core.memory.typeOfBuffer;
 
 import org.example.OpenCL.OpenClContext;
 import org.lwjgl.opencl.CL10;
@@ -17,7 +17,7 @@ public abstract class TypeOfBuffer {
     // Змінні що потрібні для роботи з буферами OpenCL
     protected OpenClContext openClContext;
 
-    TypeOfBuffer (int length) {
+    public TypeOfBuffer (int length) {
         openClContext = OpenClContext.getInstance();
         create(length);
     }

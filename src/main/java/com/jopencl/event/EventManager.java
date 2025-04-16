@@ -1,4 +1,4 @@
-package org.example.Event;
+package com.jopencl.event;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,27 +1,27 @@
-package org.example.BufferControl.TypeOfBuffer;
+package com.jopencl.core.memory.typeOfBuffer;
 
-public class IntBufferType extends TypeOfBuffer {
+public class FloatBufferType extends TypeOfBuffer {
 
-    public IntBufferType(int length) {
+    public FloatBufferType(int length) {
         super(length);
     }
 
     @Override
     public void set(Object arr, int startPosition) {
-        if (buffer == null || !(arr instanceof int[] castedArr)) {
+        if (buffer == null || !(arr instanceof float[] castedArr)) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
 
         buffer.position(startPosition * getByteSize());
-        for (int j : castedArr) {
-            buffer.putInt(j);
+        for (float v : castedArr) {
+            buffer.putFloat(v);
         }
         buffer.rewind();
     }
 
     @Override
     public int getSize(Object arr) {
-        if (buffer == null || !(arr instanceof int[] castedArr)) {
+        if (buffer == null || !(arr instanceof float[] castedArr)) {
             throw new IllegalArgumentException("Invalid array type, or not initialized.");
         }
         return castedArr.length;
@@ -29,19 +29,19 @@ public class IntBufferType extends TypeOfBuffer {
 
     @Override
     public int getByteSize() {
-        return Integer.BYTES;
+        return Float.BYTES;
     }
 
     @Override
     public Object getArr() {
         if (array == null) {
-            array = new int[buffer.capacity() / getByteSize()];
+            array = new float[buffer.capacity() / getByteSize()];
         }
-        int[] arr = (int[]) array;
+        float[] arr = (float[]) array;
 
         buffer.rewind();
         for (int i = 0; i < arr.length; i++){
-            arr[i] = buffer.getInt();
+            arr[i] = buffer.getFloat();
         }
         buffer.rewind();
         return arr;
@@ -49,6 +49,6 @@ public class IntBufferType extends TypeOfBuffer {
 
     @Override
     protected void updateArray(int length) {
-        array = new int[length];
+        array = new float[length];
     }
 }

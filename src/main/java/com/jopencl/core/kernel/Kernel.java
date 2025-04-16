@@ -1,6 +1,6 @@
-package org.example.Kernel;
+package com.jopencl.core.kernel;
 
-import org.example.BufferControl.BufferManager;
+import com.jopencl.core.memory.BufferManager;
 import org.example.Library.LibraryManager;
 import org.example.OpenCL.OpenClContext;
 import org.lwjgl.PointerBuffer;

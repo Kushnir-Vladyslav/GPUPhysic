@@ -1,7 +1,7 @@
 package org.example.Event.WindowResizeEvent;
 
-import org.example.Event.Event;
-import org.example.Event.EventManager;
+import com.jopencl.event.Event;
+import com.jopencl.event.EventManager;
 
 public class WindowHeightResizeEvent extends Event<Integer> {
     public static String EVENT_NAME = "windowHeightResizeEvent";

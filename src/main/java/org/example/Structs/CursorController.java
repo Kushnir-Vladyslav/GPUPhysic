@@ -1,10 +1,10 @@
 package org.example.Structs;
 
-import org.example.BufferControl.BufferManager;
-import org.example.BufferControl.SingleValueBuffer;
+import com.jopencl.core.memory.BufferManager;
+import com.jopencl.core.memory.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
 import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.CursorPosition;
-import org.example.Event.EventManager;
+import com.jopencl.event.EventManager;
 import org.example.Event.MouseEvent.LeftMousePressEvent;
 import org.example.Event.MouseEvent.LeftMouseReleaseEvent;
 import org.example.Event.MouseEvent.MoveMouseEvent;

@@ -1,4 +1,4 @@
-package org.example.Kernel;
+package com.jopencl.core.kernel;
 
 import java.util.HashMap;
 import java.util.Map;

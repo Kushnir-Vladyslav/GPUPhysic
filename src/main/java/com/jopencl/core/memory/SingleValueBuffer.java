@@ -1,6 +1,6 @@
-package org.example.BufferControl;
+package com.jopencl.core.memory;
 
-import org.example.BufferControl.TypeOfBuffer.TypeOfBuffer;
+import com.jopencl.core.memory.typeOfBuffer.TypeOfBuffer;
 import org.lwjgl.opencl.CL10;
 
 public class SingleValueBuffer<K extends TypeOfBuffer> extends BufferContext<K> {
