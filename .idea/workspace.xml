@@ -4,49 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="refactoring">
+    <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="migration to a separate library">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/Buffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Data/Data.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/BufferContext.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/BufferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/BufferManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalDynamicBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/GlobalDynamicBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/GlobalStaticBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/GlobalStaticBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/LocalBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/LocalBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/SingleValueBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/SingleValueBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/BoundaryBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/BoundaryBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/CursorPositionBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/CursorPositionBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/FloatBufferType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/typeOfBuffer/FloatBufferType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/IntBufferType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/typeOfBuffer/IntBufferType.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/ParticlesBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/ParticlesBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/BufferControl/TypeOfBuffer/TypeOfBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/typeOfBuffer/TypeOfBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/event/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/EventHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/event/EventHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/EventManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/event/EventManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/LeftMousePressEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/LeftMousePressEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/LeftMouseReleaseEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/LeftMouseReleaseEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/MoveMouseEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/MoveMouseEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/RightMousePressEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/RightMousePressEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/RightMouseReleaseEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/MouseEvent/RightMouseReleaseEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/NumberParticlesEvent/AddParticlesEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/NumberParticlesEvent/AddParticlesEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/NumberParticlesEvent/NumParticlesEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/NumberParticlesEvent/NumParticlesEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/TimeTickEvent/TimeTickEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/TimeTickEvent/TimeTickEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/WindowResizeEvent/WindowHeightResizeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/WindowResizeEvent/WindowHeightResizeEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Event/WindowResizeEvent/WindowWidthResizeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Event/WindowResizeEvent/WindowWidthResizeEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/JavaFX/JavaFX.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/JavaFX/JavaFX.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/JavaFX/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/JavaFX/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Draw/DrawBackgroundKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Draw/DrawBackgroundKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Draw/DrawParticlesKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Draw/DrawParticlesKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Kernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/kernel/Kernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/KernelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/kernel/KernelManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/BoundaryCollisionKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/BoundaryCollisionKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/PhysicCalculationKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/PhysicCalculationKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/UpdatePositionParticlesKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/Physic/UpdatePositionParticlesKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Kernel/TestKernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Kernel/TestKernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OpenCL/OpenCL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/OpenCL/OpenCL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/BoundaryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/BoundaryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/Canvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/Canvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/CursorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/CursorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/GridBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/GridBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particles.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Structs/Particles.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,19 +52,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "migration__to__separate__library",
-    "kotlin-language-version-configured": "true",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "preferences.fileTypes"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;migration__to__separate__library&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.fileTypes&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\vlad9\IdeaProjects\demo1\PhysicalOfParticle\src\main\resources\org\example\Kernel\Physic" />
@@ -250,7 +211,15 @@
       <option name="project" value="LOCAL" />
       <updated>1739129478866</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="migration to a separate library">
+      <option name="closed" value="true" />
+      <created>1744825475929</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1744825475929</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -290,6 +259,7 @@
     <MESSAGE value="add tangent speed component, fix boundary collision" />
     <MESSAGE value="add comments" />
     <MESSAGE value="fast push" />
-    <option name="LAST_COMMIT_MESSAGE" value="fast push" />
+    <MESSAGE value="migration to a separate library" />
+    <option name="LAST_COMMIT_MESSAGE" value="migration to a separate library" />
   </component>
 </project>
