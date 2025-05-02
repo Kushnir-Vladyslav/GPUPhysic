@@ -3,5 +3,7 @@ package com.jopencl.core.memory.Data;
 import java.nio.ByteBuffer;
 
 public interface ConvertFromByteBuffer {
-    Object[] convertFromByteBuffer (ByteBuffer nativeBuffer);
+    void convertFromByteBuffer (ByteBuffer nativeBuffer, Object[] obj);
+
+    Object[] createArr (int len);
 }
