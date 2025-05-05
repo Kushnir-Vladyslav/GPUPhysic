@@ -1,24 +1,23 @@
 package com.jopencl.core.memory.Buffer;
 
-import org.example.OpenCL.OpenClContext;
 import org.lwjgl.opencl.CL10;
 
-import java.nio.ByteBuffer;
-
 public interface Readable {
-    default void read(OpenClContext openClContext, long clBuffer, ByteBuffer nativeBuffer) {
-        readFrom(openClContext, clBuffer, 0, nativeBuffer);
+    default void read() {
+        readFrom(0);
     }
 
-     default void readFrom(OpenClContext openClContext, long clBuffer, long offset, ByteBuffer nativeBuffer) {
-        CL10.clEnqueueReadBuffer(
-                openClContext.commandQueue,
-                clBuffer,
-                true,
-                offset,
-                nativeBuffer,
-                null,
-                null
-        );
+     default void readFrom(long offset) {
+         if (this instanceof AbstractBuffer abstractBuffer) {
+             CL10.clEnqueueReadBuffer(
+                     abstractBuffer.getOpenClContext().commandQueue,
+                     abstractBuffer.getClBuffer(),
+                     true,
+                     offset,
+                     abstractBuffer.getNativeBuffer(),
+                     null,
+                     null
+             );
+         }
     }
 }

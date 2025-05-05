@@ -6,19 +6,21 @@ import org.lwjgl.opencl.CL10;
 import java.nio.ByteBuffer;
 
 public interface Writable {
-    default void write(OpenClContext openClContext, long clBuffer, ByteBuffer nativeBuffer) {
-        writeTo(openClContext, clBuffer, 0, nativeBuffer);
+    default void write() {
+        writeTo(0);
     }
 
-     default void writeTo(OpenClContext openClContext, long clBuffer, long offset, ByteBuffer nativeBuffer) {
-        CL10.clEnqueueWriteBuffer(
-                openClContext.commandQueue,
-                clBuffer,
-                true,
-                offset,
-                nativeBuffer,
-                null,
-                null
-        );
+     default void writeTo(long offset) {
+         if (this instanceof AbstractBuffer abstractBuffer) {
+             CL10.clEnqueueWriteBuffer(
+                     abstractBuffer.getOpenClContext().commandQueue,
+                     abstractBuffer.getClBuffer(),
+                     true,
+                     offset,
+                     abstractBuffer.getNativeBuffer(),
+                     null,
+                     null
+             );
+         }
     }
 }

@@ -102,6 +102,18 @@ public abstract class AbstractBuffer {
         return this;
     }
 
+    public OpenClContext getOpenClContext() {
+        return openClContext;
+    }
+
+    public long getClBuffer() {
+        return clBuffer;
+    }
+
+    public ByteBuffer getNativeBuffer() {
+        return nativeBuffer;
+    }
+
     private void initErr(String message) {
         throw new IllegalStateException(
                 "Initiated error.\n" +
