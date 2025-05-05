@@ -1,23 +1,34 @@
 package com.jopencl.core.memory.Buffer;
 
+import com.jopencl.core.memory.Data.ConvertFromByteBuffer;
 import org.lwjgl.opencl.CL10;
 
-public interface Readable {
-    default void read() {
-        readFrom(0);
+public interface Readable <T extends AbstractBuffer & Readable<T>> {
+    default Object read() {
+        return readFrom(0);
     }
 
-     default void readFrom(long offset) {
-         if (this instanceof AbstractBuffer abstractBuffer) {
+     default Object readFrom(long offset) {
+         T buffer = (T) this;
+
+         ConvertFromByteBuffer converter = (ConvertFromByteBuffer) buffer.dataObject;
+
+         if (buffer.projectionToHost) {
              CL10.clEnqueueReadBuffer(
-                     abstractBuffer.getOpenClContext().commandQueue,
-                     abstractBuffer.getClBuffer(),
+                     buffer.openClContext.commandQueue,
+                     buffer.clBuffer,
                      true,
                      offset,
-                     abstractBuffer.getNativeBuffer(),
+                     buffer.nativeBuffer,
                      null,
                      null
              );
+
+             converter.convertFromByteBuffer(buffer.nativeBuffer, buffer.hostBuffer);
+
+             return buffer.hostBuffer;
          }
+
+
     }
 }

@@ -5,11 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="fast push">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/Dynamical.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Util/CopyDataBufferToBuffer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/AbstractBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/AbstractBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/Buffers/ParameterBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/Buffers/ParameterBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/AdditionalInitiation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/AdditionalInitiation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/Readable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/Readable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/Writable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Buffer/Writable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Data/Data.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/Data/Data.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -228,7 +231,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746101720253</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="fast push">
+      <option name="closed" value="true" />
+      <created>1746114120318</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1746114120318</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="UnknownFeatures">

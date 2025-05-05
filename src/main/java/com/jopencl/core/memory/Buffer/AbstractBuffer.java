@@ -1,6 +1,5 @@
 package com.jopencl.core.memory.Buffer;
 
-import com.jopencl.core.memory.BufferContext;
 import com.jopencl.core.memory.Data.ConvertFromByteBuffer;
 import com.jopencl.core.memory.Data.ConvertToByteBuffer;
 import com.jopencl.core.memory.Data.Data;
@@ -9,7 +8,6 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
-import java.lang.reflect.InvocationTargetException;
 import java.nio.ByteBuffer;
 
 
@@ -21,21 +19,23 @@ public abstract class AbstractBuffer {
     private String bufferName = "UnnamedBuffer" + counter++;
     private boolean readable = false;
     private boolean writable = false;
-    private boolean projectionToHost = false;
-    private boolean dynamic = false;
+    protected boolean projectionToHost = false;
+    protected boolean dynamic = false;
     private Class<Data> clazz = null;
 
-    private Data dataObject;
-    private OpenClContext openClContext;
+    protected long flags = 0;
+
+    protected Data dataObject;
+    protected OpenClContext openClContext;
 
     private PointerBuffer transmitter = null;
 
-    private long clBuffer = 0;
-    private ByteBuffer nativeBuffer = null;
-    private Object[] hostBuffer = null;
+    protected long clBuffer = 0;
+    protected ByteBuffer nativeBuffer = null;
+    protected Object[] hostBuffer = null;
 
-    private int bufferSize = -1;
-    private int capacity = -1;
+    protected int bufferSize = -1;
+    protected int capacity = -1;
 
     private void initCheck () {
         if (initiated) {
@@ -176,22 +176,29 @@ public abstract class AbstractBuffer {
         }
 
         if (this instanceof AdditionalInitiation additionalInitiation) {
-            additionalInitiation.addInit(this);
+            additionalInitiation.addInit();
         }
 
         initiated = true;
     }
 
-    public long createClBuffer(long flags, int len) {
-        if (len < 1) {
+    public long createClBuffer() {
+        if (capacity < 1) {
             throw new IllegalStateException("Length of OpenCl buffer must be positive.");
         }
-        return CL10.clCreateBuffer(
+
+        long newClBuffer = CL10.clCreateBuffer(
                 openClContext.context,
                 flags,
-                len,
+                capacity,
                 null
         );
+
+        if (newClBuffer == 0) {
+            throw new IllegalStateException("Failed to create OpenCL memory buffers.");
+        }
+
+        return newClBuffer;
     }
 
     //public abstract void bindingToKernel (KernelDependency KD);
