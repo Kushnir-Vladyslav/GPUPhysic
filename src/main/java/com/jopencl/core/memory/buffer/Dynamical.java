@@ -7,6 +7,7 @@ public interface Dynamical <T extends AbstractBuffer & Dynamical<T>> {
 
     default void resize (int newSize) {
         T buffer = (T) this;
+
         if (buffer.capacity < newSize) {
             increaseTo(newSize);
         } else {

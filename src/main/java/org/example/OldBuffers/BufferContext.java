@@ -19,7 +19,7 @@ public abstract class BufferContext <K extends TypeOfBuffer> {
 
     // Буфер для передачі індексу OpenCl буферу ядру
     PointerBuffer pointerBuffer = MemoryUtil.memAllocPointer(1);
-    // Список ядер до якого привязаний даний буфер
+    // Список ядер до якого прив'язаний даний буфер
     Vector<KernelDependency> kernels = new Vector<>();
 
     protected K nativeBuffer; // Нативний буфер, через який відбувається передача даних

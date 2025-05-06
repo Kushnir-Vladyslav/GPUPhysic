@@ -9,14 +9,15 @@ import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 public abstract class AbstractBuffer {
-    private static int counter = 0;
+    private static final AtomicInteger counter = new AtomicInteger(0);
 
     private boolean initiated = false;
 
-    private String bufferName = "UnnamedBuffer" + counter++;
+    private String bufferName = "UnnamedBuffer" + counter.getAndIncrement();
     private boolean readable = false;
     private boolean writable = false;
     protected boolean copyNativeBuffer = false;
@@ -28,8 +29,6 @@ public abstract class AbstractBuffer {
 
     protected Data dataObject;
     protected OpenClContext openClContext;
-
-    private PointerBuffer transmitter = null;
 
     protected long clBuffer = 0;
     protected ByteBuffer nativeBuffer = null;
@@ -51,14 +50,14 @@ public abstract class AbstractBuffer {
         return this;
     }
 
-    public AbstractBuffer setReadable(boolean isRead) {
+    protected AbstractBuffer setReadable(boolean isRead) {
         initCheck();
         readable = isRead;
 
         return this;
     }
 
-    public AbstractBuffer setWritable(boolean isRead) {
+    protected AbstractBuffer setWritable(boolean isRead) {
         initCheck();
         writable = isRead;
 
@@ -72,7 +71,21 @@ public abstract class AbstractBuffer {
         return this;
     }
 
-    public AbstractBuffer setDynamic(boolean isDynamic) {
+    public AbstractBuffer setFlags(long newFlags) {
+        initCheck();
+        flags = newFlags;
+
+        return this;
+    }
+
+    public AbstractBuffer setCopyHostBuffer(boolean isProjection) {
+        initCheck();
+        copyHostBuffer = isProjection;
+
+        return this;
+    }
+
+    protected AbstractBuffer setDynamic(boolean isDynamic) {
         initCheck();
         dynamic = isDynamic;
 
@@ -103,9 +116,9 @@ public abstract class AbstractBuffer {
         return this;
     }
 
-    public OpenClContext getOpenClContext() {
-        return openClContext;
-    }
+//    public OpenClContext getOpenClContext() {
+//        return openClContext;
+//    }
 
 //    public long getClBuffer() {
 //        return clBuffer;
@@ -168,8 +181,6 @@ public abstract class AbstractBuffer {
             if (!(dataObject instanceof ConvertToByteBuffer)) {
                 initErr("Data class doesn't extends of \"ConvertToByteBuffer\" interface.");
             }
-
-            transmitter = PointerBuffer.allocateDirect(1);
         }
 
         if (openClContext == null) {
@@ -178,7 +189,6 @@ public abstract class AbstractBuffer {
 
         if (copyNativeBuffer) {
             nativeBuffer = MemoryUtil.memAlloc(capacity);
-
         }
 
         if (copyHostBuffer) {
@@ -192,7 +202,9 @@ public abstract class AbstractBuffer {
         initiated = true;
     }
 
-    public long createClBuffer() {
+    //public abstract void bindingToKernel (KernelDependency KD);
+
+    protected long createClBuffer() {
         if (capacity < 1) {
             throw new IllegalStateException("Length of OpenCl buffer must be positive.");
         }
@@ -211,8 +223,6 @@ public abstract class AbstractBuffer {
         return newClBuffer;
     }
 
-    //public abstract void bindingToKernel (KernelDependency KD);
-
     public void destroy () {
         if (initiated) {
             if (nativeBuffer != null) {
@@ -226,6 +236,13 @@ public abstract class AbstractBuffer {
 
             capacity = -1;
             size = -1;
+
+            flags = 0;
+
+            if (clBuffer != 0) {
+                CL10.clReleaseMemObject(clBuffer);
+                clBuffer = 0;
+            }
 
             initiated = false;
         }
