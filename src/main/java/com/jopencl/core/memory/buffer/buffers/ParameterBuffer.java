@@ -3,11 +3,13 @@ package com.jopencl.core.memory.buffer.buffers;
 import com.jopencl.core.memory.buffer.AbstractBuffer;
 import com.jopencl.core.memory.buffer.AdditionalInitiation;
 import com.jopencl.core.memory.data.ConvertToByteBuffer;
+import com.jopencl.core.memory.data.Data;
+import org.example.OpenCL.OpenClContext;
 
 public class ParameterBuffer extends AbstractBuffer implements AdditionalInitiation<ParameterBuffer> {
     public ParameterBuffer () {
-        super.setInitSize(1);
-        this.setCopyNativeBuffer(true);
+        setInitSize(1);
+        setCopyNativeBuffer(true);
     }
 
     @Override
@@ -19,6 +21,19 @@ public class ParameterBuffer extends AbstractBuffer implements AdditionalInitiat
         if (!(dataObject instanceof ConvertToByteBuffer)) {
             initErr("Data class doesn't extends of \"ConvertToByteBuffer\" interface.");
         }
+    }
+
+    public void setup (Class<Data> clazz, OpenClContext context) {
+        setDataClass(clazz);
+        setOpenClContext(context);
+        init();
+    }
+
+    public void setup (String bufferName, Class<Data> clazz, OpenClContext context) {
+        setBufferName(bufferName);
+        setDataClass(clazz);
+        setOpenClContext(context);
+        init();
     }
 
     public void setParameter (Object object) {

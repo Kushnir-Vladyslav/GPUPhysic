@@ -5,15 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="fast push">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalDynamicBuffer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalDynamicReadOnlyBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalDynamicReadWrightBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalDynamicWrightOnlyBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticReadOnlyBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticReadWrightBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticWrightOnlyBuffer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/AbstractBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/AbstractBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Dynamical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Dynamical.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticBuffer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/LocalBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/LocalBuffer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/ParameterBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/ParameterBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OldBuffers/BufferContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/OldBuffers/BufferContext.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -256,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746543603888</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fast push">
+      <option name="closed" value="true" />
+      <created>1746552038079</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1746552038079</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="UnknownFeatures">
