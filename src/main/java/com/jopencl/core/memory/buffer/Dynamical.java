@@ -1,6 +1,6 @@
-package com.jopencl.core.memory.Buffer;
+package com.jopencl.core.memory.buffer;
 
-import com.jopencl.core.memory.Util.CopyDataBufferToBuffer;
+import com.jopencl.core.memory.util.CopyDataBufferToBuffer;
 import org.lwjgl.opencl.CL10;
 
 public interface Dynamical <T extends AbstractBuffer & Dynamical<T>> {
@@ -33,14 +33,12 @@ public interface Dynamical <T extends AbstractBuffer & Dynamical<T>> {
             if (oldClBuffer != 0) {
                 CL10.clReleaseMemObject(oldClBuffer);
             }
-
-//            setNewArgs();
         }
     }
 
     default void compact () {
         T buffer = (T) this;
-        reduceTo(buffer.bufferSize);
+        reduceTo(buffer.size);
     }
 
     default void increaseTo (int newSize) {
@@ -48,7 +46,7 @@ public interface Dynamical <T extends AbstractBuffer & Dynamical<T>> {
 
         if (newSize > buffer.capacity) {
             long oldClBuffer = buffer.clBuffer;
-            long oldClBufferSize = buffer.capacity;
+            int oldClBufferSize = buffer.capacity;
 
             CopyDataBufferToBuffer.copyData(
                     buffer.openClContext,
@@ -63,8 +61,6 @@ public interface Dynamical <T extends AbstractBuffer & Dynamical<T>> {
             if (oldClBuffer != 0) {
                 CL10.clReleaseMemObject(oldClBuffer);
             }
-
-//            setNewArgs();
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.jopencl.core.memory.typeOfBuffer;
+package org.example.OldBuffers.typeOfBuffer;
 
 import org.example.OpenCL.OpenClContext;
 import org.lwjgl.opencl.CL10;

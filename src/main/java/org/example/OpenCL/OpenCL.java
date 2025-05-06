@@ -3,7 +3,7 @@ package org.example.OpenCL;
 import com.jopencl.core.kernel.Kernel;
 import com.jopencl.core.kernel.KernelManager;
 import javafx.concurrent.Task;
-import com.jopencl.core.memory.BufferManager;
+import org.example.OldBuffers.BufferManager;
 import org.example.JavaFX.Window;
 import org.example.Kernel.Draw.DrawBackgroundKernel;
 import org.example.Kernel.Draw.DrawParticlesKernel;

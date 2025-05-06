@@ -1,6 +1,6 @@
-package com.jopencl.core.memory;
+package org.example.OldBuffers;
 
-import com.jopencl.core.memory.typeOfBuffer.TypeOfBuffer;
+import org.example.OldBuffers.typeOfBuffer.TypeOfBuffer;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;

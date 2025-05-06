@@ -1,7 +1,7 @@
-package com.jopencl.core.memory.Buffer.Buffers;
+package com.jopencl.core.memory.buffer.buffers;
 
-import com.jopencl.core.memory.Buffer.AbstractBuffer;
-import com.jopencl.core.memory.Data.Data;
+import com.jopencl.core.memory.buffer.AbstractBuffer;
+import com.jopencl.core.memory.data.Data;
 
 public class LocalBuffer extends AbstractBuffer {
 
@@ -10,5 +10,6 @@ public class LocalBuffer extends AbstractBuffer {
                 .setInitSize(len)
                 .init();
     }
+
 
 }

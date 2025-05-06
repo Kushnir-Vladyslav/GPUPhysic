@@ -1,4 +1,4 @@
-package com.jopencl.core.memory.typeOfBuffer;
+package org.example.OldBuffers.typeOfBuffer;
 
 public class FloatBufferType extends TypeOfBuffer {
 

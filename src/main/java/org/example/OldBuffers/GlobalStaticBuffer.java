@@ -1,6 +1,6 @@
-package com.jopencl.core.memory;
+package org.example.OldBuffers;
 
-import com.jopencl.core.memory.typeOfBuffer.TypeOfBuffer;
+import org.example.OldBuffers.typeOfBuffer.TypeOfBuffer;
 
 public class GlobalStaticBuffer<K extends TypeOfBuffer> extends BufferContext <K>{
     protected int size;

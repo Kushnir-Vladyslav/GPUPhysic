@@ -1,6 +1,6 @@
-package com.jopencl.core.memory;
+package org.example.OldBuffers;
 
-import com.jopencl.core.memory.typeOfBuffer.TypeOfBuffer;
+import org.example.OldBuffers.typeOfBuffer.TypeOfBuffer;
 import org.lwjgl.opencl.CL10;
 
 public class GlobalDynamicBuffer<K extends TypeOfBuffer> extends BufferContext <K>{

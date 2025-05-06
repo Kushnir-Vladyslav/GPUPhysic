@@ -1,11 +1,11 @@
 package org.example.Kernel;
 
 import com.jopencl.core.kernel.Kernel;
-import com.jopencl.core.memory.GlobalStaticBuffer;
-import com.jopencl.core.memory.LocalBuffer;
-import com.jopencl.core.memory.typeOfBuffer.FloatBufferType;
-import com.jopencl.core.memory.typeOfBuffer.IntBufferType;
-import com.jopencl.core.memory.SingleValueBuffer;
+import org.example.OldBuffers.GlobalStaticBuffer;
+import org.example.OldBuffers.LocalBuffer;
+import org.example.OldBuffers.typeOfBuffer.FloatBufferType;
+import org.example.OldBuffers.typeOfBuffer.IntBufferType;
+import org.example.OldBuffers.SingleValueBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 

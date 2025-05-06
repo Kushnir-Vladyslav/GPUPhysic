@@ -1,6 +1,6 @@
 package org.example.BufferControl.TypeOfBuffer;
 
-import com.jopencl.core.memory.typeOfBuffer.TypeOfBuffer;
+import org.example.OldBuffers.typeOfBuffer.TypeOfBuffer;
 import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.Particle;
 
 public class ParticlesBuffer extends TypeOfBuffer {

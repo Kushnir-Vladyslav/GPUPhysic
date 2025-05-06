@@ -1,4 +1,4 @@
-package com.jopencl.core.memory.Data;
+package com.jopencl.core.memory.data;
 
 public abstract class Data {
 

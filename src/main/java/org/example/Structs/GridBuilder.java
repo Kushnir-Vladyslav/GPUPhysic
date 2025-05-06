@@ -1,7 +1,7 @@
 package org.example.Structs;
 
-import com.jopencl.core.memory.GlobalDynamicBuffer;
-import com.jopencl.core.memory.typeOfBuffer.IntBufferType;
+import org.example.OldBuffers.GlobalDynamicBuffer;
+import org.example.OldBuffers.typeOfBuffer.IntBufferType;
 
 public class GridBuilder {
 

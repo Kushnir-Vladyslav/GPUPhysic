@@ -1,10 +1,10 @@
 package org.example.Kernel.Draw;
 
-import com.jopencl.core.memory.GlobalDynamicBuffer;
-import com.jopencl.core.memory.GlobalStaticBuffer;
-import com.jopencl.core.memory.SingleValueBuffer;
+import org.example.OldBuffers.GlobalDynamicBuffer;
+import org.example.OldBuffers.GlobalStaticBuffer;
+import org.example.OldBuffers.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.BoundaryBuffer;
-import com.jopencl.core.memory.typeOfBuffer.IntBufferType;
+import org.example.OldBuffers.typeOfBuffer.IntBufferType;
 import org.example.BufferControl.TypeOfBuffer.ParticlesBuffer;
 import com.jopencl.event.EventManager;
 import org.example.Event.NumberParticlesEvent.NumParticlesEvent;

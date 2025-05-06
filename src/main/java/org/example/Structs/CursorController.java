@@ -1,7 +1,7 @@
 package org.example.Structs;
 
-import com.jopencl.core.memory.BufferManager;
-import com.jopencl.core.memory.SingleValueBuffer;
+import org.example.OldBuffers.BufferManager;
+import org.example.OldBuffers.SingleValueBuffer;
 import org.example.BufferControl.TypeOfBuffer.CursorPositionBuffer;
 import org.example.BufferControl.TypeOfBuffer.DataExchangeStruct.CursorPosition;
 import com.jopencl.event.EventManager;

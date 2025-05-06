@@ -1,8 +1,8 @@
-package com.jopencl.core.memory.Buffer;
+package com.jopencl.core.memory.buffer;
 
-import com.jopencl.core.memory.Data.ConvertFromByteBuffer;
-import com.jopencl.core.memory.Data.ConvertToByteBuffer;
-import com.jopencl.core.memory.Data.Data;
+import com.jopencl.core.memory.data.ConvertFromByteBuffer;
+import com.jopencl.core.memory.data.ConvertToByteBuffer;
+import com.jopencl.core.memory.data.Data;
 import org.example.OpenCL.OpenClContext;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
@@ -19,7 +19,8 @@ public abstract class AbstractBuffer {
     private String bufferName = "UnnamedBuffer" + counter++;
     private boolean readable = false;
     private boolean writable = false;
-    protected boolean projectionToHost = false;
+    protected boolean copyNativeBuffer = false;
+    protected boolean copyHostBuffer = false;
     protected boolean dynamic = false;
     private Class<Data> clazz = null;
 
@@ -32,9 +33,9 @@ public abstract class AbstractBuffer {
 
     protected long clBuffer = 0;
     protected ByteBuffer nativeBuffer = null;
-    protected Object[] hostBuffer = null;
+    protected Object hostBuffer = null;
 
-    protected int bufferSize = -1;
+    protected int size = -1;
     protected int capacity = -1;
 
     private void initCheck () {
@@ -64,9 +65,9 @@ public abstract class AbstractBuffer {
         return this;
     }
 
-    public AbstractBuffer setProjectionToHost(boolean isProjection) {
+    public AbstractBuffer setCopyNativeBuffer(boolean isProjection) {
         initCheck();
-        projectionToHost = isProjection;
+        copyNativeBuffer = isProjection;
 
         return this;
     }
@@ -106,15 +107,19 @@ public abstract class AbstractBuffer {
         return openClContext;
     }
 
-    public long getClBuffer() {
-        return clBuffer;
-    }
+//    public long getClBuffer() {
+//        return clBuffer;
+//    }
 
-    public ByteBuffer getNativeBuffer() {
-        return nativeBuffer;
-    }
+//    public ByteBuffer getNativeBuffer() {
+//        return nativeBuffer;
+//    }
 
-    private void initErr(String message) {
+//    public Data getDataObject() {
+//        return dataObject;
+//    }
+
+    protected void initErr(String message) {
         throw new IllegalStateException(
                 "Initiated error.\n" +
                 "Buffer's name: \"" + bufferName + "\"\n" +
@@ -139,6 +144,8 @@ public abstract class AbstractBuffer {
             capacity *= 1.5;
         }
 
+        size = 0;
+
         if (capacity < 1) {
             initErr("Initiate buffer's size, mast be positive.");
         }
@@ -151,8 +158,6 @@ public abstract class AbstractBuffer {
             if (!(dataObject instanceof ConvertFromByteBuffer)) {
                 initErr("Data class doesn't extends of \"ConvertFromByteBuffer\" interface.");
             }
-
-            hostBuffer = new Object[capacity];
         }
 
         if (writable) {
@@ -171,8 +176,13 @@ public abstract class AbstractBuffer {
             initErr("OpenCL context for buffer cannot be \"null\"");
         }
 
-        if (projectionToHost) {
+        if (copyNativeBuffer) {
             nativeBuffer = MemoryUtil.memAlloc(capacity);
+
+        }
+
+        if (copyHostBuffer) {
+            hostBuffer = new Object[capacity];
         }
 
         if (this instanceof AdditionalInitiation additionalInitiation) {
@@ -210,12 +220,12 @@ public abstract class AbstractBuffer {
                 nativeBuffer = null;
             }
 
-            if (readable) {
+            if (hostBuffer != null) {
                 hostBuffer = null;
             }
 
             capacity = -1;
-            bufferSize = -1;
+            size = -1;
 
             initiated = false;
         }
