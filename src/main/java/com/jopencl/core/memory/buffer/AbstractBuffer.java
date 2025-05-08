@@ -99,6 +99,8 @@ public abstract class AbstractBuffer {
             initErr("OpenCL context for buffer cannot be \"null\"");
         }
 
+        openClContext.bufferManager.registerBuffer(this);
+
         if (copyNativeBuffer) {
             nativeBuffer = MemoryUtil.memAlloc(capacity);
         }
@@ -114,12 +116,18 @@ public abstract class AbstractBuffer {
     protected abstract void setKernelArg (long targetKernel, int argIndex);
 
 
+    public String getBufferName () {
+        return bufferName;
+    }
+
     public void destroy () {
         if (initiated) {
             if (nativeBuffer != null) {
                 MemoryUtil.memFree(nativeBuffer);
                 nativeBuffer = null;
             }
+
+            openClContext.bufferManager.remove(this);
 
             capacity = -1;
 

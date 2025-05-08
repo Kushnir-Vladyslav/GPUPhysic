@@ -5,11 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="fast push">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Dynamical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Dynamical.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Readable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Readable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/AbstractGlobalBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalDynamicBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalDynamicBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalStaticBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalStaticBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/AbstractBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/AbstractBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/BufferManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/BufferManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/util/OpenClContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/util/OpenClContext.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -276,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746717819896</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="fast push">
+      <option name="closed" value="true" />
+      <created>1746718397763</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1746718397763</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="UnknownFeatures">

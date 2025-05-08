@@ -1,5 +1,6 @@
 package com.jopencl.util;
 
+import com.jopencl.core.memory.buffer.BufferManager;
 import org.lwjgl.opencl.CL10;
 
 public class OpenClContext {
@@ -7,13 +8,7 @@ public class OpenClContext {
     public long context;
     public long commandQueue;
 
-//    public static OpenClContext getInstance(){
-//        if (openClContext == null) {
-//            openClContext = new OpenClContext();
-//        }
-//
-//        return openClContext;
-//    }
+    public BufferManager bufferManager = new BufferManager();
 
     public void destroy () {
         if(commandQueue != 0) {
