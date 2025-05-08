@@ -2,6 +2,7 @@ package org.example.OpenCL;
 
 import com.jopencl.core.kernel.Kernel;
 import com.jopencl.core.kernel.KernelManager;
+import com.jopencl.util.OpenClContext;
 import javafx.concurrent.Task;
 import org.example.OldBuffers.BufferManager;
 import org.example.JavaFX.Window;

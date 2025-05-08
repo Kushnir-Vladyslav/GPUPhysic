@@ -2,7 +2,7 @@ package com.jopencl.core.kernel;
 
 import org.example.OldBuffers.BufferManager;
 import org.example.Library.LibraryManager;
-import org.example.OpenCL.OpenClContext;
+import com.jopencl.util.OpenClContext;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryStack;

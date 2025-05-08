@@ -1,12 +1,13 @@
-package com.jopencl.core.memory.buffer.buffers;
+package com.jopencl.core.memory.buffer.typedBuffers.GlobalBuffer;
 
 import com.jopencl.core.memory.buffer.Readable;
 
 public class GlobalDynamicReadOnlyBuffer
         extends GlobalDynamicBuffer
-        implements Readable <GlobalDynamicReadOnlyBuffer> {
+        implements Readable<GlobalDynamicReadOnlyBuffer> {
 
     public GlobalDynamicReadOnlyBuffer () {
         setReadable(true);
     }
+
 }

@@ -1,14 +1,18 @@
-package com.jopencl.core.memory.buffer.buffers;
+package com.jopencl.core.memory.buffer.typedBuffers;
 
-import com.jopencl.core.memory.buffer.AbstractBuffer;
 import com.jopencl.core.memory.buffer.AdditionalInitiation;
+import com.jopencl.core.memory.buffer.KernelAwareBuffer;
 import com.jopencl.core.memory.data.Data;
-import org.example.OpenCL.OpenClContext;
+import com.jopencl.util.OpenClContext;
+import org.lwjgl.opencl.CL10;
 
-public class LocalBuffer extends AbstractBuffer implements AdditionalInitiation<LocalBuffer> {
+public class LocalBuffer
+        extends KernelAwareBuffer {
 
     @Override
     public void addInit() {
+        super.addInit();
+
         if (copyHostBuffer || copyNativeBuffer) {
             System.err.println("LocalBuffer cannot transfer data to the host, so there is no point in creating projections.");
         }
@@ -27,5 +31,10 @@ public class LocalBuffer extends AbstractBuffer implements AdditionalInitiation<
         setInitSize(initSize);
         setOpenClContext(context);
         init();
+    }
+
+    @Override
+    protected void setKernelArg(long targetKernel, int argIndex) {
+        CL10.clSetKernelArg(targetKernel, argIndex, capacity);
     }
 }

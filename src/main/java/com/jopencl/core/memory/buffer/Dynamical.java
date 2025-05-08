@@ -1,9 +1,10 @@
 package com.jopencl.core.memory.buffer;
 
+import com.jopencl.core.memory.buffer.typedBuffers.GlobalBuffer.GlobalBuffer;
 import com.jopencl.core.memory.util.CopyDataBufferToBuffer;
 import org.lwjgl.opencl.CL10;
 
-public interface Dynamical <T extends AbstractBuffer & Dynamical<T>> {
+public interface Dynamical <T extends GlobalBuffer & Dynamical<T>> {
 
     default void resize (int newSize) {
         T buffer = (T) this;
@@ -34,6 +35,8 @@ public interface Dynamical <T extends AbstractBuffer & Dynamical<T>> {
             if (oldClBuffer != 0) {
                 CL10.clReleaseMemObject(oldClBuffer);
             }
+
+            buffer.setAllKernelArg();
         }
     }
 
@@ -62,6 +65,8 @@ public interface Dynamical <T extends AbstractBuffer & Dynamical<T>> {
             if (oldClBuffer != 0) {
                 CL10.clReleaseMemObject(oldClBuffer);
             }
+
+            buffer.setAllKernelArg();
         }
     }
 }

@@ -1,23 +1,19 @@
-package org.example.OpenCL;
+package com.jopencl.util;
 
 import org.lwjgl.opencl.CL10;
 
 public class OpenClContext {
-    private static OpenClContext openClContext;
-
     public long device;
     public long context;
     public long commandQueue;
 
-    public static OpenClContext getInstance(){
-        if (openClContext == null) {
-            openClContext = new OpenClContext();
-        }
-
-        return openClContext;
-    }
-
-    private OpenClContext() {}
+//    public static OpenClContext getInstance(){
+//        if (openClContext == null) {
+//            openClContext = new OpenClContext();
+//        }
+//
+//        return openClContext;
+//    }
 
     public void destroy () {
         if(commandQueue != 0) {

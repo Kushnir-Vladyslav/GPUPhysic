@@ -1,6 +1,6 @@
 package org.example.OldBuffers.typeOfBuffer;
 
-import org.example.OpenCL.OpenClContext;
+import com.jopencl.util.OpenClContext;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 

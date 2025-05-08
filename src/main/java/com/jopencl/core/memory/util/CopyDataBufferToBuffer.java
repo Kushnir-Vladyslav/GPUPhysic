@@ -1,6 +1,6 @@
 package com.jopencl.core.memory.util;
 
-import org.example.OpenCL.OpenClContext;
+import com.jopencl.util.OpenClContext;
 import org.lwjgl.opencl.CL10;
 
 public class CopyDataBufferToBuffer {

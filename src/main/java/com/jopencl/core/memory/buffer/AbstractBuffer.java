@@ -3,8 +3,7 @@ package com.jopencl.core.memory.buffer;
 import com.jopencl.core.memory.data.ConvertFromByteBuffer;
 import com.jopencl.core.memory.data.ConvertToByteBuffer;
 import com.jopencl.core.memory.data.Data;
-import org.example.OpenCL.OpenClContext;
-import org.lwjgl.PointerBuffer;
+import com.jopencl.util.OpenClContext;
 import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
@@ -18,17 +17,17 @@ public abstract class AbstractBuffer {
     private boolean initiated = false;
 
     private String bufferName = "UnnamedBuffer" + counter.getAndIncrement();
-    private boolean readable = false;
-    private boolean writable = false;
     protected boolean copyNativeBuffer = false;
     protected boolean copyHostBuffer = false;
+    private boolean readable = false;
+    private boolean writable = false;
     protected boolean dynamic = false;
     private Class<Data> clazz = null;
+    protected OpenClContext openClContext;
 
     protected long flags = 0;
 
     protected Data dataObject;
-    protected OpenClContext openClContext;
 
     protected long clBuffer = 0;
     protected ByteBuffer nativeBuffer = null;
@@ -37,7 +36,7 @@ public abstract class AbstractBuffer {
     protected int size = -1;
     protected int capacity = -1;
 
-    private void initCheck () {
+    protected void initCheck () {
         if (initiated) {
             System.err.println("Buffer " + bufferName + "has been already initiated.");
         }
@@ -46,20 +45,6 @@ public abstract class AbstractBuffer {
     public AbstractBuffer setBufferName(String name) {
         initCheck();
         bufferName = name;
-
-        return this;
-    }
-
-    protected AbstractBuffer setReadable(boolean isRead) {
-        initCheck();
-        readable = isRead;
-
-        return this;
-    }
-
-    protected AbstractBuffer setWritable(boolean isRead) {
-        initCheck();
-        writable = isRead;
 
         return this;
     }
@@ -85,16 +70,30 @@ public abstract class AbstractBuffer {
         return this;
     }
 
-    protected AbstractBuffer setDynamic(boolean isDynamic) {
+    public AbstractBuffer setOpenClContext(OpenClContext clContext) {
         initCheck();
-        dynamic = isDynamic;
+        openClContext = clContext;
 
         return this;
     }
 
-    public AbstractBuffer setOpenClContext(OpenClContext clContext) {
+    protected AbstractBuffer setReadable(boolean isRead) {
         initCheck();
-        openClContext = clContext;
+        readable = isRead;
+
+        return this;
+    }
+
+    protected AbstractBuffer setWritable(boolean isRead) {
+        initCheck();
+        writable = isRead;
+
+        return this;
+    }
+
+    protected AbstractBuffer setDynamic(boolean isDynamic) {
+        initCheck();
+        dynamic = isDynamic;
 
         return this;
     }
@@ -116,22 +115,6 @@ public abstract class AbstractBuffer {
         return this;
     }
 
-//    public OpenClContext getOpenClContext() {
-//        return openClContext;
-//    }
-
-//    public long getClBuffer() {
-//        return clBuffer;
-//    }
-
-//    public ByteBuffer getNativeBuffer() {
-//        return nativeBuffer;
-//    }
-
-//    public Data getDataObject() {
-//        return dataObject;
-//    }
-
     protected void initErr(String message) {
         throw new IllegalStateException(
                 "Initiated error.\n" +
@@ -139,7 +122,9 @@ public abstract class AbstractBuffer {
                 message);
     }
 
-    public void init () {
+    public final void init () {
+        initCheck();
+
         if (bufferName == null) {
             initErr("Name of buffer cannot be \"null\"");
         }
@@ -153,15 +138,11 @@ public abstract class AbstractBuffer {
             initErr("Data class could not be initialized.");
         }
 
-        if (dynamic) {
-            capacity *= 1.5;
-        }
-
-        size = 0;
-
         if (capacity < 1) {
             initErr("Initiate buffer's size, mast be positive.");
         }
+
+        size = 0;
 
         if (readable) {
             if (!(this instanceof Readable)) {
@@ -183,6 +164,10 @@ public abstract class AbstractBuffer {
             }
         }
 
+        if (dynamic) {
+            capacity *= 1.5;
+        }
+
         if (openClContext == null) {
             initErr("OpenCL context for buffer cannot be \"null\"");
         }
@@ -202,7 +187,7 @@ public abstract class AbstractBuffer {
         initiated = true;
     }
 
-    //public abstract void bindingToKernel (KernelDependency KD);
+    protected abstract void setKernelArg (long targetKernel, int argIndex);
 
     protected long createClBuffer() {
         if (capacity < 1) {
