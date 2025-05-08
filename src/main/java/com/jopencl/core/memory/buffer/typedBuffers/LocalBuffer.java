@@ -1,6 +1,5 @@
 package com.jopencl.core.memory.buffer.typedBuffers;
 
-import com.jopencl.core.memory.buffer.AdditionalInitiation;
 import com.jopencl.core.memory.buffer.KernelAwareBuffer;
 import com.jopencl.core.memory.data.Data;
 import com.jopencl.util.OpenClContext;
@@ -13,7 +12,7 @@ public class LocalBuffer
     public void addInit() {
         super.addInit();
 
-        if (copyHostBuffer || copyNativeBuffer) {
+        if (copyNativeBuffer) {
             System.err.println("LocalBuffer cannot transfer data to the host, so there is no point in creating projections.");
         }
     }

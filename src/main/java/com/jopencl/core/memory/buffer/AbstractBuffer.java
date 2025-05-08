@@ -1,10 +1,7 @@
 package com.jopencl.core.memory.buffer;
 
-import com.jopencl.core.memory.data.ConvertFromByteBuffer;
-import com.jopencl.core.memory.data.ConvertToByteBuffer;
 import com.jopencl.core.memory.data.Data;
 import com.jopencl.util.OpenClContext;
-import org.lwjgl.opencl.CL10;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
@@ -18,22 +15,13 @@ public abstract class AbstractBuffer {
 
     private String bufferName = "UnnamedBuffer" + counter.getAndIncrement();
     protected boolean copyNativeBuffer = false;
-    protected boolean copyHostBuffer = false;
-    private boolean readable = false;
-    private boolean writable = false;
-    protected boolean dynamic = false;
     private Class<Data> clazz = null;
     protected OpenClContext openClContext;
 
-    protected long flags = 0;
-
     protected Data dataObject;
 
-    protected long clBuffer = 0;
     protected ByteBuffer nativeBuffer = null;
-    protected Object hostBuffer = null;
 
-    protected int size = -1;
     protected int capacity = -1;
 
     protected void initCheck () {
@@ -56,44 +44,9 @@ public abstract class AbstractBuffer {
         return this;
     }
 
-    public AbstractBuffer setFlags(long newFlags) {
-        initCheck();
-        flags = newFlags;
-
-        return this;
-    }
-
-    public AbstractBuffer setCopyHostBuffer(boolean isProjection) {
-        initCheck();
-        copyHostBuffer = isProjection;
-
-        return this;
-    }
-
     public AbstractBuffer setOpenClContext(OpenClContext clContext) {
         initCheck();
         openClContext = clContext;
-
-        return this;
-    }
-
-    protected AbstractBuffer setReadable(boolean isRead) {
-        initCheck();
-        readable = isRead;
-
-        return this;
-    }
-
-    protected AbstractBuffer setWritable(boolean isRead) {
-        initCheck();
-        writable = isRead;
-
-        return this;
-    }
-
-    protected AbstractBuffer setDynamic(boolean isDynamic) {
-        initCheck();
-        dynamic = isDynamic;
 
         return this;
     }
@@ -142,32 +95,6 @@ public abstract class AbstractBuffer {
             initErr("Initiate buffer's size, mast be positive.");
         }
 
-        size = 0;
-
-        if (readable) {
-            if (!(this instanceof Readable)) {
-                initErr("Doesn't extends of Readable interface.");
-            }
-
-            if (!(dataObject instanceof ConvertFromByteBuffer)) {
-                initErr("Data class doesn't extends of \"ConvertFromByteBuffer\" interface.");
-            }
-        }
-
-        if (writable) {
-            if (!(this instanceof Writable)) {
-                initErr("Doesn't extends of Writable interface.");
-            }
-
-            if (!(dataObject instanceof ConvertToByteBuffer)) {
-                initErr("Data class doesn't extends of \"ConvertToByteBuffer\" interface.");
-            }
-        }
-
-        if (dynamic) {
-            capacity *= 1.5;
-        }
-
         if (openClContext == null) {
             initErr("OpenCL context for buffer cannot be \"null\"");
         }
@@ -176,9 +103,6 @@ public abstract class AbstractBuffer {
             nativeBuffer = MemoryUtil.memAlloc(capacity);
         }
 
-        if (copyHostBuffer) {
-            hostBuffer = new Object[capacity];
-        }
 
         if (this instanceof AdditionalInitiation additionalInitiation) {
             additionalInitiation.addInit();
@@ -189,24 +113,6 @@ public abstract class AbstractBuffer {
 
     protected abstract void setKernelArg (long targetKernel, int argIndex);
 
-    protected long createClBuffer() {
-        if (capacity < 1) {
-            throw new IllegalStateException("Length of OpenCl buffer must be positive.");
-        }
-
-        long newClBuffer = CL10.clCreateBuffer(
-                openClContext.context,
-                flags,
-                capacity,
-                null
-        );
-
-        if (newClBuffer == 0) {
-            throw new IllegalStateException("Failed to create OpenCL memory buffers.");
-        }
-
-        return newClBuffer;
-    }
 
     public void destroy () {
         if (initiated) {
@@ -215,19 +121,7 @@ public abstract class AbstractBuffer {
                 nativeBuffer = null;
             }
 
-            if (hostBuffer != null) {
-                hostBuffer = null;
-            }
-
             capacity = -1;
-            size = -1;
-
-            flags = 0;
-
-            if (clBuffer != 0) {
-                CL10.clReleaseMemObject(clBuffer);
-                clBuffer = 0;
-            }
 
             initiated = false;
         }

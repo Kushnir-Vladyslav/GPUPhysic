@@ -5,30 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a4e14de-54f4-4ba4-959c-e53c170566f0" name="Changes" comment="fast push">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/BufferManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/KernelAwareBuffer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalBuffer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalDynamicReadWriteBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/kernel/Kernel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/kernel/Kernel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/AbstractBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/AbstractBuffer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Dynamical.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Dynamical.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Readable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/Readable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalBuffer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalDynamicBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalDynamicBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalDynamicReadOnlyBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalDynamicReadOnlyBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalDynamicReadWrightBuffer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalDynamicWrightOnlyBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalDynamicWriteOnlyBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalStaticBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticReadOnlyBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalStaticReadOnlyBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticReadWrightBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalStaticReadWriteBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/GlobalStaticWrightOnlyBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalStaticWriteOnlyBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/LocalBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/LocalBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/buffers/ParameterBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/ParameterBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/util/CopyDataBufferToBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/util/CopyDataBufferToBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OldBuffers/typeOfBuffer/TypeOfBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/OldBuffers/typeOfBuffer/TypeOfBuffer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OpenCL/OpenCL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/OpenCL/OpenCL.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/OpenCL/OpenClContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/util/OpenClContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/AbstractGlobalBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalDynamicBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalDynamicBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalStaticBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalStaticBuffer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -287,7 +268,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746706982709</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="fast push">
+      <option name="closed" value="true" />
+      <created>1746717819896</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1746717819896</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="UnknownFeatures">
@@ -328,16 +317,5 @@
     <MESSAGE value="refactoring" />
     <MESSAGE value="fast push" />
     <option name="LAST_COMMIT_MESSAGE" value="fast push" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/jopencl/core/memory/buffer/typedBuffers/GlobalBuffer/GlobalBuffer.java</url>
-          <line>21</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

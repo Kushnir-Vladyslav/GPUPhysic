@@ -1,6 +1,5 @@
 package com.jopencl.core.memory.buffer;
 
-import com.jopencl.core.memory.buffer.typedBuffers.GlobalBuffer.GlobalBuffer;
 import com.jopencl.core.memory.data.ConvertFromByteBuffer;
 import com.jopencl.core.memory.data.Data;
 import org.lwjgl.opencl.CL10;
@@ -8,7 +7,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 
-public interface Readable <T extends GlobalBuffer & Readable<T>> {
+public interface Readable <T extends AbstractGlobalBuffer & Readable<T>> {
     default Object read() {
         T buffer = (T) this;
 

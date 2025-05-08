@@ -1,10 +1,9 @@
 package com.jopencl.core.memory.buffer;
 
-import com.jopencl.core.memory.buffer.typedBuffers.GlobalBuffer.GlobalBuffer;
 import com.jopencl.core.memory.util.CopyDataBufferToBuffer;
 import org.lwjgl.opencl.CL10;
 
-public interface Dynamical <T extends GlobalBuffer & Dynamical<T>> {
+public interface Dynamical <T extends AbstractGlobalBuffer & Dynamical<T>> {
 
     default void resize (int newSize) {
         T buffer = (T) this;

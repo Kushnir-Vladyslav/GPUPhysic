@@ -7,7 +7,7 @@ import org.lwjgl.system.MemoryUtil;
 
 import java.nio.ByteBuffer;
 
-public interface Writable <T extends AbstractBuffer & Writable<T>> {
+public interface Writable <T extends AbstractGlobalBuffer & Writable<T>> {
     default void write(Object arr) {
         write(arr, 0);
     }
